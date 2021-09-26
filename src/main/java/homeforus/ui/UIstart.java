@@ -57,13 +57,12 @@ public class UIstart {
 
             }
             else {
-                ConsumerAdd consumeradd = new ConsumerAdd();
                 System.out.println("What is your Date of Birth?");
                 DOB = read.readLine();
                 System.out.println("What is your SSN?");
                 SSN = read.readLine();
                 int ssn = Integer.parseInt(SSN);
-                consumeradd.add(ulist.get(0).getUserID(),ulist.get(0).getUsername(), DOB, ssn);
+                createConsumer(ulist.get(0).getUserID(),ulist.get(0).getUsername(), DOB, ssn);
             }
                 
             
@@ -88,8 +87,14 @@ public class UIstart {
         }
     }
     
-    public void createConsumer() {
-        
+    public void createConsumer(int Consumer_ID, String Consumer_Username, String DOB, int SSN) {
+        ConsumerAdd consumeradd = new ConsumerAdd();
+        try {
+            consumeradd.add(Consumer_ID,Consumer_Username, DOB, SSN);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     
 }
