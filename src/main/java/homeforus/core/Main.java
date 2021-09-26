@@ -8,14 +8,6 @@
 
 package main.java.homeforus.core;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
 import main.java.homeforus.ui.UIstart;
 
 /**
