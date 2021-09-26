@@ -1,3 +1,11 @@
+/*
+  File: RealtorEdit.java
+  Author: SER322 Group 9
+  Date: 09/26/2021
+  
+  Description: Edit a realtor from the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,8 +14,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: RealtorEdit   
+
+Description: Edit a realtor from the database.
+*/
+
 public class RealtorEdit {
 
+    /**
+    Method: editBusiness_Name
+    Inputs: String Business_Name, int Realtor_ID
+    Returns: void
+
+    Description: Edit a realtor business name.
+  */
     public void editBusiness_Name(String Business_Name, int Realtor_ID) throws IOException {
         
         ResultSet rs = null;

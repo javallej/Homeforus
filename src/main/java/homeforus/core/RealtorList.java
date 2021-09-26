@@ -1,3 +1,12 @@
+/*
+  File: RealtorList.java
+  Author: SER322 Group 9
+  Date: 09/26/2021
+  
+  Description: Lists realtor from the database.
+*/
+
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -8,8 +17,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+Class: RealtorList    
+
+Description: List the realtor from the database.
+*/
+
 public class RealtorList {
 
+    /**
+    Method: List
+    Inputs: int Realtor_ID
+    Returns: List<RealtorListObject>
+
+    Description: List the realtor from the database.
+  */
 
     public List<RealtorListObject> List(int Realtor_ID) throws SQLException, IOException {
         ResultSet rs = null;

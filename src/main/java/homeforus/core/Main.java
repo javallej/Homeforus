@@ -33,49 +33,20 @@ public class Main {
   */
 
     public static void main(String[] args) {
-
-
        
             UserAdd useraddData = new UserAdd();
             UserList userlist = new UserList();
             UserEdit useredit = new UserEdit();
             UserDelete userdelete = new UserDelete();
             ConsumerAdd consumeradd = new ConsumerAdd();
-            
-            //Connection conn = DBConnect.connect(url, user, password, driver, database);
-            
-            //Add
-            //conn = DBConnect.connect(url, user, password, driver, database);
-
-            //useraddData.add(conn, "mcfly", "Marty", "Mcfly", "5551234567", "marty@google.com", "password12");
-            
-            //List
-            //conn = DBConnect.connect(url, user, password, driver, database);
-            //List<UserListObject> ob = new ArrayList<UserListObject>();
-            //ob = userlist.Listusername(conn, "mcfly");
-            //System.out.println(ob.get(0).getEmail());
-            //System.out.println(ob.get(0).getFirstName());
+            RealtorEdit realtoredit = new RealtorEdit();
 
             try {
-                consumeradd.add(27, "mcfly", "07232982", 123232167);
+                realtoredit.editBusiness_Name("BuyNowSellLater", 10);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            
-            
-
-               
-            //Edit
-            //conn = DBConnect.connect(url, user, password, driver, database);
-            //useredit.editUsername(conn, 15, "mcflys");
-            
-            //Delete
-            //conn = DBConnect.connect(url, user, password, driver, database);
-            //userdelete.Deleteuser(conn, 14);
-
-            //conn.close();
-            
 
     }
 }

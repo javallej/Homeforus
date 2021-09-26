@@ -17,15 +17,19 @@ import java.sql.SQLException;
 /**
  * Class: ConsumerDelete
  * 
- * Description:
+ * Description: Deletes a consumer from the database.
  */
 
 public class ConsumerDelete {
 
     /**
-     * Method: Inputs: Returns:
+     * Method: delete
      * 
-     * Description:
+     * Inputs:  int Consumer_ID
+     * 
+     * Returns: void
+     * 
+     * Description: Deletes a consumer from the database.
      * 
      * @throws IOException
      */

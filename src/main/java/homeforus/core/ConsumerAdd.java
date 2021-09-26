@@ -25,7 +25,7 @@ import java.util.Properties;
 public class ConsumerAdd {
 
     /**
-     * Method: add Inputs: Connection connect, int Consumer_ID, String
+     * Method: add Inputs: int Consumer_ID, String
      * Consumer_Username, String DOB, int SSN Returns: void
      * 
      * Description: Adds a consumer to the database.

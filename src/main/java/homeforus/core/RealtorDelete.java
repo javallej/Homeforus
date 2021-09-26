@@ -1,3 +1,12 @@
+/*
+  File: RealtorDelete.java
+  Author: SER322 Group 9
+  Date: 09/26/2021
+  
+  Description: Deletes a realtor from the database.
+*/
+
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,8 +15,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: RealtorDelete    
+
+Description: Deletes a realtor from the database.
+*/
 public class RealtorDelete {
     
+    /**
+    Method: delete
+    Inputs: int Realtor_ID
+    Returns: void
+
+    Description: Deletes a realtor from the database.
+  */
     public void delete(int Realtor_ID) throws IOException {
 
         ResultSet rs = null;

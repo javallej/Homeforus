@@ -1,3 +1,12 @@
+/*
+  File: RealtorAdd.java
+  Author: SER322 Group 9
+  Date: 09/26/2021
+  
+  Description: Adds a realtor to the database.
+*/
+
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,8 +15,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: RealtorAdd
+
+Description: Adds a realtor to the database.
+*/
 public class RealtorAdd {
     
+    /**
+    Method: add
+    Inputs: int Realtor_ID, String Realtor_Username, String Business_Name
+    Returns: void
+
+    Description: Adds a realtor to the database.
+  */
+
     public void add(int Realtor_ID, String Realtor_Username, String Business_Name) throws IOException {
 
         ResultSet rs = null;

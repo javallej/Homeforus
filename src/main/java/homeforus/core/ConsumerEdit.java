@@ -1,3 +1,11 @@
+/*
+  File: ConsumerEdit.java
+  Author: SER322 Group 9
+  Date: 09/26/2021
+  
+  Description: Edits a consumer from the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,8 +14,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: ConsumerEdit    
+
+Description: Edits a consumer from the database.
+*/
 public class ConsumerEdit {
     
+    /**
+    Method: editDOB
+    Inputs: String DOB, int Consumer_ID
+    Returns: void
+
+    Description: Edits a Consumers DOB.
+  */
     public void editDOB(String DOB, int Consumer_ID) throws IOException {
         
         ResultSet rs = null;

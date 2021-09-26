@@ -1,3 +1,11 @@
+/*
+  File: ConsumerList.java
+  Author: SER322 Group 9
+  Date: 09/26/2021
+  
+  Description: List consumer's from the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -8,8 +16,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+Class: ConsumerList
+
+Description: List consumer's from the database.
+*/
 public class ConsumerList {
 
+    /**
+    Method: List
+    Inputs: int Consumer_ID
+    Returns: List<ConsumerListObject>
+
+    Description: Returns consumer from the database based off Consumer_ID.
+  */
     public List<ConsumerListObject> List(int Consumer_ID) throws SQLException, IOException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
