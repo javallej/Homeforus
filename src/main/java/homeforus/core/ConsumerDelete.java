@@ -15,40 +15,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
-Class: ConsumerDelete    
-
-Description:
-*/
+ * Class: ConsumerDelete
+ * 
+ * Description:
+ */
 
 public class ConsumerDelete {
-    
-    /**
-    Method:
-    Inputs:
-    Returns:
 
-    Description:
-     * @throws IOException 
-  */
-    
+    /**
+     * Method: Inputs: Returns:
+     * 
+     * Description:
+     * 
+     * @throws IOException
+     */
+
     public void delete(int Consumer_ID) throws IOException {
-     
+
         ResultSet rs = null;
         PreparedStatement stmt = null;
-        
-        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
-                Setup.setup().get("jdbcDriver"));
+
+        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"), Setup.setup().get("jdbcUser"),
+                Setup.setup().get("jdbcPasswd"), Setup.setup().get("jdbcDriver"));
 
         try {
 
             connect.setAutoCommit(false);
-            
+
             String query = "DELETE FROM CONSUMER WHERE CONSUMER.User_ID = ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setInt(1, Consumer_ID);
             stmt.executeUpdate();
-            
+
             connect.commit();
 
         } catch (Exception exc) {
@@ -72,4 +71,5 @@ public class ConsumerDelete {
             }
 
         }
-}}
+    }
+}
