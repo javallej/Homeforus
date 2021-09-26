@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import main.java.homeforus.ui.UIstart;
+
 /**
 Class: Main
 
@@ -34,19 +36,8 @@ public class Main {
 
     public static void main(String[] args) {
        
-            UserAdd useraddData = new UserAdd();
-            UserList userlist = new UserList();
-            UserEdit useredit = new UserEdit();
-            UserDelete userdelete = new UserDelete();
-            ConsumerAdd consumeradd = new ConsumerAdd();
-            RealtorEdit realtoredit = new RealtorEdit();
-
-            try {
-                realtoredit.editBusiness_Name("BuyNowSellLater", 10);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            UIstart uiuser = new UIstart();
+            uiuser.createUser();
 
     }
 }
