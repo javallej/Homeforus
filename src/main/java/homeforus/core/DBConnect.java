@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class DBConnect {
     
-    public static Connection connect(String url, String user, String password, String driver, String database) {
+    public static Connection connect(String url, String user, String password, String driver) {
 
         Connection conn = null;
 

@@ -29,7 +29,7 @@ public class Main {
             String url = prop.getProperty("jdbcUrl");
             String user = prop.getProperty("jdbcUser");
             String password = prop.getProperty("jdbcPasswd");
-            String database = "testhomeforus";
+
        
             UserAdd useraddData = new UserAdd();
             UserList userlist = new UserList();
@@ -39,21 +39,21 @@ public class Main {
             
             
             //List
-            Connection conn = DBConnect.connect(url, user, password, driver, database);
+            Connection conn = DBConnect.connect(url, user, password, driver);
             List<UserListObject> ob = new ArrayList<UserListObject>();
             ob = userlist.Listusername(conn, "mj");
             System.out.println(ob.get(0).getFirstName());
             
             //Add
-            conn = DBConnect.connect(url, user, password, driver, database);
+            conn = DBConnect.connect(url, user, password, driver);
             useraddData.add(conn, "mcfly", "Marty", "Mcfly", "5551234567", "marty@google.com", "password12");
                
             //Edit
-            conn = DBConnect.connect(url, user, password, driver, database);
+            conn = DBConnect.connect(url, user, password, driver);
             useredit.editUsername(conn, 15, "mcflys");
             
             //Delete
-            conn = DBConnect.connect(url, user, password, driver, database);
+            conn = DBConnect.connect(url, user, password, driver);
             userdelete.Deleteuser(conn, 14);
 
             conn.close();
