@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.homeforus.core.ConsumerAdd;
 import main.java.homeforus.core.RealtorAdd;
 import main.java.homeforus.core.UserAdd;
 import main.java.homeforus.core.UserList;
@@ -25,6 +26,8 @@ public class UIstart {
             BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
             String realtor = "";
             String realtorbusinessname = "";
+            String DOB = "";
+            String SSN = "";
             
             System.out.println("Please enter a Username.");
             userlist.add(read.readLine());
@@ -44,24 +47,30 @@ public class UIstart {
             
             System.out.println("Do you want to be a Realtor?");
             realtor = read.readLine();
+            ulist = listuser.Listusername(userlist.get(0));
 
             if(realtor.equals("yes") || realtor.equals("Yes")) {
-                try {
-                    System.out.println("What is your business name?");
-                    realtorbusinessname = read.readLine();
-                    ulist = listuser.Listusername(userlist.get(0));
-                    
-                    createRealtor(ulist.get(0).getUserID(),ulist.get(0).getUsername(), realtorbusinessname);
-
-                } catch (SQLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                System.out.println("What is your business name?");
+                realtorbusinessname = read.readLine();
+                createRealtor(ulist.get(0).getUserID(),ulist.get(0).getUsername(), realtorbusinessname);
                 
+
+            }
+            else {
+                ConsumerAdd consumeradd = new ConsumerAdd();
+                System.out.println("What is your Date of Birth?");
+                DOB = read.readLine();
+                System.out.println("What is your SSN?");
+                SSN = read.readLine();
+                int ssn = Integer.parseInt(SSN);
+                consumeradd.add(ulist.get(0).getUserID(),ulist.get(0).getUsername(), DOB, ssn);
             }
                 
             
         } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
