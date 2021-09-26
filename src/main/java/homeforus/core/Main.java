@@ -1,3 +1,11 @@
+/*
+  File: Main.java
+  Author: SER322 Group 9
+  Date: 09/26/2021
+  
+  Description: Main program for homeforus.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -8,7 +16,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+Class: Main
+
+Description: Start of program.
+*/
+
 public class Main {
+
+    /**
+    Method: main
+    Inputs: String[] args
+    Returns: void
+
+    Description: Start of program.
+  */
 
     public static void main(String[] args) {
 
@@ -42,6 +64,7 @@ public class Main {
             Connection conn = DBConnect.connect(url, user, password, driver, database);
             List<UserListObject> ob = new ArrayList<UserListObject>();
             ob = userlist.Listusername(conn, "mj");
+            System.out.println(ob.get(0).getEmail());
             System.out.println(ob.get(0).getFirstName());
             
             //Add
