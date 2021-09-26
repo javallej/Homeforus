@@ -20,7 +20,7 @@ Description: Gets information from properties file.
 
 public class RDBMconnect {
 
-    private Properties prop = new Properties();
+    public static Properties prop = new Properties();
 
     /**
     Method: PropConnector
@@ -31,7 +31,8 @@ public class RDBMconnect {
   */
 
     
-    public Object PropConnector() {
+    public static Object PropConnector() {
+        Properties prop = new Properties();
         try (InputStream input = Main.class.getClassLoader().getResourceAsStream("rdbm.properties")) {
 
             if (input == null) {

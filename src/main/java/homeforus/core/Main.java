@@ -34,24 +34,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        try (InputStream input = RDBMconnect.class.getClassLoader().getResourceAsStream("rdbm.properties")) {
 
-            Properties prop = new Properties();
-
-            if (input == null) {
-                System.out.println("Unable to find rdbm.properties file!");
-                return;
-            }
-
-            prop.load(input);
-
-            //DBConnect session = new DBConnect();
-            
-            String driver = prop.getProperty("jdbcDriver");
-            String url = prop.getProperty("jdbcUrl");
-            String user = prop.getProperty("jdbcUser");
-            String password = prop.getProperty("jdbcPasswd");
-            String database = "testhomeforus";
        
             UserAdd useraddData = new UserAdd();
             UserList userlist = new UserList();
@@ -59,40 +42,40 @@ public class Main {
             UserDelete userdelete = new UserDelete();
             ConsumerAdd consumeradd = new ConsumerAdd();
             
-            
-            
-            //List
-            Connection conn = DBConnect.connect(url, user, password, driver, database);
-            List<UserListObject> ob = new ArrayList<UserListObject>();
-            ob = userlist.Listusername(conn, "mcfly");
-            System.out.println(ob.get(0).getEmail());
-            System.out.println(ob.get(0).getFirstName());
-            conn = DBConnect.connect(url, user, password, driver, database);
-            consumeradd.add(conn, ob.get(0).getUserID(), ob.get(0).getUsername(), "07041982", 123442167);
-            
+            //Connection conn = DBConnect.connect(url, user, password, driver, database);
             
             //Add
-            conn = DBConnect.connect(url, user, password, driver, database);
+            //conn = DBConnect.connect(url, user, password, driver, database);
 
-            useraddData.add(conn, "mcfly", "Marty", "Mcfly", "5551234567", "marty@google.com", "password12");
+            //useraddData.add(conn, "mcfly", "Marty", "Mcfly", "5551234567", "marty@google.com", "password12");
+            
+            //List
+            //conn = DBConnect.connect(url, user, password, driver, database);
+            //List<UserListObject> ob = new ArrayList<UserListObject>();
+            //ob = userlist.Listusername(conn, "mcfly");
+            //System.out.println(ob.get(0).getEmail());
+            //System.out.println(ob.get(0).getFirstName());
+
+            try {
+                consumeradd.add(27, "mcfly", "07232982", 123232167);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
+            
+
                
             //Edit
-            conn = DBConnect.connect(url, user, password, driver, database);
-            useredit.editUsername(conn, 15, "mcflys");
+            //conn = DBConnect.connect(url, user, password, driver, database);
+            //useredit.editUsername(conn, 15, "mcflys");
             
             //Delete
-            conn = DBConnect.connect(url, user, password, driver, database);
-            userdelete.Deleteuser(conn, 14);
+            //conn = DBConnect.connect(url, user, password, driver, database);
+            //userdelete.Deleteuser(conn, 14);
 
-            conn.close();
+            //conn.close();
             
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
     }
 }

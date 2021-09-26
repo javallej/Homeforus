@@ -8,10 +8,13 @@
 
 package main.java.homeforus.core;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 
 /**
@@ -28,12 +31,16 @@ public class ConsumerAdd {
     Returns: void
 
     Description: Adds a consumer to the database.
+     * @throws IOException 
   */
 
-    public void add(Connection connect, int Consumer_ID, String Consumer_Username, String DOB, int SSN) {
+    public void add(int Consumer_ID, String Consumer_Username, String DOB, int SSN) throws IOException {
         
         ResultSet rs = null;
         PreparedStatement stmt = null;
+
+        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
+                Setup.setup().get("jdbcDriver"));
 
         try {
 
@@ -72,5 +79,5 @@ public class ConsumerAdd {
             }
 
         }
-}
-}
+}        }
+

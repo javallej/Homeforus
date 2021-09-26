@@ -9,6 +9,7 @@
 
 package main.java.homeforus.core;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,12 +30,16 @@ public class UserEdit {
     Returns: void
 
     Description: Changes username.
+     * @throws IOException 
   */
 
-    public void editUsername(Connection connect, int UserID, String NewUsername) {
+    public void editUsername(int UserID, String NewUsername) throws IOException {
         
             ResultSet rs = null;
             PreparedStatement stmt = null;
+            
+            Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
+                    Setup.setup().get("jdbcDriver"));
 
             try {
 

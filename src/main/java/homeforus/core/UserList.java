@@ -9,6 +9,7 @@
 
 package main.java.homeforus.core;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,10 +31,15 @@ public class UserList {
     Returns: List<UserListObject>
 
     Description: Gets user information and returns as a list of object.
+     * @throws IOException 
   */
-    public List<UserListObject> Listusername(Connection connect, String Username) throws SQLException {
+    public List<UserListObject> Listusername(String Username) throws SQLException, IOException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
+        
+        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
+                Setup.setup().get("jdbcDriver"));
+        
         List <UserListObject> userinformation = new ArrayList<UserListObject>();
 
         try {
