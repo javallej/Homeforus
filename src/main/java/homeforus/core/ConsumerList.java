@@ -1,11 +1,10 @@
 /*
-  File: UserList.java
+  File: ConsumerList.java
   Author: SER322 Group 9
   Date: 09/26/2021
   
-  Description: Gets user information from database.
+  Description: List consumer's from the database.
 */
-
 
 package main.java.homeforus.core;
 
@@ -18,53 +17,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-Class: UserList  
+Class: ConsumerList
 
-Description: Gets user information from database.
+Description: List consumer's from the database.
 */
-
-public class UserList {
+public class ConsumerList {
 
     /**
-    Method: Listusername
-    Inputs: Connection connect, String Username
-    Returns: List<UserListObject>
+    Method: List
+    Inputs: int Consumer_ID
+    Returns: List<ConsumerListObject>
 
-    Description: Gets user information and returns as a list of object.
-     * @throws IOException 
+    Description: Returns consumer from the database based off Consumer_ID.
   */
-    public List<UserListObject> Listusername(String Username) throws SQLException, IOException {
+    public List<ConsumerListObject> List(int Consumer_ID) throws SQLException, IOException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
         
         Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
                 Setup.setup().get("jdbcDriver"));
         
-        List <UserListObject> userinformation = new ArrayList<UserListObject>();
+        List <ConsumerListObject> consumerinformation = new ArrayList<ConsumerListObject>();
 
         try {
 
 
-            String query = "SELECT * FROM USER WHERE USER.User_Username = ?";
+            String query = "SELECT * FROM CONSUMER WHERE CONSUMER.Consumer_ID = ?";
 
             stmt = connect.prepareStatement(query);
-            stmt.setString(1, Username);
+            stmt.setInt(1, Consumer_ID);
             rs = stmt.executeQuery();
 
             
             while (rs.next()) {
-                UserListObject uobject = new UserListObject();
-                uobject.setUserID(rs.getInt(1));
-                uobject.setUserUsername(rs.getString(2));
-                uobject.setFirstName(rs.getString(3));
-                uobject.setLastName(rs.getString(4));
-                uobject.setPhone(rs.getString(4));
-                uobject.setEmail(rs.getString(5));
-                uobject.setPassword(rs.getString(5));
-                userinformation.add(uobject);
+                ConsumerListObject cobject = new ConsumerListObject();
+                cobject.setConsumerID(rs.getInt(1));
+                cobject.setConsumerUsername(rs.getString(2));
+                cobject.setDOB(rs.getString(3));
+                cobject.setSSN(rs.getInt(4));
+                consumerinformation.add(cobject);
             }
             
-            return userinformation;
+            return consumerinformation;
             
             
         } catch (Exception exc) {
@@ -88,7 +82,7 @@ public class UserList {
             }
 
         }
-        return userinformation;
+        return consumerinformation;
     }
 
     

@@ -1,9 +1,9 @@
 /*
-  File: UserList.java
+  File: RealtorList.java
   Author: SER322 Group 9
   Date: 09/26/2021
   
-  Description: Gets user information from database.
+  Description: Lists realtor from the database.
 */
 
 
@@ -18,53 +18,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-Class: UserList  
+Class: RealtorList    
 
-Description: Gets user information from database.
+Description: List the realtor from the database.
 */
 
-public class UserList {
+public class RealtorList {
 
     /**
-    Method: Listusername
-    Inputs: Connection connect, String Username
-    Returns: List<UserListObject>
+    Method: List
+    Inputs: int Realtor_ID
+    Returns: List<RealtorListObject>
 
-    Description: Gets user information and returns as a list of object.
-     * @throws IOException 
+    Description: List the realtor from the database.
   */
-    public List<UserListObject> Listusername(String Username) throws SQLException, IOException {
+
+    public List<RealtorListObject> List(int Realtor_ID) throws SQLException, IOException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
         
         Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
                 Setup.setup().get("jdbcDriver"));
         
-        List <UserListObject> userinformation = new ArrayList<UserListObject>();
+        List <RealtorListObject> realtorinformation = new ArrayList<RealtorListObject>();
 
         try {
 
 
-            String query = "SELECT * FROM USER WHERE USER.User_Username = ?";
+            String query = "SELECT * FROM REALTOR WHERE REALTOR.Realtor_ID = ?";
 
             stmt = connect.prepareStatement(query);
-            stmt.setString(1, Username);
+            stmt.setInt(1, Realtor_ID);
             rs = stmt.executeQuery();
 
             
             while (rs.next()) {
-                UserListObject uobject = new UserListObject();
-                uobject.setUserID(rs.getInt(1));
-                uobject.setUserUsername(rs.getString(2));
-                uobject.setFirstName(rs.getString(3));
-                uobject.setLastName(rs.getString(4));
-                uobject.setPhone(rs.getString(4));
-                uobject.setEmail(rs.getString(5));
-                uobject.setPassword(rs.getString(5));
-                userinformation.add(uobject);
+                RealtorListObject robject = new RealtorListObject();
+                robject.setRealtorID(rs.getInt(1));
+                robject.setRealtorUsername(rs.getString(2));
+                robject.setRealtorBusinessName(rs.getString(3));
+                realtorinformation.add(robject);
             }
             
-            return userinformation;
+            return realtorinformation;
             
             
         } catch (Exception exc) {
@@ -88,9 +84,7 @@ public class UserList {
             }
 
         }
-        return userinformation;
+        return realtorinformation;
     }
-
-    
 
 }
