@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class Main {
@@ -28,25 +30,31 @@ public class Main {
             String user = prop.getProperty("jdbcUser");
             String password = prop.getProperty("jdbcPasswd");
             String database = "testhomeforus";
-
-            Connection conn = DBConnect.connect(url, user, password, driver, database);
-            
-            //UserList userlist = new UserList();
+       
+            UserAdd useraddData = new UserAdd();
+            UserList userlist = new UserList();
             UserEdit useredit = new UserEdit();
             UserDelete userdelete = new UserDelete();
-            //List<UserListObject> ob = new ArrayList<UserListObject>();
-            
-            //ob = userlist.Listusername(conn, "doc");
             
             
-            //useraddData.add(conn, "mcfly", "Marty", "Mcfly", "5551234567", "marty@google.com", "password12");
-               
-            //conn = DBConnect.connect(url, user, password, driver, database);
             
-            useredit.editUsername(conn, 13, "mcflys");
+            //List
+            Connection conn = DBConnect.connect(url, user, password, driver, database);
+            List<UserListObject> ob = new ArrayList<UserListObject>();
+            ob = userlist.Listusername(conn, "mj");
+            System.out.println(ob.get(0).getFirstName());
+            
+            //Add
             conn = DBConnect.connect(url, user, password, driver, database);
+            useraddData.add(conn, "mcfly", "Marty", "Mcfly", "5551234567", "marty@google.com", "password12");
+               
+            //Edit
+            conn = DBConnect.connect(url, user, password, driver, database);
+            useredit.editUsername(conn, 15, "mcflys");
             
-            userdelete.Deleteuser(conn, 13);
+            //Delete
+            conn = DBConnect.connect(url, user, password, driver, database);
+            userdelete.Deleteuser(conn, 14);
 
             conn.close();
             
