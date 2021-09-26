@@ -57,18 +57,23 @@ public class Main {
             UserList userlist = new UserList();
             UserEdit useredit = new UserEdit();
             UserDelete userdelete = new UserDelete();
+            ConsumerAdd consumeradd = new ConsumerAdd();
             
             
             
             //List
             Connection conn = DBConnect.connect(url, user, password, driver, database);
             List<UserListObject> ob = new ArrayList<UserListObject>();
-            ob = userlist.Listusername(conn, "mj");
+            ob = userlist.Listusername(conn, "mcfly");
             System.out.println(ob.get(0).getEmail());
             System.out.println(ob.get(0).getFirstName());
+            conn = DBConnect.connect(url, user, password, driver, database);
+            consumeradd.add(conn, ob.get(0).getUserID(), ob.get(0).getUsername(), "07041982", 123442167);
+            
             
             //Add
             conn = DBConnect.connect(url, user, password, driver, database);
+
             useraddData.add(conn, "mcfly", "Marty", "Mcfly", "5551234567", "marty@google.com", "password12");
                
             //Edit

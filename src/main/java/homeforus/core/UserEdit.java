@@ -22,6 +22,7 @@ Description: Edit user information from the database.
 
 public class UserEdit {
     
+    
     /**
     Method: editUsername
     Inputs: Connection connect, int UserID, String NewUsername
