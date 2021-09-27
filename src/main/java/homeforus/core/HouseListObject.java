@@ -65,4 +65,76 @@ public class HouseListObject {
     public String getZip() {
         return this.zip;
     }
+    
+    public void setStreet(String Street) {
+        this.street = Street;
+    }
+
+    public String getStreet() {
+        return this.street;
+    }
+    
+    public void setHouseNumber(int House_number) {
+        this.house_number = House_number;
+    }
+
+    public int getHouseNumber() {
+        return this.house_number;
+    }
+    
+    public void setYear(int Year) {
+        this.year = Year;
+    }
+
+    public int getYear() {
+        return this.year;
+    }
+    
+    public void setCost(int Cost) {
+        this.cost = Cost;
+    }
+
+    public int getCost() {
+        return this.cost;
+    }
+    
+    public void setNumFloors(int Num_floors) {
+        this.num_floors = Num_floors;
+    }
+
+    public int getNumFloors() {
+        return this.num_floors;
+    }
+    
+    public void setNumBed(int Num_bed) {
+        this.num_bed = Num_bed;
+    }
+
+    public int getNumBed() {
+        return this.num_bed;
+    }
+    
+    public void setNumBath(int Num_bath) {
+        this.num_bath = Num_bath;
+    }
+
+    public int getNumBath() {
+        return this.num_bath;
+    }
+    
+    public void setSqrFeet(int Sqr_feet) {
+        this.sqr_feet = Sqr_feet;
+    }
+
+    public int getSqrFeet() {
+        return this.sqr_feet;
+    }
+    
+    public void setDaysListed(int Days_listed) {
+        this.days_listed = Days_listed;
+    }
+
+    public int getDaysListed() {
+        return this.days_listed;
+    }
 }

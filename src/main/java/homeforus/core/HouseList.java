@@ -32,10 +32,21 @@ public class HouseList {
             
             while (rs.next()) {
                 HouseListObject hobject = new HouseListObject();
-                hobject.setRealtorID(rs.getInt(1));
-                hobject.setRealtorUsername(rs.getString(2));
-                hobject.setRealtorBusinessName(rs.getString(3));
-                houseinformation.add(robject);
+                hobject.setHouseID(rs.getInt(1));
+                hobject.setRealtorID(rs.getInt(2));
+                hobject.setRealtorUsername(rs.getString(3));
+                hobject.setState(rs.getString(4));
+                hobject.setCity(rs.getString(5));
+                hobject.setZip(rs.getString(5));
+                hobject.setStreet(rs.getString(7));
+                hobject.setCost(rs.getInt(8));
+                hobject.setYear(rs.getInt(9));
+                hobject.setNumFloors(rs.getInt(10));
+                hobject.setNumBed(rs.getInt(11));
+                hobject.setNumBath(rs.getInt(12));
+                hobject.setSqrFeet(rs.getInt(13));
+                hobject.setDaysListed(rs.getInt(14));
+                houseinformation.add(hobject);
             }
             
     
