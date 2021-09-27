@@ -1,0 +1,111 @@
+package main.java.homeforus.gui;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.AWTEventListener;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.util.Objects;
+
+// This class houses the main window that the GUI elements will be added to
+public class BaseWindow extends JFrame {
+
+    public JLayeredPane layers;
+    private Header header;
+    private int winHeight = 700;
+    private int winWidth = 1000;
+
+    public BaseWindow() {
+        BaseWindow baseWindow = this;
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                Image appIcon = null;
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    appIcon = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/gui/Icon32.png")));
+                    setIconImage(appIcon);
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException | IOException ex) {
+                }
+
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                setResizable(false);
+                setTitle("HomeForUs");
+                Dimension size = new Dimension(winWidth, winHeight);
+                setMinimumSize(size);
+
+                layers = new JLayeredPane();
+                add(layers);
+                JPanel basePanel = new BasePanel(size);
+
+                layers.add(basePanel, JLayeredPane.DEFAULT_LAYER);
+                header = new Header(baseWindow);
+                basePanel.add(header);
+
+                basePanel.add(new Content(baseWindow));
+
+                baseWindow.pack();
+                setLocationRelativeTo(null);
+                setVisible(true);
+            }
+        });
+    }
+
+    public int getWinHeight() {
+        return winHeight;
+    }
+
+    public int getWinWidth() {
+        return winWidth;
+    }
+
+    public class BasePanel extends JPanel {
+
+        public BasePanel(Dimension size) {
+            setLocation(0, 0);
+            setSize(size);
+            setOpaque(false);
+            setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
+            Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+                @Override
+                public void eventDispatched(AWTEvent event) {
+
+                    if (event instanceof MouseEvent) {
+                        MouseEvent me = (MouseEvent) event;
+                        int buttonsDownMask = MouseEvent.BUTTON1_DOWN_MASK;
+
+                        if ((((MouseEvent) event).getModifiersEx() & buttonsDownMask) != 0) {
+                            JPanel open = header.searchBar.currentlyOpen;
+                            if (open != null && open.isVisible()) {
+                                int maxX = (int) open.getBounds().getMaxX();
+                                int maxY = (int) open.getBounds().getMaxY();
+                                int minX = (int) open.getBounds().getMinX();
+                                int minY = (int) open.getBounds().getMinY();
+//                                System.out.println("max x: " + maxX);
+//                                System.out.println("max y: " + maxY);
+//                                System.out.println("min x: " + minX);
+//                                System.out.println("min y: " + minY);
+//                                System.out.println("me getX: " + me.getX());
+//                                System.out.println("me getY: " + me.getY());
+//                                System.out.println(me.getComponent().toString());
+//                                System.out.println("me getlocationonscreen: " + me.getLocationOnScreen());
+
+
+                                if ((me.getX() > maxX || me.getY() > maxY
+                                        || me.getY() < minY || me.getX() < minX)
+                                && !me.getComponent().toString().contains("JTextField")
+                                && !me.getComponent().toString().contains("WindowsComboBoxUI")
+                                && !me.getComponent().toString().contains("BasicComboPopup")) {
+                                    open.setVisible(false);
+                                }
+                            }
+                        }
+                    }
+                }
+            }, AWTEvent.MOUSE_EVENT_MASK);
+        }
+    }
+}
+
