@@ -29,7 +29,7 @@ public class Main {
     public static void main(String[] args) {
        
             UIstart uiuser = new UIstart();
-            uiuser.createUser();
+            uiuser.console();
 
     }
 }
