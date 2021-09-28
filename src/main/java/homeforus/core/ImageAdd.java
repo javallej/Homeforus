@@ -1,4 +1,19 @@
+/*
+  File: 
+  Author:   
+  Date: 
+  
+  Description:
+*/
+
+
 package main.java.homeforus.core;
+
+/**
+Class:    
+
+Description:
+*/
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -6,6 +21,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Method:
+Inputs:
+Returns:
+
+Description:
+*/
 public class ImageAdd {
     
     public void add(int House_ID, String File_Path, String Image_Name) throws IOException {

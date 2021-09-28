@@ -1,3 +1,12 @@
+/*
+  File: HouseEdit.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: Edits a house from the database.
+*/
+
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,8 +15,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: HouseEdit  
+
+Description: Edits a house from the database.
+*/
+
 public class HouseEdit {
     
+    /**
+    Method: editALl
+    Inputs:  String State, String Zip, String Street, int House_Number, int Cost, int Year, int Num_Floors, int Num_Bed,
+            int Num_Bath, int Sqr_Feet, int Days_Listed
+    Returns: void
+
+    Description: Edits a house from the database.
+  */
     public void editAll(String State, String Zip, String Street, int House_Number, int Cost, int Year, int Num_Floors, int Num_Bed,
             int Num_Bath, int Sqr_Feet, int Days_Listed) throws IOException {
         

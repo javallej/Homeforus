@@ -1,3 +1,11 @@
+/*
+  File: ImageEdit.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: Edits a image from the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,7 +14,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: ImageEdit   
+
+Description: Edits a image from the database.
+*/
+
 public class ImageEdit {
+    
+    /**
+    Method: editImage
+    Inputs: String File_Path, String Image_Name
+    Returns: void
+
+    Description: Edits a image from the database.
+  */
+
     
     public void editImage(String File_Path, String Image_Name) throws IOException {
         

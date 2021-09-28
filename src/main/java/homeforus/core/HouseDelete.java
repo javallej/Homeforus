@@ -1,3 +1,11 @@
+/*
+  File: HouseDelete.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: Deletes a house from the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,7 +14,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: HouseDelete   
+
+Description:  Deletes a house from the database.
+*/
+
 public class HouseDelete {
+
+    /**
+    Method: delete
+    Inputs: int House_ID
+    Returns: void
+
+    Description: Deletes a house from the database.
+  */
 
     public void delete(int House_ID) throws IOException {
         ResultSet rs = null;

@@ -1,3 +1,11 @@
+/*
+  File: ImageDelete.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: Deletes an image from the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,7 +14,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: ImageDelete    
+
+Description: Deletes an image from the database.
+*/
+
+
 public class ImageDelete {
+
+    /**
+    Method: delete
+    Inputs: int House_ID, String File_Path
+    Returns: void
+
+    Description: Deletes an image from the database.
+  */
 
     public void delete(int House_ID, String File_Path) throws IOException {
 
