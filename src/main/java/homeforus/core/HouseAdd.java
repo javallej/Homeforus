@@ -1,3 +1,12 @@
+/*
+  File: HouseAdd.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: Adds a house to the database.
+*/
+
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,8 +15,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: HouseAdd    
+
+Description: Adds a house to the database.
+*/
 public class HouseAdd {
 
+    /**
+    Method: add
+    Inputs: int Realtor_ID, String Realtor_Username, String State, String City, String Zip, String Street, int 
+            House_Number, int Cost, int Year, int Num_Floors, int Num_Bed, int Num_Bath, int Sqr_feet, int Days_Listed
+    Returns: void
+
+    Description: Adds a house to the database.
+  */
+    
     public void add(int Realtor_ID, String Realtor_Username, String State, String City, String Zip, String Street, int 
             House_Number, int Cost, int Year, int Num_Floors, int Num_Bed, int Num_Bath, int Sqr_feet, int Days_Listed
             ) throws IOException {

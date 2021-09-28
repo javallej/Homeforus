@@ -24,10 +24,28 @@ public class ApplicationListObject {
     private String realtor_username;
     private String status;
     
+    /**
+    Method: setHouseID
+    Inputs: int House_id
+    Returns: void
+
+    Description: Sets the House_ID.
+  */
+
+    
     public void setHouseID(int House_id) {
         this.house_id = House_id;
     }
 
+    /**
+    Method: getHouseID
+    Inputs: void
+    Returns: int
+
+    Description: Gets the House_ID.
+  */
+
+    
     public int getHouseID() {
         return this.house_id;
     }
@@ -98,17 +116,49 @@ public class ApplicationListObject {
         return this.realtor_username;
     }
     
+    /**
+    Method: setRealtorID
+    Inputs: int Realtor_id
+    Returns: void
+
+    Description: Sets the Realtor_ID.
+  */
+
     public void setRealtorID(int Realtor_id) {
         this.realtor_id = Realtor_id;
     }
+
+    /**
+    Method: getRealtorID
+    Inputs: void
+    Returns: int
+
+    Description: Gets the Realtor_ID.
+  */
 
     public int getRealtorID() {
         return this.realtor_id;
     }
     
+    /**
+    Method: setStatus
+    Inputs: String Status
+    Returns: void
+
+    Description: Sets the Status.
+  */
+
     public void setStatus(String Status) {
         this.status = Status;
     }
+
+    /**
+    Method: getStatus
+    Inputs: void
+    Returns: String
+
+    Description: Gets the Status.
+  */
 
     public String getStatus() {
         return this.status;

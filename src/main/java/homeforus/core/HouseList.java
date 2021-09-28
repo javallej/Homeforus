@@ -1,3 +1,11 @@
+/*
+  File: HouseList.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: Lists a house from the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -8,8 +16,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+Class: HouseList   
+
+Description: Lists a house from the database.
+*/
+
 public class HouseList {
     
+    /**
+    Method: List
+    Inputs: int House_ID
+    Returns: List<HouseListObject>
+
+    Description: Lists a house from the database.
+  */
+
     public List<HouseListObject> List(int House_ID) throws SQLException, IOException {
         
         ResultSet rs = null;
