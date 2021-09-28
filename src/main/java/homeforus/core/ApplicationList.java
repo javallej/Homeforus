@@ -1,3 +1,11 @@
+/*
+  File: ApplicationList.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: List Application from the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -8,8 +16,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+Class: ApplicationList
+
+Description: List Application from the database.
+*/
+
 public class ApplicationList {
     
+    /**
+    Method: List
+    Inputs: int House_ID, int Consumer_ID, int Realtor_ID
+    Returns: List<ApplicationListObject> 
+
+    Description: List Application from the database using House_ID, Consumer_ID, Realtor_ID
+  */
     public List<ApplicationListObject> List(int House_ID, int Consumer_ID, int Realtor_ID) throws SQLException, IOException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -65,6 +86,13 @@ public class ApplicationList {
         return applicationinformation;
     }
 
+    /**
+    Method: ListAll
+    Inputs: void
+    Returns: List<ApplicationListObject>
+
+    Description: Returns all Applications from the database.
+  */
     public List<ApplicationListObject> ListAll() throws SQLException, IOException {
         ResultSet rs = null;
         PreparedStatement stmt = null;

@@ -1,3 +1,11 @@
+/*
+  File: ApplicationAdd.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: Adds an application to the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,8 +14,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: ApplicationAdd
+
+Description: Adds an application to the database.
+*/
+
 public class ApplicationAdd {
     
+    /**
+    Method: add 
+    Inputs: int House_ID, int Consumer_ID, String Consumer_Username, int Realtor_ID, String Realtor_Username, String Status
+    Returns: void
+
+    Description: Adds an application to the database.
+  */
+
     public void add(int House_ID, int Consumer_ID, String Consumer_Username, int Realtor_ID, String Realtor_Username, String Status
             ) throws IOException {
 

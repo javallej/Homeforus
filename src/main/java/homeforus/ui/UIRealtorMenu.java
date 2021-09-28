@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.homeforus.core.ApplicationDelete;
+import main.java.homeforus.core.ApplicationEdit;
 import main.java.homeforus.core.ApplicationList;
 import main.java.homeforus.core.ApplicationListObject;
 
@@ -22,16 +24,16 @@ public class UIRealtorMenu {
             while (true) {
                 System.out.println("Type 1: View Applications");
                 System.out.println("Type 2: Approve Applications");
-                System.out.println("Type 3: Edit Applications");
+                System.out.println("Type 3: Delete Applications");
                 System.out.println("Type Quit: Exit");
                 answer = read.readLine();
 
                 if (answer.equals("1")) {
                     realtorviewapplication();
                 } else if (answer.equals("2")) {
-
+                    realtorapproveapplication();
                 } else if (answer.equals("3")) {
-
+                    realtordeleteapplication();
                 } else if (answer.equals("Quit")) {
                     return;
                 } else {
@@ -68,5 +70,65 @@ public class UIRealtorMenu {
             System.out.println("---------------------------------------");
         }
         
+    }
+    public void realtorapproveapplication() throws SQLException, IOException {
+        ApplicationEdit appEdit = new ApplicationEdit();
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        String house_id = "";
+        String consumer_id = "";
+        String realtor_id = "";
+        
+        int ihouse_id;
+        int iconsumer_id;
+        int irealtor_id;
+
+        
+        System.out.println("Enter the House_Id");
+        house_id = read.readLine();
+        System.out.println("Enter the Consumer_Id");
+        consumer_id = read.readLine();
+        System.out.println("Enter the Realtor_Id");
+        realtor_id = read.readLine();
+        
+        
+        ihouse_id = Integer.parseInt(house_id);
+        iconsumer_id = Integer.parseInt(consumer_id);
+        irealtor_id = Integer.parseInt(realtor_id);
+        
+        
+        appEdit.editStatus("Approved", ihouse_id, iconsumer_id, irealtor_id);
+        
+        return;
+
+    }
+    
+    public void realtordeleteapplication() throws SQLException, IOException {
+        
+        ApplicationDelete appDelete = new ApplicationDelete();
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        
+        String house_id = "";
+        String consumer_id = "";
+        String realtor_id = "";
+        
+        int ihouse_id;
+        int iconsumer_id;
+        int irealtor_id;
+
+        
+        System.out.println("Enter the House_Id");
+        house_id = read.readLine();
+        System.out.println("Enter the Consumer_Id");
+        consumer_id = read.readLine();
+        System.out.println("Enter the Realtor_Id");
+        realtor_id = read.readLine();
+        
+        
+        ihouse_id = Integer.parseInt(house_id);
+        iconsumer_id = Integer.parseInt(consumer_id);
+        irealtor_id = Integer.parseInt(realtor_id);
+        
+        appDelete.delete(ihouse_id, iconsumer_id, irealtor_id);
+
     }
 }

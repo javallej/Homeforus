@@ -1,4 +1,19 @@
+/*
+  File: ApplicationListObject.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: Getter/Setter to list Applications.
+*/
+
+
 package main.java.homeforus.core;
+
+/**
+Class: ApplicationListObject   
+
+Description: Getter/Setter to list Applications.
+*/
 
 public class ApplicationListObject {
 

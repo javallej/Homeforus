@@ -1,3 +1,11 @@
+/*
+  File: ApplicationEdit.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
+  
+  Description: Edits Application form the database.
+*/
+
 package main.java.homeforus.core;
 
 import java.io.IOException;
@@ -6,8 +14,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+Class: ApplicationEdit  
+
+Description: Edits Application form the database.
+*/
 public class ApplicationEdit {
     
+    /**
+    Method: editStatus
+    Inputs: String Status, int House_ID, int Consumer_ID, int Realtor_ID
+    Returns: void
+
+    Description: Edits the status.
+  */
+
     public void editStatus(String Status, int House_ID, int Consumer_ID, int Realtor_ID) throws IOException {
         
         ResultSet rs = null;
@@ -20,13 +41,13 @@ public class ApplicationEdit {
 
             connect.setAutoCommit(false);
             
-            String query = "UPDATE APPLICATION SET Status = ? WHERE House_ID = ? AND Consumer_ID = ? AND Realtor_ID = ?";
+            String query = "UPDATE APPLICATION SET Status = ? WHERE APPLICATION.House_ID = ? AND APPLICATION.Consumer_ID = ? AND APPLICATION.Realtor_ID = ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setString(1, Status);
             stmt.setInt(2, House_ID);
-            stmt.setInt(2, Consumer_ID);
-            stmt.setInt(2, Realtor_ID);
+            stmt.setInt(3, Consumer_ID);
+            stmt.setInt(4, Realtor_ID);
             stmt.executeUpdate();
             
             connect.commit();
