@@ -1,18 +1,18 @@
 /*
-  File: 
-  Author:   
-  Date: 
+  File: HouseListObject.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
   
-  Description:
+  Description: Getter/Setter for listing of House from database.
 */
 
 
 package main.java.homeforus.core;
 
 /**
-Class:    
+Class: HouseListObject 
 
-Description:
+Description: Getter/Setter for listing of House from database.
 */
 
 
@@ -35,22 +35,22 @@ public class HouseListObject {
     private int days_listed;
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setHouseID
+    Inputs: int House_id
+    Returns: void
 
-    Description:
+    Description: Sets the House_ID.
   */
     public void setHouseID(int House_id) {
         this.house_id = House_id;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getHouseID
+    Inputs: void
+    Returns: int
 
-    Description:
+    Description: Gets the House_ID.
   */
     
     public int getHouseID() {
@@ -58,33 +58,33 @@ public class HouseListObject {
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setRealtorID
+    Inputs: int Realtor_id
+    Returns: void
 
-    Description:
+    Description: Sets the Realtor_ID.
   */
     public void setRealtorID(int Realtor_id) {
         this.realtor_id = Realtor_id;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getRealtorID
+    Inputs: void
+    Returns: int
 
-    Description:
+    Description: Gets the Realtor_ID.
   */
     public int getRealtorID() {
         return this.realtor_id;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setRealtorUsername
+    Inputs: String Realtor_username
+    Returns: void
 
-    Description:
+    Description: Sets the Realtor_Username.
   */
     
     public void setRealtorUsername(String Realtor_username) {
@@ -92,275 +92,275 @@ public class HouseListObject {
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getRealtorUsername
+    Inputs: void
+    Returns: String
 
-    Description:
+    Description: Gets the Realtor_Username.
   */
     public String getRealtorUsername() {
         return this.realtor_username;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setState
+    Inputs: String State
+    Returns: void
 
-    Description:
+    Description: Sets the State.
   */
     public void setState(String State) {
         this.state = State;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getState
+    Inputs: void
+    Returns: String
 
-    Description:
+    Description: Gets the State.
   */
     public String getState() {
         return this.state;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setCity
+    Inputs: String City
+    Returns: void
 
-    Description:
+    Description: Sets the City.
   */
     public void setCity(String City) {
         this.city = City;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getCity
+    Inputs: void
+    Returns: String
 
-    Description:
+    Description: Gets the City.
   */
     public String getCity() {
         return this.city;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setZip
+    Inputs: String Zip
+    Returns: void
 
-    Description:
+    Description: Sets the Zip.
   */
     public void setZip(String Zip) {
         this.zip = Zip;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getZip
+    Inputs: void
+    Returns: String
 
-    Description:
+    Description: Gets the Zip.
   */
     public String getZip() {
         return this.zip;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setStreet
+    Inputs: String Street
+    Returns: void
 
-    Description:
+    Description: Sets Street.
   */
     public void setStreet(String Street) {
         this.street = Street;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getStreet
+    Inputs: void
+    Returns: String
 
-    Description:
+    Description: Gets the Street
   */
     public String getStreet() {
         return this.street;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setHouseNumber
+    Inputs: int House_number
+    Returns: void
 
-    Description:
+    Description: Sets the House_Number.
   */
     public void setHouseNumber(int House_number) {
         this.house_number = House_number;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getHouseNumber
+    Inputs: void
+    Returns: int
 
-    Description:
+    Description: Gets the House_Number.
   */
     public int getHouseNumber() {
         return this.house_number;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setYear
+    Inputs: int Year
+    Returns: void
 
-    Description:
+    Description: Sets the Year.
   */
     public void setYear(int Year) {
         this.year = Year;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getYear
+    Inputs: void
+    Returns: int
 
-    Description:
+    Description: Gets the Year.
   */
     public int getYear() {
         return this.year;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setCost
+    Inputs: int Cost
+    Returns: void
 
-    Description:
+    Description: Sets the Cost.
   */
     public void setCost(int Cost) {
         this.cost = Cost;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getCost
+    Inputs: void
+    Returns: int
 
-    Description:
+    Description: Gets the Cost.
   */
     public int getCost() {
         return this.cost;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setNumFloors
+    Inputs: int Num_floors
+    Returns: void
 
-    Description:
+    Description: Sets the Number of floors.
   */
     public void setNumFloors(int Num_floors) {
         this.num_floors = Num_floors;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getNumFloors
+    Inputs: void
+    Returns: int
 
-    Description:
+    Description: Gets the Number of floors.
   */
     public int getNumFloors() {
         return this.num_floors;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setNumBed
+    Inputs: int Num_bed
+    Returns: void
 
-    Description:
+    Description: Sets the number of beds.
   */
     public void setNumBed(int Num_bed) {
         this.num_bed = Num_bed;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getNumBed
+    Inputs: void
+    Returns: int
 
-    Description:
+    Description: Gets the number of beds.
   */
     public int getNumBed() {
         return this.num_bed;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setNumBath
+    Inputs: int Num_bath
+    Returns: void
 
-    Description:
+    Description: Sets the number of baths.
   */
     public void setNumBath(int Num_bath) {
         this.num_bath = Num_bath;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getNumBath
+    Inputs: void
+    Returns: int
 
-    Description:
+    Description: Gets the number of baths.
   */
     public int getNumBath() {
         return this.num_bath;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setSqrFeet
+    Inputs: int Sqr_feet
+    Returns: void
 
-    Description:
+    Description: Sets the Square feet.
   */
     public void setSqrFeet(int Sqr_feet) {
         this.sqr_feet = Sqr_feet;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getSqrFeet
+    Inputs: void
+    Returns: int 
 
-    Description:
+    Description: Gets the Square Feet
   */
     public int getSqrFeet() {
         return this.sqr_feet;
     }
     
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: setDaysListed
+    Inputs: int Days_listed
+    Returns: void
 
-    Description:
+    Description: Sets the days listed.
   */
     public void setDaysListed(int Days_listed) {
         this.days_listed = Days_listed;
     }
 
     /**
-    Method:
-    Inputs:
-    Returns:
+    Method: getDaysListed
+    Inputs: void
+    Returns: int
 
-    Description:
+    Description: Gets the days listed.
   */
     public int getDaysListed() {
         return this.days_listed;

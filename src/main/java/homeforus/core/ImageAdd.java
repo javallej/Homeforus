@@ -1,18 +1,18 @@
 /*
-  File: 
-  Author:   
-  Date: 
+  File: ImageAdd.java
+  Author: SER322 Group 9
+  Date: 09/28/2021
   
-  Description:
+  Description: Adds an image to the database.
 */
 
 
 package main.java.homeforus.core;
 
 /**
-Class:    
+Class: ImageAdd
 
-Description:
+Description: Adds an image to the database.
 */
 
 import java.io.IOException;
@@ -22,11 +22,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
-Method:
-Inputs:
-Returns:
+Method: add
+Inputs: int House_ID, String File_Path, String Image_Name
+Returns: void
 
-Description:
+Description: Adds an image to the database.
 */
 public class ImageAdd {
     
