@@ -1,9 +1,12 @@
 package main.java.homeforus.gui;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class SearchBar extends JPanel {
@@ -13,11 +16,12 @@ public class SearchBar extends JPanel {
     private TopHeader topHeader;
     private SearchInput searchInput;
     private SearchTextBoxes searchTextBoxes;
+    private SearchButton price;
     private SearchPopup pricePopUp;
     private SearchPopup bedsAndBathsPopUp;
     private SearchPopup moreOptionsPopUp;
     private JButton beginSearch;
-    public JPanel currentlyOpen;
+    public static SearchPopup currentlyOpen;
     private double searchPercentSize = 0.30;
 
     public SearchBar(Dimension headerSize, TopHeader topHeader, BaseWindow window) {
@@ -36,10 +40,13 @@ public class SearchBar extends JPanel {
         add(bar);
         searchTextBoxes = new SearchTextBoxes(bar);
         beginSearch = new JButton("Search");
+        beginSearch.setBackground(new BrandGreen().color);
+        beginSearch.setForeground(Color.white);
+        beginSearch.setBorderPainted(false);
         bar.add(beginSearch);
 
         pricePopUp = new PricePopUp();
-        SearchButton price = new SearchButton("Price", pricePopUp);
+        price = new SearchButton("Price", pricePopUp);
         bar.add(price);
 
         bedsAndBathsPopUp = new BedsAndBathsPopUp();
@@ -54,31 +61,50 @@ public class SearchBar extends JPanel {
     public class SearchButton extends JButton {
 
         public SearchPopup searchPopup;
+        int vertOffsetPanelPos;
+        SearchButton thisButton;
 
         public SearchButton(String text, SearchPopup searchPopup) {
             this.searchPopup = searchPopup;
             setText(text);
             setVisible(true);
-            int vertOffsetPanelPos = topHeader.headerHeight - 15;
-            JButton thisButton = this;
+            vertOffsetPanelPos = topHeader.headerHeight - 15;
+            thisButton = this;
+            addListeners();
+        }
 
-            addActionListener(new ActionListener() {
+        public void addListeners() {
+            ActionListener aL = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Point panelPos = new Point((int) (thisButton.getBounds().getMaxX() - 10), (int) thisButton.getLocation().getY() + vertOffsetPanelPos);
 
-                    searchPopup.setVisible(true);
-                    searchPopup.setBounds(0, 0, searchPopup.width, searchPopup.height);
-                    searchPopup.setLocation(panelPos);
-                    searchPopup.setFocusTo();
-                    currentlyOpen = searchPopup;
+                    if (currentlyOpen == null) {
+                        searchPopup.setVisible(true);
+                        searchPopup.setBounds(0, 0, searchPopup.width, searchPopup.height);
+                        searchPopup.setLocation(panelPos);
+                        searchPopup.setFocusTo();
+                        currentlyOpen = searchPopup;
+                        currentlyOpen.caller = thisButton;
+                        window.getRootPane().setDefaultButton(thisButton);
+                    } else {
+                        setOpenNull();
+                    }
                 }
-            });
+            };
+            this.addActionListener(aL);
         }
+    }
+
+
+    public static void setOpenNull() {
+        currentlyOpen.setVisible(false);
+        currentlyOpen = null;
     }
 
     public class SearchPopup extends JPanel {
 
+        public SearchButton caller;
         public JPanel inner;
         public int width;
         public int height;
@@ -90,42 +116,140 @@ public class SearchBar extends JPanel {
             setVisible(false);
             window.layers.add(this, JLayeredPane.POPUP_LAYER);
 
-            // remove this later
-            JButton popupCloseButton = new JButton("Close");
             inner = new JPanel();
             inner.setVisible(true);
-            inner.setLayout(new GridLayout(2,1));
-            inner.setMaximumSize(new Dimension(50,50));
+            inner.setLayout(new FlowLayout());
+            inner.setMaximumSize(new Dimension(width,height));
             add(inner);
 
-
-            popupCloseButton.addActionListener(e -> {
-                setVisible(false);
-            });
         }
 
         public void setFocusTo() {
 
         }
+
+
+    }
+
+    public static MatteBorder debugBorder() {
+        return new MatteBorder(3, 3, 3, 3, Color.CYAN);
     }
 
     public class PricePopUp extends SearchPopup {
 
-        public InputField min;
-        public InputField max;
+        public SearchInputField min;
+        public SearchInputField max;
 
         public PricePopUp() {
-            width = 200;
-            height = 200;
-            min = new InputField("Min");
+            width = 240;
+            height = 70;
+            min = new SearchInputField("Min");
+            max = new SearchInputField("Max");
             inner.add(min);
+            JPanel dashHolder = new JPanel();
+            dashHolder.setLayout(new BoxLayout(dashHolder, BoxLayout.PAGE_AXIS));
+            dashHolder.setMaximumSize(new Dimension(10, 30));
+            dashHolder.add(new JLabel("-"));
+            dashHolder.add(new JLabel(" "));
+            inner.add(dashHolder);
+            inner.add(max);
 
 
+            addComponentListener(new ComponentAdapter() {
+                @Override
+                public void componentHidden(ComponentEvent e) {
+                    super.componentHidden(e);
+                    try {
+                        String minT = min.textField.getText();
+                        String maxT = max.textField.getText();
+                        boolean isNumMin = !minT.isEmpty() && Character.isDigit(minT.toCharArray()[0]);
+                        boolean isNumMax = !maxT.isEmpty() && Character.isDigit(maxT.toCharArray()[0]);
+                        String pMin = null;
+                        String pMax = null;
+                        if (isNumMin) {
+                            pMin = formatPrice(minT);
+                            if (!pMin.equalsIgnoreCase("null")) {
+                                price.setText(pMin + "+");
+                            }
+                        }
+                        if (isNumMax) {
+                            pMax = formatPrice(maxT);
+                            if (!pMax.equalsIgnoreCase("null")) {
+                                price.setText("< " + pMax);
+                            }
+                        }
+                        if (isNumMin && isNumMax) {
+                            if (pMin.compareTo(pMax) < 0) {
+                                price.setText(pMin + " - " + pMax);
+                            } else {
+                                price.setText("Price");
+                            }
+                        }
+                    } catch (Exception ex) {
+
+                    }
+                }
+            });
+        }
+
+        public String formatPrice(String text) {
+            DecimalFormat dollars = new DecimalFormat("$###K");
+            Double price = null;
+            String ps = "";
+            try {
+                price = Double.parseDouble(text);
+                if (price < 10000) {
+                    ps = "null";
+                } else {
+                    price = price/1000;
+                    ps = dollars.format(price);
+                }
+            } catch (NumberFormatException ex) {
+
+            }
+            return ps;
         }
 
         @Override
         public void setFocusTo() {
-            min.getTextField().requestFocusInWindow();
+            min.textField.requestFocusInWindow();
+        }
+
+
+    }
+
+
+    public static class SearchInputField extends JPanel {
+        public JLabel label;
+        public JTextField textField;
+
+        public SearchInputField(String labelText) {
+            label = new JLabel(labelText);
+            JPanel labelHolder = new JPanel();
+            labelHolder.setPreferredSize(new Dimension(100,15));
+            labelHolder.setLayout(new FlowLayout());
+            labelHolder.add(label);
+            textField = new JTextField();
+            JPanel textHolder = new JPanel();
+            textHolder.setPreferredSize(new Dimension(100,40));
+            textHolder.setBorder(new MatteBorder(0,0,2,0,this.getBackground()));
+            textHolder.add(textField);
+            setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+            setPreferredSize(new Dimension(100, 50));
+            textField.setPreferredSize(new Dimension(80, 27));
+            label.setPreferredSize(new Dimension(80,15));
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            add(textHolder);
+            add(labelHolder);
+
+            textField.addKeyListener(SearchBar.limitListener(textField, 6));
+
+//            setBorder(debugBorder());
+//            textField.setBorder(debugBorder());
+//            label.setBorder(debugBorder());
+//            labelHolder.setBorder(debugBorder());
+//            textHolder.setBorder(debugBorder());
+
         }
     }
 
@@ -229,16 +353,34 @@ public class SearchBar extends JPanel {
                 }
             });
 
-            addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyTyped(KeyEvent e) {
-                    if (getText().length() >= limit)
-                        e.consume();
-                }
-            });
+            addKeyListener(SearchBar.limitListener(this, limit));
         }
 
     }
+
+
+    public static KeyListener limitListener(JTextField textfield, int limit) {
+        return new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (textfield.getText().length() >= limit) {
+                    e.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    SearchBar.setOpenNull();
+                }
+            }
+        };
+    }
+
+
+
+
     public static class SearchInput {
         public int houseNum;
         public String street;

@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.AWTEventListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Objects;
@@ -75,34 +76,32 @@ public class BaseWindow extends JFrame {
                     if (event instanceof MouseEvent) {
                         MouseEvent me = (MouseEvent) event;
                         int buttonsDownMask = MouseEvent.BUTTON1_DOWN_MASK;
+                        int dragged = MouseEvent.MOUSE_DRAGGED;
 
                         if ((((MouseEvent) event).getModifiersEx() & buttonsDownMask) != 0) {
-                            JPanel open = header.searchBar.currentlyOpen;
+                            SearchBar.SearchPopup open = header.searchBar.currentlyOpen;
                             if (open != null && open.isVisible()) {
-                                int maxX = (int) open.getBounds().getMaxX();
-                                int maxY = (int) open.getBounds().getMaxY();
+                                int maxX = (int) open.getBounds().getMaxX() + 6;
+                                int maxY = (int) open.getBounds().getMaxY() + 30;
                                 int minX = (int) open.getBounds().getMinX();
                                 int minY = (int) open.getBounds().getMinY();
-//                                System.out.println("max x: " + maxX);
-//                                System.out.println("max y: " + maxY);
-//                                System.out.println("min x: " + minX);
-//                                System.out.println("min y: " + minY);
-//                                System.out.println("me getX: " + me.getX());
-//                                System.out.println("me getY: " + me.getY());
-//                                System.out.println(me.getComponent().toString());
-//                                System.out.println("me getlocationonscreen: " + me.getLocationOnScreen());
-
 
                                 if ((me.getX() > maxX || me.getY() > maxY
                                         || me.getY() < minY || me.getX() < minX)
                                 && !me.getComponent().toString().contains("JTextField")
                                 && !me.getComponent().toString().contains("WindowsComboBoxUI")
-                                && !me.getComponent().toString().contains("BasicComboPopup")) {
-                                    open.setVisible(false);
+                                && !me.getComponent().toString().contains("BasicComboPopup")
+                                && !me.getComponent().toString().contains("BasicComboPopup")
+                                && (((MouseEvent) event).getModifiersEx() & dragged) == 0) {
+                                    if (me.getComponent() != open.caller) {
+                                        header.searchBar.setOpenNull();
+                                    }
                                 }
                             }
                         }
                     }
+
+
                 }
             }, AWTEvent.MOUSE_EVENT_MASK);
         }
