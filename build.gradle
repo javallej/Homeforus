@@ -30,7 +30,7 @@ task FatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'main/java/homeforus/core/Main'
     }
-    baseName = 'javallej_query'
+    baseName = 'homeforus'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
     
