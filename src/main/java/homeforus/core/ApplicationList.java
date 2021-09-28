@@ -65,4 +65,59 @@ public class ApplicationList {
         return applicationinformation;
     }
 
+    public List<ApplicationListObject> ListAll() throws SQLException, IOException {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        
+        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
+                Setup.setup().get("jdbcDriver"));
+        
+        List <ApplicationListObject> applicationinformation = new ArrayList<ApplicationListObject>();
+
+        try {
+
+
+            String query = "SELECT * FROM APPLICATION";
+
+            stmt = connect.prepareStatement(query);
+            rs = stmt.executeQuery();
+
+            
+            while (rs.next()) {
+                ApplicationListObject aobject = new ApplicationListObject();
+                aobject.setHouseID(rs.getInt(1));
+                aobject.setConsumerID(rs.getInt(2));
+                aobject.setConsumerUsername(rs.getString(3));
+                aobject.setRealtorID(rs.getInt(4));
+                aobject.setRealtorUsername(rs.getString(5));
+                aobject.setStatus(rs.getString(6));
+                
+                applicationinformation.add(aobject);
+            }
+
+            
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+
+        finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+
+        }
+        return applicationinformation;
+    }
+
 }

@@ -15,7 +15,7 @@ import main.java.homeforus.core.UserListObject;
 
 public class UIstart {
     
-    public void console() {
+    public void console() throws SQLException {
         
         UIcreateUser create = new UIcreateUser();
         UIlogin login = new UIlogin();

@@ -8,6 +8,8 @@
 
 package main.java.homeforus.core;
 
+import java.sql.SQLException;
+
 import main.java.homeforus.ui.UIstart;
 
 /**
@@ -24,9 +26,10 @@ public class Main {
     Returns: void
 
     Description: Start of program.
+     * @throws SQLException 
   */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
        
             UIstart uiuser = new UIstart();
             uiuser.console();
