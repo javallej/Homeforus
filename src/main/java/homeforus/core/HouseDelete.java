@@ -41,7 +41,7 @@ public class HouseDelete {
 
             connect.setAutoCommit(false);
 
-            String query = "DELETE FROM HOUSE WHERE House.House_ID = ?";
+            String query = "DELETE FROM HOUSE WHERE HOUSE.House_ID = ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setInt(1, House_ID);
