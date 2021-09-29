@@ -1,21 +1,17 @@
 package main.java.homeforus.gui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 public class SearchBar extends JPanel {
 
-    private BaseWindow window;
+    private static BaseWindow window;
     private Dimension searchBarSize;
     private TopHeader topHeader;
-    private SearchInput searchInput;
-    private SearchTextBoxes searchTextBoxes;
     private SearchButton price;
     private SearchPopup pricePopUp;
     private SearchPopup bedsAndBathsPopUp;
@@ -27,18 +23,18 @@ public class SearchBar extends JPanel {
     public SearchBar(Dimension headerSize, TopHeader topHeader, BaseWindow window) {
         this.window = window;
         this.topHeader = topHeader;
+        buildSearchBar(headerSize);
+    }
+
+    public void buildSearchBar(Dimension headerSize) {
         int searchVertSize = (int) (headerSize.getSize().getHeight() * searchPercentSize) + 2;
         searchBarSize = new Dimension((int)headerSize.getSize().getWidth(), searchVertSize);
         setPreferredSize(searchBarSize);
-        buildSearchBar();
-    }
-
-    public void buildSearchBar() {
         JPanel bar = new JPanel();
         bar.setLayout(new FlowLayout());
         bar.setPreferredSize(new Dimension((int)(searchBarSize.getWidth()/5)*4,(int)searchBarSize.getHeight()));
         add(bar);
-        searchTextBoxes = new SearchTextBoxes(bar);
+        SearchTextBoxes searchTextBoxes = new SearchTextBoxes(bar);
         beginSearch = new JButton("Search");
         beginSearch.setBackground(new BrandGreen().color);
         beginSearch.setForeground(Color.white);
@@ -106,6 +102,7 @@ public class SearchBar extends JPanel {
 
         public SearchButton caller;
         public JPanel inner;
+        public Dimension size;
         public int width;
         public int height;
 
@@ -114,12 +111,13 @@ public class SearchBar extends JPanel {
             setMaximumSize(new Dimension(width, height));
             setBorder(new LineBorder(Color.gray));
             setVisible(false);
-            window.layers.add(this, JLayeredPane.POPUP_LAYER);
+            window.getLayers().add(this, JLayeredPane.POPUP_LAYER);
 
             inner = new JPanel();
             inner.setVisible(true);
             inner.setLayout(new FlowLayout());
-            inner.setMaximumSize(new Dimension(width,height));
+            size = new Dimension(width,height);
+            inner.setMaximumSize(size);
             add(inner);
 
         }
@@ -131,10 +129,45 @@ public class SearchBar extends JPanel {
 
     }
 
-    public static MatteBorder debugBorder() {
-        return new MatteBorder(3, 3, 3, 3, Color.CYAN);
-    }
 
+    public class BedsAndBathsPopUp extends SearchPopup {
+
+        public JComboBox<Integer> beds;
+        public JComboBox<Integer> baths;
+
+        public BedsAndBathsPopUp() {
+            width = 110;
+            height = 80;
+            size.setSize(width, height);
+            beds = newBox();
+            baths = newBox();
+
+            JPanel boxHolder = new JPanel();
+            boxHolder.setPreferredSize(new Dimension(90,60));
+            boxHolder.setLayout(new GridLayout(3,3));
+            boxHolder.add(new JLabel("Beds"));
+            boxHolder.add(beds);
+            boxHolder.add(Box.createVerticalGlue());
+            boxHolder.add(Box.createVerticalGlue());
+            boxHolder.add(new JLabel("Baths"));
+            boxHolder.add(baths);
+            inner.add(boxHolder);
+
+        }
+
+        public JComboBox<Integer> newBox() {
+            JComboBox<Integer> b = new JComboBox<>();
+            for (int i = 1; i < 5; i++) {
+                b.addItem(i);
+            }
+            return b;
+        }
+
+        @Override
+        public void setFocusTo() {
+            beds.requestFocusInWindow();
+        }
+    }
     public class PricePopUp extends SearchPopup {
 
         public SearchInputField min;
@@ -154,8 +187,11 @@ public class SearchBar extends JPanel {
             inner.add(dashHolder);
             inner.add(max);
 
+            addComponentListener(whenPopUpCloses());
+        }
 
-            addComponentListener(new ComponentAdapter() {
+        private ComponentAdapter whenPopUpCloses() {
+            ComponentAdapter cA = new ComponentAdapter() {
                 @Override
                 public void componentHidden(ComponentEvent e) {
                     super.componentHidden(e);
@@ -166,30 +202,40 @@ public class SearchBar extends JPanel {
                         boolean isNumMax = !maxT.isEmpty() && Character.isDigit(maxT.toCharArray()[0]);
                         String pMin = null;
                         String pMax = null;
+                        if (minT.isEmpty() && maxT.isEmpty()) {
+                            price.setText("Price");
+                            SearchBar.setBtnActive(price, false);
+                        }
+
                         if (isNumMin) {
                             pMin = formatPrice(minT);
                             if (!pMin.equalsIgnoreCase("null")) {
                                 price.setText(pMin + "+");
+                                SearchBar.setBtnActive(price, true);
                             }
                         }
                         if (isNumMax) {
                             pMax = formatPrice(maxT);
                             if (!pMax.equalsIgnoreCase("null")) {
                                 price.setText("< " + pMax);
+                                SearchBar.setBtnActive(price, true);
                             }
                         }
                         if (isNumMin && isNumMax) {
                             if (pMin.compareTo(pMax) < 0) {
                                 price.setText(pMin + " - " + pMax);
+                                SearchBar.setBtnActive(price, true);
                             } else {
                                 price.setText("Price");
+                                SearchBar.setBtnActive(price, false);
                             }
                         }
                     } catch (Exception ex) {
 
                     }
                 }
-            });
+            };
+            return cA;
         }
 
         public String formatPrice(String text) {
@@ -214,8 +260,14 @@ public class SearchBar extends JPanel {
         public void setFocusTo() {
             min.textField.requestFocusInWindow();
         }
+    }
 
-
+    public static void setBtnActive(JButton btn, boolean state) {
+        if (state) {
+            btn.setBackground(new BrandGreen().color);
+        } else {
+            btn.setBackground(window.getBackground());
+        }
     }
 
 
@@ -254,41 +306,11 @@ public class SearchBar extends JPanel {
     }
 
 
-    public class BedsAndBathsPopUp extends SearchPopup {
 
-        public JComboBox<Integer> beds;
-        public JComboBox<Integer> baths;
-
-        public BedsAndBathsPopUp() {
-            width = 200;
-            height = 200;
-            beds = newBox();
-            baths = newBox();
-            inner.add(new JLabel(""));
-            inner.add(beds);
-            inner.add(new JLabel(""));
-            inner.add(baths);
-        }
-
-        public JComboBox<Integer> newBox() {
-           JComboBox<Integer> b = new JComboBox<>();
-            for (int i = 1; i < 5; i++) {
-                b.addItem(i);
-            }
-            return b;
-        }
-
-        @Override
-        public void setFocusTo() {
-            beds.requestFocusInWindow();
-        }
-
-    }
 
     public class MoreOptionsPopUp extends SearchPopup {
 
         public MoreOptionsPopUp() {
-
             width = 200;
             height = 200;
         }
@@ -419,5 +441,9 @@ public class SearchBar extends JPanel {
             this.daysListedMin = daysListedMin;
             this.daysListedMax = daysListedMax;
         }
+    }
+
+    public static MatteBorder debugBorder() {
+        return new MatteBorder(3, 3, 3, 3, Color.CYAN);
     }
 }
