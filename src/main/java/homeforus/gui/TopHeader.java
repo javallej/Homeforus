@@ -145,6 +145,9 @@ public class TopHeader extends JPanel {
                     }
                 }
             });
+            btn.setBackground(new BrandGreen().color);
+            btn.setForeground(Color.white);
+            btn.setBorderPainted(false);
             return btn;
         }
     }
