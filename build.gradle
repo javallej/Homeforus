@@ -16,6 +16,10 @@ repositories {
   mavenCentral()
 }
 
+run {
+    standardInput = System.in
+}
+
 dependencies {
   compile 'com.io7m.xom:xom:1.2.+'
   compile 'net.sourceforge.nekohtml:nekohtml:1.9.+'
@@ -26,7 +30,7 @@ task FatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'main/java/homeforus/core/Main'
     }
-    baseName = 'javallej_query'
+    baseName = 'homeforus'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
     

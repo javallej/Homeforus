@@ -1,9 +1,9 @@
 /*
-  File: ConsumerAdd.java
+  File: ApplicationDelete.java
   Author: SER322 Group 9
-  Date: 09/26/2021
+  Date:  09/28/2021
   
-  Description: Adds a consumer to the database.
+  Description: Deletes the application from the database.
 */
 
 package main.java.homeforus.core;
@@ -15,23 +15,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Class: ConsumerAdd
- * 
- * Description: Adds a consumer to the database.
- */
+Class: ApplicationDelete   
 
-public class ConsumerAdd {
+Description: Deletes the application from the database.
+*/
+public class ApplicationDelete {
 
     /**
-     * Method: add Inputs: int Consumer_ID, String
-     * Consumer_Username, String DOB, int SSN Returns: void
-     * 
-     * Description: Adds a consumer to the database.
-     * 
-     * @throws IOException
-     */
+    Method: delete
+    Inputs: int House_ID, int Consumer_ID, int Realtor_ID
+    Returns: void
 
-    public void add(int Consumer_ID, String Consumer_Username, String DOB, int SSN) throws IOException {
+    Description: Deletes the application from the database.
+  */
+    public void delete(int House_ID, int Consumer_ID, int Realtor_ID) throws IOException {
 
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -43,14 +40,13 @@ public class ConsumerAdd {
 
             connect.setAutoCommit(false);
 
-            String query = "INSERT INTO CONSUMER VALUES (?,?,?,?)";
+            String query = "DELETE FROM APPLICATION WHERE APPLICATION.HOUSE_ID = ? AND "
+                    + "APPLICATION.Consumer_ID = ? AND APPLICATION.Realtor_ID = ? ";
 
             stmt = connect.prepareStatement(query);
-            stmt.setInt(1, Consumer_ID);
-            stmt.setString(2, Consumer_Username);
-            stmt.setString(3, DOB);
-            stmt.setInt(4, SSN);
-            System.out.println(query);
+            stmt.setInt(1, House_ID);
+            stmt.setInt(2, Consumer_ID);
+            stmt.setInt(3, Realtor_ID);
             stmt.executeUpdate();
 
             connect.commit();

@@ -8,40 +8,47 @@
 
 package main.java.homeforus.core;
 
+
+import java.sql.SQLException;
 import java.io.IOException;
 
 
-/**
-Class: Main
+import main.java.homeforus.gui.GUIStart;
+import main.java.homeforus.ui.UIstart;
 
-Description: Start of program.
-*/
+/**
+ * Class: Main
+ * 
+ * Description: Start of program.
+ */
 
 public class Main {
 
     /**
-    Method: main
-    Inputs: String[] args
-    Returns: void
+     * Method: main Inputs: String[] args Returns: void
+     * 
+     * Description: Start of program.
+     * 
+     * @throws SQLException
+     */
 
-    Description: Start of program.
-  */
+    public static void main(String[] args) throws SQLException {
 
-    public static void main(String[] args) {
-       
-            UserAdd useraddData = new UserAdd();
-            UserList userlist = new UserList();
-            UserEdit useredit = new UserEdit();
-            UserDelete userdelete = new UserDelete();
-            ConsumerAdd consumeradd = new ConsumerAdd();
-            RealtorEdit realtoredit = new RealtorEdit();
+        if (args.length == 1) {
 
-            try {
-                realtoredit.editBusiness_Name("BuyNowSellLater", 10);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            switch (args[0]) {
+
+            case "console":
+                UIstart uiuser = new UIstart();
+                uiuser.console();
+                break;
+            default:
+                break;
             }
+        } else {
+            GUIStart guistart = new GUIStart();
+            guistart.start();
+        }
 
     }
 }

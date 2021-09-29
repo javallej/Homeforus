@@ -1,12 +1,19 @@
 /*
-  File: ConsumerAdd.java
+  File: ImageAdd.java
   Author: SER322 Group 9
-  Date: 09/26/2021
+  Date: 09/28/2021
   
-  Description: Adds a consumer to the database.
+  Description: Adds an image to the database.
 */
 
+
 package main.java.homeforus.core;
+
+/**
+Class: ImageAdd
+
+Description: Adds an image to the database.
+*/
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -15,23 +22,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Class: ConsumerAdd
- * 
- * Description: Adds a consumer to the database.
- */
+Method: add
+Inputs: int House_ID, String File_Path, String Image_Name
+Returns: void
 
-public class ConsumerAdd {
-
-    /**
-     * Method: add Inputs: int Consumer_ID, String
-     * Consumer_Username, String DOB, int SSN Returns: void
-     * 
-     * Description: Adds a consumer to the database.
-     * 
-     * @throws IOException
-     */
-
-    public void add(int Consumer_ID, String Consumer_Username, String DOB, int SSN) throws IOException {
+Description: Adds an image to the database.
+*/
+public class ImageAdd {
+    
+    public void add(int House_ID, String File_Path, String Image_Name) throws IOException {
 
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -43,14 +42,12 @@ public class ConsumerAdd {
 
             connect.setAutoCommit(false);
 
-            String query = "INSERT INTO CONSUMER VALUES (?,?,?,?)";
+            String query = "INSERT INTO IMAGE VALUES (?,?,?)";
 
             stmt = connect.prepareStatement(query);
-            stmt.setInt(1, Consumer_ID);
-            stmt.setString(2, Consumer_Username);
-            stmt.setString(3, DOB);
-            stmt.setInt(4, SSN);
-            System.out.println(query);
+            stmt.setInt(1, House_ID);
+            stmt.setString(2, File_Path);
+            stmt.setString(3, Image_Name);
             stmt.executeUpdate();
 
             connect.commit();
@@ -77,4 +74,5 @@ public class ConsumerAdd {
 
         }
     }
+
 }

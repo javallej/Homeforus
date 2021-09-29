@@ -1,9 +1,9 @@
 /*
-  File: ConsumerAdd.java
+  File: ImageDelete.java
   Author: SER322 Group 9
-  Date: 09/26/2021
+  Date: 09/28/2021
   
-  Description: Adds a consumer to the database.
+  Description: Deletes an image from the database.
 */
 
 package main.java.homeforus.core;
@@ -15,23 +15,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Class: ConsumerAdd
- * 
- * Description: Adds a consumer to the database.
- */
+Class: ImageDelete    
 
-public class ConsumerAdd {
+Description: Deletes an image from the database.
+*/
+
+
+public class ImageDelete {
 
     /**
-     * Method: add Inputs: int Consumer_ID, String
-     * Consumer_Username, String DOB, int SSN Returns: void
-     * 
-     * Description: Adds a consumer to the database.
-     * 
-     * @throws IOException
-     */
+    Method: delete
+    Inputs: int House_ID, String File_Path
+    Returns: void
 
-    public void add(int Consumer_ID, String Consumer_Username, String DOB, int SSN) throws IOException {
+    Description: Deletes an image from the database.
+  */
+
+    public void delete(int House_ID, String File_Path) throws IOException {
 
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -43,14 +43,12 @@ public class ConsumerAdd {
 
             connect.setAutoCommit(false);
 
-            String query = "INSERT INTO CONSUMER VALUES (?,?,?,?)";
+            String query = "DELETE FROM IMAGE WHERE IMAGE.HOUSE_ID = ? AND "
+                    + "IMAGE.File_Path = ?";
 
             stmt = connect.prepareStatement(query);
-            stmt.setInt(1, Consumer_ID);
-            stmt.setString(2, Consumer_Username);
-            stmt.setString(3, DOB);
-            stmt.setInt(4, SSN);
-            System.out.println(query);
+            stmt.setInt(1, House_ID);
+            stmt.setString(2, File_Path);
             stmt.executeUpdate();
 
             connect.commit();

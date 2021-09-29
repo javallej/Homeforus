@@ -1,9 +1,9 @@
 /*
-  File: ConsumerAdd.java
+  File: ApplicationAdd.java
   Author: SER322 Group 9
-  Date: 09/26/2021
+  Date: 09/28/2021
   
-  Description: Adds a consumer to the database.
+  Description: Adds an application to the database.
 */
 
 package main.java.homeforus.core;
@@ -15,23 +15,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Class: ConsumerAdd
- * 
- * Description: Adds a consumer to the database.
- */
+Class: ApplicationAdd
 
-public class ConsumerAdd {
+Description: Adds an application to the database.
+*/
 
+public class ApplicationAdd {
+    
     /**
-     * Method: add Inputs: int Consumer_ID, String
-     * Consumer_Username, String DOB, int SSN Returns: void
-     * 
-     * Description: Adds a consumer to the database.
-     * 
-     * @throws IOException
-     */
+    Method: add 
+    Inputs: int House_ID, int Consumer_ID, String Consumer_Username, int Realtor_ID, String Realtor_Username, String Status
+    Returns: void
 
-    public void add(int Consumer_ID, String Consumer_Username, String DOB, int SSN) throws IOException {
+    Description: Adds an application to the database.
+  */
+
+    public void add(int House_ID, int Consumer_ID, String Consumer_Username, int Realtor_ID, String Realtor_Username, String Status
+            ) throws IOException {
 
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -43,14 +43,15 @@ public class ConsumerAdd {
 
             connect.setAutoCommit(false);
 
-            String query = "INSERT INTO CONSUMER VALUES (?,?,?,?)";
+            String query = "INSERT INTO APPLICATION VALUES (?,?,?,?,?,?)";
 
             stmt = connect.prepareStatement(query);
-            stmt.setInt(1, Consumer_ID);
-            stmt.setString(2, Consumer_Username);
-            stmt.setString(3, DOB);
-            stmt.setInt(4, SSN);
-            System.out.println(query);
+            stmt.setInt(1, House_ID);
+            stmt.setInt(2, Consumer_ID);
+            stmt.setString(3, Consumer_Username);
+            stmt.setInt(4, Realtor_ID);
+            stmt.setString(5, Realtor_Username);
+            stmt.setString(6, Status);
             stmt.executeUpdate();
 
             connect.commit();
@@ -77,4 +78,5 @@ public class ConsumerAdd {
 
         }
     }
+
 }
