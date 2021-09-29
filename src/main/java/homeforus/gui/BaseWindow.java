@@ -13,7 +13,9 @@ public class BaseWindow extends JFrame {
 
     private BaseWindow baseWindow;
     private JLayeredPane layers;
+    private Content content;
     private Header header;
+    private SearchInput searchInput;
     private int winHeight = 700;
     private int winWidth = 1000;
 
@@ -49,7 +51,10 @@ public class BaseWindow extends JFrame {
         header = new Header(baseWindow);
         basePanel.add(header);
 
-        basePanel.add(new Content(baseWindow));
+        content = new Content(baseWindow);
+        searchInput = new SearchInput();
+        content.sI = searchInput;
+        basePanel.add(content);
 
         baseWindow.pack();
         setLocationRelativeTo(null);
@@ -116,6 +121,12 @@ public class BaseWindow extends JFrame {
                 }
             }, AWTEvent.MOUSE_EVENT_MASK);
         }
+    }
+
+    public void setSearchInput(SearchInput searchInput) {
+        this.searchInput = searchInput;
+        content.sI = this.searchInput;
+        content.changeContent();
     }
 }
 
