@@ -18,6 +18,7 @@ Description: Sets up a connection to the database.
 */
 public class DBConnect {
     
+
     /**
     Method: connect
     Inputs: String url, String user, String password, String driver, String database
@@ -25,6 +26,7 @@ public class DBConnect {
 
     Description: Sets up a connection to the database.
   */
+
     public static Connection connect(String url, String user, String password, String driver) {
 
         Connection conn = null;
