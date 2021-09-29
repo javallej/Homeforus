@@ -39,7 +39,39 @@ public class UIConsumerMenu {
         }
     }
 
-    public void consumersearch() {
+    public void consumersearch() throws SQLException {
+        
+
+        
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        String answer = "";
+
+        try {
+            while (true) {
+                System.out.println("1: Search a house on Price.");
+                System.out.println("2: Search a house on BedRooms");
+                System.out.println("Type Quit: Exit");
+                answer = read.readLine();
+
+                if (answer.equals("1")) {
+
+                    HouseSearch search = new HouseSearch();
+                    search.PriceSearch();
+                    
+                } else if (answer.equals("2")) {
+
+                    
+                } else if (answer.equals("Quit")) {
+                    return;
+                } else {
+                    System.out.println("Please chose correct option.");
+                }
+            
+
+            }} catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 

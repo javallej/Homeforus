@@ -11,6 +11,8 @@ import main.java.homeforus.core.ApplicationDelete;
 import main.java.homeforus.core.ApplicationEdit;
 import main.java.homeforus.core.ApplicationList;
 import main.java.homeforus.core.ApplicationListObject;
+import main.java.homeforus.core.HouseDelete;
+import main.java.homeforus.core.HouseEdit;
 
 public class UIRealtorMenu {
 
@@ -25,6 +27,8 @@ public class UIRealtorMenu {
                 System.out.println("Type 1: View Applications");
                 System.out.println("Type 2: Approve Applications");
                 System.out.println("Type 3: Delete Applications");
+                System.out.println("Type 4: Delete House");
+                System.out.println("Type 5: Edit House");
                 System.out.println("Type Quit: Exit");
                 answer = read.readLine();
 
@@ -34,7 +38,12 @@ public class UIRealtorMenu {
                     realtorapproveapplication();
                 } else if (answer.equals("3")) {
                     realtordeleteapplication();
-                } else if (answer.equals("Quit")) {
+                } else if (answer.equals("4")) {
+                    realtordeletehouse();
+                } else if (answer.equals("5")) {
+                    realtoredithouse();
+                } 
+                else if (answer.equals("Quit")) {
                     return;
                 } else {
                     System.out.println("Please chose correct option.");
@@ -130,5 +139,37 @@ public class UIRealtorMenu {
         
         appDelete.delete(ihouse_id, iconsumer_id, irealtor_id);
 
+    }
+    
+    public void realtoredithouse() throws IOException {
+        
+        HouseEdit houseEdit = new HouseEdit();
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        String house_id = "";
+        String price = "";
+        int ihouse_id;
+        int cost;
+        System.out.println("Enter the House_Id to Edit.");
+        house_id = read.readLine();
+        ihouse_id = Integer.parseInt(house_id);
+        System.out.println("Update the Price.");
+        price = read.readLine();
+        cost = Integer.parseInt(price);
+        houseEdit.editCost(cost, ihouse_id);
+
+            
+    }
+    
+    public void realtordeletehouse() throws IOException {
+        
+        HouseDelete houseDelete = new HouseDelete();
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        String house_id = "";
+        int ihouse_id;
+        System.out.println("Enter the House_Id to delete.");
+        house_id = read.readLine();
+        ihouse_id = Integer.parseInt(house_id);
+        
+        houseDelete.delete(ihouse_id);
     }
 }
