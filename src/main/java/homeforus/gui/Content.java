@@ -2,7 +2,11 @@ package main.java.homeforus.gui;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+
+import main.java.homeforus.core.HouseListObject;
+
 import java.awt.*;
+import java.util.List;
 
 public class Content extends JPanel {
 
@@ -21,5 +25,9 @@ public class Content extends JPanel {
 
     public void changeContent() {
         tA.setText(sI.toString());
+    }
+    
+    public void change(String house) {
+        tA.setText(house);
     }
 }

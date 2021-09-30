@@ -149,7 +149,7 @@ public class SearchBar extends JPanel {
 
                 searchInput = new SearchInput(houseNo, street, city, state, zipNo, priceMin, priceMax,
                                                  beds, baths, sqMin, sqMax, floors, yrMin, yrMax, dMin, dMax);
-                window.setSearchInput(searchInput);
+                
                 HouseList house = new HouseList();
                 List<HouseListObject> housecostmax = new ArrayList<>();
 
@@ -163,58 +163,79 @@ public class SearchBar extends JPanel {
                     e1.printStackTrace();
                 }
                 
+                String results = "";
                 System.out.println("Houses are: ");
                 for(int i=0; i< housecostmax.size(); i++) {
                    
+                   //window.setSearchInput(searchInput);
+                    
+                   
+                    
                    System.out.print("HouseID: ");
                    System.out.println(housecostmax.get(i).getHouseID());
+                   results += " " + housecostmax.get(i).getHouseID();
                    
                    System.out.print("RealtorID: ");
                    System.out.println(housecostmax.get(i).getRealtorID());
+                   results += " " + housecostmax.get(i).getRealtorID();
                    
                    System.out.print("Realtor Username: ");
                    System.out.println(housecostmax.get(i).getRealtorUsername());
+                   results += " " + housecostmax.get(i).getRealtorUsername();
                    
                    System.out.print("State: ");
                    System.out.println(housecostmax.get(i).getState());
+                   results += " " + housecostmax.get(i).getState();
                    
                    System.out.print("City: ");
                    System.out.println(housecostmax.get(i).getCity());
+                   results += " " + housecostmax.get(i).getCity();
                    
                    System.out.print("Zip: ");
                    System.out.println(housecostmax.get(i).getZip());
+                   results += " " + housecostmax.get(i).getZip();
                    
                    System.out.print("Street: ");
                    System.out.println(housecostmax.get(i).getStreet());
+                   results += " " + housecostmax.get(i).getStreet();
                    
                    System.out.print("House Number: ");
                    System.out.println(housecostmax.get(i).getHouseNumber());
+                   results += " " + housecostmax.get(i).getHouseNumber();
                    
                    System.out.print("Cost: ");
                    System.out.println(housecostmax.get(i).getCost());
+                   results += " " + housecostmax.get(i).getCost();
                    
                    System.out.print("Year: ");
                    System.out.println(housecostmax.get(i).getYear());
+                   results += " " + housecostmax.get(i).getYear();
                    
                    System.out.print("Number of Floors: ");
                    System.out.println(housecostmax.get(i).getNumFloors());
+                   results += " " + housecostmax.get(i).getNumFloors();
                    
                    System.out.print("Number of Beds: ");
                    System.out.println(housecostmax.get(i).getNumBed());
+                   results += " " + housecostmax.get(i).getNumBed();
                    
                    System.out.print("Number of Baths: ");
                    System.out.println(housecostmax.get(i).getNumBath());
+                   results += " " + housecostmax.get(i).getNumBath();
                    
                    System.out.print("Square Feet: ");
                    System.out.println(housecostmax.get(i).getSqrFeet());
+                   results += " " + housecostmax.get(i).getSqrFeet();
                    
                    System.out.print("Days Listed: ");
                    System.out.println(housecostmax.get(i).getDaysListed());
+                   results += " " + housecostmax.get(i).getDaysListed();
                    
                    System.out.println("---------------------------------------");
+                   results += "\n";
                 
                 }
-                
+                window.setHouse(results);
             }
         });
     }

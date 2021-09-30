@@ -2,10 +2,14 @@ package main.java.homeforus.gui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import main.java.homeforus.core.HouseListObject;
+
 import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 // This class houses the main window that the GUI elements will be added to
@@ -127,6 +131,10 @@ public class BaseWindow extends JFrame {
         this.searchInput = searchInput;
         content.sI = this.searchInput;
         content.changeContent();
+    }
+    
+    public void setHouse(String house) {
+        content.change(house);
     }
 }
 
