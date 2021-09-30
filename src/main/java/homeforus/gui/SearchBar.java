@@ -2,10 +2,18 @@ package main.java.homeforus.gui;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+
+import main.java.homeforus.connect.SearchBarConnect;
+import main.java.homeforus.core.HouseList;
+import main.java.homeforus.core.HouseListObject;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchBar extends JPanel {
 
@@ -142,6 +150,71 @@ public class SearchBar extends JPanel {
                 searchInput = new SearchInput(houseNo, street, city, state, zipNo, priceMin, priceMax,
                                                  beds, baths, sqMin, sqMax, floors, yrMin, yrMax, dMin, dMax);
                 window.setSearchInput(searchInput);
+                HouseList house = new HouseList();
+                List<HouseListObject> housecostmax = new ArrayList<>();
+
+                try {
+                    housecostmax = house.ListPriceMax(searchInput.getPriceMax());
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                
+                System.out.println("Houses are: ");
+                for(int i=0; i< housecostmax.size(); i++) {
+                   
+                   System.out.print("HouseID: ");
+                   System.out.println(housecostmax.get(i).getHouseID());
+                   
+                   System.out.print("RealtorID: ");
+                   System.out.println(housecostmax.get(i).getRealtorID());
+                   
+                   System.out.print("Realtor Username: ");
+                   System.out.println(housecostmax.get(i).getRealtorUsername());
+                   
+                   System.out.print("State: ");
+                   System.out.println(housecostmax.get(i).getState());
+                   
+                   System.out.print("City: ");
+                   System.out.println(housecostmax.get(i).getCity());
+                   
+                   System.out.print("Zip: ");
+                   System.out.println(housecostmax.get(i).getZip());
+                   
+                   System.out.print("Street: ");
+                   System.out.println(housecostmax.get(i).getStreet());
+                   
+                   System.out.print("House Number: ");
+                   System.out.println(housecostmax.get(i).getHouseNumber());
+                   
+                   System.out.print("Cost: ");
+                   System.out.println(housecostmax.get(i).getCost());
+                   
+                   System.out.print("Year: ");
+                   System.out.println(housecostmax.get(i).getYear());
+                   
+                   System.out.print("Number of Floors: ");
+                   System.out.println(housecostmax.get(i).getNumFloors());
+                   
+                   System.out.print("Number of Beds: ");
+                   System.out.println(housecostmax.get(i).getNumBed());
+                   
+                   System.out.print("Number of Baths: ");
+                   System.out.println(housecostmax.get(i).getNumBath());
+                   
+                   System.out.print("Square Feet: ");
+                   System.out.println(housecostmax.get(i).getSqrFeet());
+                   
+                   System.out.print("Days Listed: ");
+                   System.out.println(housecostmax.get(i).getDaysListed());
+                   
+                   System.out.println("---------------------------------------");
+                
+                }
+                
             }
         });
     }
@@ -170,6 +243,7 @@ public class SearchBar extends JPanel {
                     Point panelPos = new Point((int) (thisButton.getBounds().getMaxX() - horOffsetPanelPos), (int) thisButton.getLocation().getY() + vertOffsetPanelPos);
                     thisButton.setBackground(new BrandGreen().color);
                     thisButton.setForeground(new BrandGreen().color);
+
                     if (currentlyOpen == null) {
                         searchPopup.setVisible(true);
                         searchPopup.setBounds(0, 0, searchPopup.width, searchPopup.height);

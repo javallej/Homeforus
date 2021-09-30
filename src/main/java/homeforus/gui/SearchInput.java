@@ -21,6 +21,10 @@ public class SearchInput {
 
     public SearchInput() {
     }
+    
+    public SearchInput(int priceMax) {
+        this.setPriceMin(priceMin);
+    }
 
     public SearchInput(int houseNum, String street, String city, String state, int zip,
                        int priceMin, int priceMax, int beds, int baths, int sqftMin, int sqftMax,
