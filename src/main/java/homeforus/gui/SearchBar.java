@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -141,8 +143,20 @@ public class SearchBar extends JPanel {
 
                 searchInput = new SearchInput(houseNo, street, city, state, zipNo, priceMin, priceMax,
                                                  beds, baths, sqMin, sqMax, floors, yrMin, yrMax, dMin, dMax);
-                window.setSearchInput(searchInput);
+                
+  
+                SearchConnector con = new SearchConnector();
+
+                try {
+                    window.setHouse(con.connector(searchInput));
+                } catch (SQLException | IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                
+
             }
+            
         });
     }
 

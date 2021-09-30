@@ -128,5 +128,9 @@ public class BaseWindow extends JFrame {
         content.sI = this.searchInput;
         content.changeContent();
     }
+    
+    public void setHouse(String house) {
+        content.change(house);
+    }
 }
 

@@ -22,4 +22,8 @@ public class Content extends JPanel {
     public void changeContent() {
         tA.setText(sI.toString());
     }
+    
+    public void change(String house) {
+        tA.setText(house);
+    }
 }
