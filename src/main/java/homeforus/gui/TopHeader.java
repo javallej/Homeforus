@@ -28,22 +28,7 @@ public class TopHeader extends JPanel {
     private SignInWindow signInWindow;
 
     public TopHeader(Dimension headerSize) {
-        this.headerHeight = (int)headerSize.getSize().getHeight();
-        topHeaderHeight = (int) (headerSize.getSize().getHeight() * logoPercentSize);
-        topHeaderDim = new Dimension((int)headerSize.getSize().getWidth(), topHeaderHeight);
-        setPreferredSize(topHeaderDim);
-
-        this.setLayout(new BorderLayout());
-
-        manage = new ManageApplicationPanel();
-        manageBox = new TopPanels();
-        manageBox.add(manage);
-        LogoImagePanel logo = new LogoImagePanel();
-        signInPanel = new SignInPanel();
-
-        add(manageBox, BorderLayout.LINE_START);
-        add(logo, BorderLayout.CENTER);
-        add(signInPanel, BorderLayout.LINE_END);
+            buildTopHeader(headerSize);
     }
 
     public void LoggedInConsumer(boolean state) {
@@ -160,7 +145,31 @@ public class TopHeader extends JPanel {
                     }
                 }
             });
+            btn.setBackground(new BrandGreen().color);
+            btn.setForeground(Color.white);
+            btn.setBorderPainted(false);
             return btn;
         }
+    }
+
+    // This class is called in the constructor to build the elements that are contained within
+    // the Top Header.
+    private void buildTopHeader(Dimension headerSize) {
+        this.headerHeight = (int)headerSize.getSize().getHeight();
+        topHeaderHeight = (int) (headerSize.getSize().getHeight() * logoPercentSize);
+        topHeaderDim = new Dimension((int)headerSize.getSize().getWidth(), topHeaderHeight);
+        setPreferredSize(topHeaderDim);
+
+        this.setLayout(new BorderLayout());
+
+        manage = new ManageApplicationPanel();
+        manageBox = new TopPanels();
+        manageBox.add(manage);
+        LogoImagePanel logo = new LogoImagePanel();
+        signInPanel = new SignInPanel();
+
+        add(manageBox, BorderLayout.LINE_START);
+        add(logo, BorderLayout.CENTER);
+        add(signInPanel, BorderLayout.LINE_END);
     }
 }
