@@ -1,23 +1,25 @@
 package main.java.homeforus.gui;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class SearchBar extends JPanel {
 
     private static BaseWindow window;
     private Dimension searchBarSize;
     private TopHeader topHeader;
+    private SearchTextBoxes searchTextBoxes;
     private SearchButton price;
     private SearchButton bedsBaths;
     private SearchPopup pricePopUp;
     private SearchButton more;
     private SearchPopup bedsAndBathsPopUp;
     private SearchPopup moreOptionsPopUp;
+    private SearchInput searchInput;
     private JButton beginSearch;
     public static SearchPopup currentlyOpen;
     private double searchPercentSize = 0.30;
@@ -36,12 +38,13 @@ public class SearchBar extends JPanel {
         bar.setLayout(new FlowLayout());
         bar.setPreferredSize(new Dimension((int)(searchBarSize.getWidth()/5)*4,(int)searchBarSize.getHeight()));
         add(bar);
-        SearchTextBoxes searchTextBoxes = new SearchTextBoxes(bar);
+        searchTextBoxes = new SearchTextBoxes(bar);
         beginSearch = new JButton("Search");
         beginSearch.setBackground(new BrandGreen().color);
         beginSearch.setForeground(Color.white);
         beginSearch.setBorderPainted(false);
         bar.add(beginSearch);
+        applySearchTerms();
 
         pricePopUp = new PricePopUp();
         price = new SearchButton("Price", pricePopUp);
@@ -53,8 +56,94 @@ public class SearchBar extends JPanel {
 
         moreOptionsPopUp = new MoreOptionsPopUp();
         more = new SearchButton("More", moreOptionsPopUp);
-        more.horOffsetPanelPos = 300;
+        more.horOffsetPanelPos = 200;
         bar.add(more);
+    }
+
+    public Object oNotNull(Object o) {
+        if (o != null) {
+            return o;
+        }
+        return "";
+    }
+
+    public static int toNum(String n) {
+        int num;
+        try {
+            num = Integer.parseInt(n);
+        } catch (NumberFormatException nfe) {
+            return -1;
+        }
+        return num;
+    }
+
+    private void applySearchTerms() {
+        beginSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int houseNo = -1;
+                String houseNum = "";
+                String street = "";
+                String city = "";
+                String state = "";
+                String zip = "";
+
+                houseNum = oNotNull(searchTextBoxes.address.content).toString();
+                houseNum = houseNum.split(" ")[0];
+                houseNo = toNum(houseNum);
+                street = oNotNull(searchTextBoxes.address.content).toString();
+                if (street.length() > 1) {
+                    if (houseNo != -1) {
+                        street = street.substring(houseNum.length() + 1, street.length()).trim();
+                    }
+                }
+                city = oNotNull(searchTextBoxes.city.content).toString();
+                city = city.trim();
+                state = oNotNull(searchTextBoxes.state.content).toString();
+                state = state.trim();
+                zip = oNotNull(searchTextBoxes.zip.content).toString();
+                zip = zip.trim();
+
+                int zipNo = -1;
+                PricePopUp pricePop = (PricePopUp) pricePopUp;
+                int priceMin = -1;
+                int priceMax = -1;
+                BedsAndBathsPopUp bedPop = (BedsAndBathsPopUp) bedsAndBathsPopUp;
+                int beds = bedPop.beds.getSelectedIndex();
+                int baths = bedPop.baths.getSelectedIndex();
+                MoreOptionsPopUp morePop = (MoreOptionsPopUp) moreOptionsPopUp;
+                int sqMin = -1;
+                int sqMax = -1;
+                int floors = morePop.floors.getSelectedIndex();
+                int yrMin = -1;
+                int yrMax = -1;
+                int dMin = -1;
+                int dMax = -1;
+
+                zipNo = toNum(oNotNull(zip).toString());
+                JTextField t = (JTextField) oNotNull(pricePop.min.textField);
+                priceMin = toNum(t.getText().trim());
+                t = (JTextField) oNotNull(pricePop.max.textField);
+                priceMax = toNum(t.getText().trim());
+                t = (JTextField) oNotNull(morePop.minSqFt.textField);
+                sqMin = toNum(t.getText().trim());
+                t = (JTextField) oNotNull(morePop.maxSqFt.textField);
+                sqMax = toNum(t.getText().trim());
+                t = (JTextField) oNotNull(morePop.yrMin.textField);
+                yrMin = toNum(t.getText().trim());
+                t = (JTextField) oNotNull(morePop.yrMax.textField);
+                yrMax = toNum(t.getText().trim());
+                t = (JTextField) oNotNull(morePop.daysMin.textField);
+                dMin = toNum(t.getText().trim());
+                t = (JTextField) oNotNull(morePop.daysMax.textField);
+                dMax = toNum(t.getText().trim());
+
+
+                searchInput = new SearchInput(houseNo, street, city, state, zipNo, priceMin, priceMax,
+                                                 beds, baths, sqMin, sqMax, floors, yrMin, yrMax, dMin, dMax);
+                window.setSearchInput(searchInput);
+            }
+        });
     }
 
     public class SearchButton extends JButton {
@@ -141,98 +230,123 @@ public class SearchBar extends JPanel {
         public SearchInputField yrMax;
         public SearchInputField daysMin;
         public SearchInputField daysMax;
+        ArrayList<SearchInputField> fields;
 
         public MoreOptionsPopUp() {
             width = 300;
-            height = 200;
+            height = 260;
             inner.add(buildGrid());
-
-            addComponentListener(cA());
-
+            fields = fields();
+            addComponentListener(whenPopUpCloses());
         }
 
-
+        private ArrayList<SearchInputField> fields() {
+            ArrayList<SearchInputField> f = new ArrayList<>();
+            f.add(minSqFt);
+            f.add(maxSqFt);
+            f.add(yrMin);
+            f.add(yrMax);
+            f.add(daysMin);
+            f.add(daysMax);
+            return f;
+        }
 
         private JPanel buildGrid() {
             JPanel grid = new JPanel();
             SpringLayout layout = new SpringLayout();
             grid.setLayout(layout);
-            grid.setPreferredSize(new Dimension(280,180));
+            grid.setPreferredSize(new Dimension(280,240));
 
             JPanel sqFtL = labelHolder("Sq Ft");
             grid.add(sqFtL);
             MinMaxBoxes mmbSqFt = new MinMaxBoxes();
+            int boxHeights = (int)mmbSqFt.getMaximumSize().getHeight();
+            int halfOfBoxes = (int)mmbSqFt.getMaximumSize().getWidth()/2 - 42;
+            int north = 15;
             minSqFt = mmbSqFt.min;
             maxSqFt = mmbSqFt.max;
             grid.add(mmbSqFt);
-            layout.putConstraint(SpringLayout.EAST, mmbSqFt,
-                    5,
-                    SpringLayout.EAST, grid);
-            layout.putConstraint(SpringLayout.NORTH, mmbSqFt,
-                    5,
-                    SpringLayout.NORTH, grid);
-
-            layout.putConstraint(SpringLayout.NORTH, sqFtL,
-                    5,
-                    SpringLayout.NORTH, grid);
+            setConstraints(layout, grid, sqFtL, mmbSqFt, 5, 5, north);
 
             JPanel fL = labelHolder("Floors");
             grid.add(fL);
             floors = newBox();
-//            grid.add(floors);
+            JPanel boxHolder = new JPanel();
+            boxHolder.add(floors);
+            grid.add(boxHolder);
+            setConstraints(layout, grid, fL, boxHolder, -halfOfBoxes, boxHeights, boxHeights);
 
+            JPanel yrHolder= labelHolder("Year Built");
+            grid.add(yrHolder);
+            MinMaxBoxes mmbYr = new MinMaxBoxes();
+            boxHeights += mmbYr.getMaximumSize().getHeight() - + north - 20;
+            yrMin = mmbYr.min;
+            yrMax = mmbYr.max;
+            grid.add(mmbYr);
+            setConstraints(layout, grid, yrHolder, mmbYr, 5, boxHeights, boxHeights);
 
-//            layout.putConstraint(SpringLayout.EAST, floors,
-//                    5,
-//                    SpringLayout.EAST, grid);
-//            layout.putConstraint(SpringLayout.NORTH, floors,
-//                    5,
-//                    SpringLayout.NORTH, mmbSqFt);
-            layout.putConstraint(SpringLayout.NORTH, fL,
-                    5,
-                    SpringLayout.NORTH, mmbSqFt);
-//
-//            grid.add(labelHolder("Year Built"));
-//            MinMaxBoxes mmbYr = new MinMaxBoxes();
-//            yrMin = mmbYr.min;
-//            yrMax = mmbYr.max;
-//            grid.add(mmbYr);
-//
-//            grid.add(labelHolder("Days Listed"));
-//            MinMaxBoxes mmbDays = new MinMaxBoxes();
-//            daysMin = mmbDays.min;
-//            daysMax = mmbDays.max;
-//            grid.add(mmbDays);
+            JPanel daysHolder = labelHolder("Days Listed");
+            grid.add(daysHolder);
+            MinMaxBoxes mmbDays = new MinMaxBoxes();
+            boxHeights += mmbDays.getMaximumSize().getHeight();
+            daysMin = mmbDays.min;
+            daysMax = mmbDays.max;
+            grid.add(mmbDays);
+            setConstraints(layout, grid, daysHolder, mmbDays, 5, boxHeights, boxHeights);
 
             return grid;
         }
 
+        private ComponentAdapter whenPopUpCloses() {
+            ComponentAdapter cA = new ComponentAdapter() {
+                @Override
+                public void componentHidden(ComponentEvent e) {
+                    super.componentHidden(e);
+                    int changed = 0;
+                    for (SearchInputField s:fields) {
+                        if (!s.textField.getText().isEmpty()) {
+                            changed++;
+                        }
+                    }
+                    if (floors.getSelectedIndex() != 0) {
+                        changed++;
+                    }
+                    if (changed != 0) {
+                        more.setText("More: " + changed);
+                        SearchBar.setBtnActive(more, true);
+                    } else {
+                        more.setText("More");
+                        SearchBar.setBtnActive(more, false);
+                    }
+                }
+            };
+            return cA;
+        }
+
+        private void setConstraints(SpringLayout layout, JPanel grid, JPanel left, JPanel right, int i1, int i2, int i3) {
+            layout.putConstraint(SpringLayout.EAST, right,
+                    i1,
+                    SpringLayout.EAST, grid);
+            layout.putConstraint(SpringLayout.NORTH, right,
+                    i2,
+                    SpringLayout.NORTH, grid);
+            layout.putConstraint(SpringLayout.NORTH, left,
+                    i3,
+                    SpringLayout.NORTH, grid);
+        }
+
         private JPanel labelHolder(String text) {
             JPanel h = new JPanel();
-            h.setPreferredSize(new Dimension(75,50));
-//            h.setLayout(new FlowLayout(FlowLayout.LEFT));
+            h.setPreferredSize(new Dimension(70,40));
             h.setLayout(new BoxLayout(h, BoxLayout.PAGE_AXIS));
             h.add(Box.createVerticalGlue());
             JLabel l = new JLabel(text);
             h.add(l);
-//            l.setHorizontalAlignment(SwingConstants.LEFT);
             h.add(Box.createVerticalGlue());
-
-//            h.setBorder(debugBorder());
-
-
             return h;
         }
 
-        public ComponentAdapter cA() {
-            ComponentAdapter c = new ComponentAdapter() {
-                @Override
-                public void componentHidden(ComponentEvent e) {
-                    super.componentHidden(e);
-                }
-            };
-            return c;
-        }
+
     }
 
     public JComboBox<Object> newBox() {
@@ -324,6 +438,7 @@ public class SearchBar extends JPanel {
             dashHolder.add(new JLabel(" "));
             add(dashHolder);
             add(max);
+
         }
     }
 
@@ -331,6 +446,7 @@ public class SearchBar extends JPanel {
 
         public SearchInputField min;
         public SearchInputField max;
+        public String helloooooo;
 
         public PricePopUp() {
             width = 240;
@@ -464,20 +580,20 @@ public class SearchBar extends JPanel {
 
         public SearchTextBoxes(JPanel bar) {
             int height = 27;
-            address = new SearchTextBox("Address", 50);
+            address = new SearchTextBox(" Address", 50);
             address.setPreferredSize(new Dimension(150,height));
             bar.add(address);
 
-            city = new SearchTextBox("City", 30);
+            city = new SearchTextBox(" City", 30);
             city.setPreferredSize(new Dimension(100,height));
             bar.add(city);
 
-            state = new SearchTextBox("State", 2);
+            state = new SearchTextBox(" State", 2);
             state.setPreferredSize(new Dimension(50,height));
             bar.add(state);
 
 
-            zip = new SearchTextBox("Zip", 5);
+            zip = new SearchTextBox(" Zip", 5);
             zip.setPreferredSize(new Dimension(70,height));
             bar.add(zip);
         }
@@ -486,6 +602,7 @@ public class SearchBar extends JPanel {
 
     public static class SearchTextBox extends JTextField {
 
+        public String content;
         public String dummyText;
         private int limit;
 
@@ -513,6 +630,7 @@ public class SearchBar extends JPanel {
                         setBorder(new MatteBorder(1,1,1,1,Color.GRAY));
                     } else {
                         setBorder(new MatteBorder(1,1,1,1,new BrandGreen().color));
+                        content = getText();
                     }
                 }
             });
@@ -538,46 +656,6 @@ public class SearchBar extends JPanel {
                 }
             }
         };
-    }
-
-    public static class SearchInput {
-        public int houseNum;
-        public String street;
-        public String city;
-        public String state;
-        public int zip;
-        public int priceMin;
-        public int priceMax;
-        public int beds;
-        public int baths;
-        public int sqftMin;
-        public int sqftMax;
-        public int floors;
-        public int yearBuiltMin;
-        public int yearBuiltMax;
-        public int daysListedMin;
-        public int daysListedMax;
-
-        public SearchInput(int houseNum, String street, String city, String state, int zip,
-                           int priceMin, int priceMax, int beds, int baths, int sqftMin, int sqftMax,
-                           int floors, int yearBuiltMin, int yearBuiltMax, int daysListedMin, int daysListedMax) {
-            this.houseNum = houseNum;
-            this.street = street;
-            this.city = city;
-            this.state = state;
-            this.zip = zip;
-            this.priceMin = priceMin;
-            this.priceMax = priceMax;
-            this.beds = beds;
-            this.baths = baths;
-            this.sqftMin = sqftMin;
-            this.sqftMax = sqftMax;
-            this.floors = floors;
-            this.yearBuiltMin = yearBuiltMin;
-            this.yearBuiltMax = yearBuiltMax;
-            this.daysListedMin = daysListedMin;
-            this.daysListedMax = daysListedMax;
-        }
     }
 
     public static MatteBorder debugBorder() {
