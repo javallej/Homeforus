@@ -1,9 +1,15 @@
 package main.java.homeforus.gui;
 
 import javax.swing.*;
+
+import main.java.homeforus.core.Login;
+import main.java.homeforus.ui.UIConsumerMenu;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.HashMap;
 
 public class SignInWindow extends JFrame {
 
@@ -29,8 +35,30 @@ public class SignInWindow extends JFrame {
         JButton signInSubmit = new JButton("Sign In");
         signInSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(username.getText() + " and " + password.getText());
-                changeHeaderState(username.getText());
+                HashMap<String, String> Userchecklogin = new HashMap<String, String>();
+                HashMap<String, String> DatabasecheckloginUser = new HashMap<String, String>();
+                HashMap<String, String> DatabasecheckloginRealtor = new HashMap<String, String>();
+                Login check = new Login();
+                Userchecklogin.put("username", username.getText());
+                Userchecklogin.put("password", password.getText());
+                try {
+                    DatabasecheckloginUser = check.logincheck(username.getText());
+                    DatabasecheckloginRealtor = check.logincheckRealtor(username.getText());
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                
+                if(DatabasecheckloginUser.equals(Userchecklogin)) {
+                    System.out.println(username.getText() + " and " + password.getText());
+                    changeHeaderState("consumer");
+                }
+                else if(DatabasecheckloginRealtor.equals(Userchecklogin)) {
+                    System.out.println(username.getText() + " and " + password.getText());
+                    changeHeaderState("realtor");
+                }
+
+
                 username.setText("");
                 password.setText("");
                 caller.hideSignIn();
