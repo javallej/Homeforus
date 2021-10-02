@@ -28,6 +28,10 @@ public class NewUserInput {
                 ", SSN=" + SSN +
                 '}';
     }
+    
+    public NewUserInput() {
+        
+    }
 
     public NewUserInput(String username, String firstName, String lastName, String password,
                         String email, String phone, boolean isRealtor, String businessName, String DOB, int SSN) {

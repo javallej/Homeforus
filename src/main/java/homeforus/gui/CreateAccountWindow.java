@@ -76,8 +76,8 @@ public class CreateAccountWindow extends JFrame {
                 newUserInput = new NewUserInput(usernameS, firstNameS, lastNameS, passwordS, emailS,
                                                              phoneS, false, businessNameS, DOBS, ssn);
 
-
-                // Add calls to Create Account here
+                Connect con = new Connect();
+                con.glue(newUserInput);
             }
         });
         JPanel btnHolder = new JPanel();
