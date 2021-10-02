@@ -14,7 +14,6 @@ public class ContentPanel extends JPanel {
         add(detailPanel);
 
         detailPanel.setBorder(debugBorder());
-
     }
 
     public static MatteBorder debugBorder() {
