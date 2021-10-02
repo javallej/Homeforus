@@ -42,6 +42,11 @@ public class Main {
             GUIStart guistart = new GUIStart();
             guistart.start();
         }
-
+        else {
+            System.out.println("Syntax is:");
+            System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar gui");
+            System.out.println("or");
+            System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar console");
+        }
     }
 }
