@@ -8,6 +8,7 @@ public class DetailPanel extends JPanel {
 
     private JLabel topRow;
     private JLabel secondRow;
+    private String address;
     private JLabel lastRow;
 
     public DetailPanel() {
@@ -16,6 +17,8 @@ public class DetailPanel extends JPanel {
         add(new JLabel("test"));
 
         setBorder(debugBorder());
+
+
 
     }
 
