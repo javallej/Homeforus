@@ -21,8 +21,6 @@ public class SignInWindow extends JFrame {
         add(buildSignIn());
         setTitle("Sign In");
         setResizable(false);
-
-
         pack();
         setLocationRelativeTo(null);
     }
@@ -36,7 +34,10 @@ public class SignInWindow extends JFrame {
         signInSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println(username.getTextField().getText() + " and " + password.getTextField().getText());
-                changeHeaderState(username.getTextField().getText());
+//                changeHeaderState(username.getTextField().getText());
+
+                window.getQueryConnector().logInUser(username.getTextField().getText(), password.getTextField().getText());
+
                 username.getTextField().setText("");
                 password.getTextField().setText("");
                 caller.hideSignIn();

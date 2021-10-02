@@ -7,16 +7,24 @@ import java.sql.SQLException;
 
 public class QueryConnector {
 
-    HouseList houseListDB;
-    UserAdd userAddDB;
-    ConsumerAdd consumerAddDB;
-    RealtorAdd realtorAddDB;
+    private CurrentlyLoggedInUser currentlyLoggedInUser;
+    private UserAdd userAddDB;
+    private ConsumerAdd consumerAddDB;
+    private RealtorAdd realtorAddDB;
 
     public QueryConnector() {
-        houseListDB = new HouseList();
         userAddDB = new UserAdd();
         consumerAddDB = new ConsumerAdd();
         realtorAddDB = new RealtorAdd();
+    }
+
+    public void logInUser(String username, String password) {
+
+        //See if username and password is valid in the DB
+
+        //Create CurrentlyLoggedInUser class
+
+
     }
 
     public void addUserToDB(NewUserInput newUserInput) throws IOException, SQLException {
@@ -53,15 +61,6 @@ public class QueryConnector {
         }
     }
 
-
-    public HouseList getHouseListDB() {
-        return houseListDB;
-    }
-
-    public void setHouseListDB(HouseList houseListDB) {
-        this.houseListDB = houseListDB;
-    }
-
     public UserAdd getUserAddDB() {
         return userAddDB;
     }
@@ -70,4 +69,11 @@ public class QueryConnector {
         this.userAddDB = userAddDB;
     }
 
+    public CurrentlyLoggedInUser getCurrentlyLoggedInUser() {
+        return currentlyLoggedInUser;
+    }
+
+    public void setCurrentlyLoggedInUser(CurrentlyLoggedInUser currentlyLoggedInUser) {
+        this.currentlyLoggedInUser = currentlyLoggedInUser;
+    }
 }
