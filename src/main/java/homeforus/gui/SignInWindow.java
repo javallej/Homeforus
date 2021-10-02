@@ -68,6 +68,17 @@ public class SignInWindow extends JFrame {
         btnHolder.add(signInSubmit);
         windowContainer.add(btnHolder);
 
+        JButton createAccount = new JButton("Create New Account");
+        CreateAccountWindow createAccountWindow = new CreateAccountWindow(caller);
+        windowContainer.add(createAccount);
+        createAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                caller.setCreateAccountWindow(createAccountWindow);
+                createAccountWindow.setVisible(true);
+            }
+        });
+
         return windowContainer;
     }
 
