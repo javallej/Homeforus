@@ -31,11 +31,7 @@ public class Main {
      */
 
     public static void main(String[] args) throws SQLException, IOException {
-        
-        String propPath = System.getProperty("config");
-        
-        System.out.println(propPath);
-   
+
         if (args[0].equals("console"))
         {
             UIstart uiuser = new UIstart();
