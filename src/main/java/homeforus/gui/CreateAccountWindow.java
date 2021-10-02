@@ -136,9 +136,10 @@ public class CreateAccountWindow extends JFrame {
                     }
                 }
 
-                // SSN = xxx-xx-xxxx 9 digits
-                // DOB = xx-xx-xxxx 8 digits
-                // phone = xxx-xxx-xxxx 10 digits
+                // Write verify existing username here
+                // pass usernameS to verify function
+                // if username exists in DB, set formComplete to false
+
 
                 if (formComplete) {
                     phoneS = phoneS.substring(0, 9);
