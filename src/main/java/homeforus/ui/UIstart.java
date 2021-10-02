@@ -18,6 +18,7 @@ public class UIstart {
     public void console() throws SQLException {
         
         UIcreateUser create = new UIcreateUser();
+        UIimage image = new UIimage();
         UIlogin login = new UIlogin();
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String answer = "";
@@ -27,6 +28,7 @@ public class UIstart {
             {
                 System.out.println("Type 1: Create an Account");
                 System.out.println("Type 2: Login");
+                System.out.println("Type 3: Test Image");
                 System.out.println("Type Quit: Exit");
                 answer = read.readLine();
                 
@@ -36,6 +38,11 @@ public class UIstart {
                 else if (answer.equals("2")) {
                     login.login();
                 }
+                else if (answer.equals("3")) {
+                    image.image();
+                }
+                        
+                    
                 else if (answer.equals("Quit")) {
                    return;
                 }
