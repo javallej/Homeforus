@@ -20,7 +20,8 @@ public class Login {
 
         try {
             
-            String query = "SELECT u.User_Username, u.Password FROM USER AS u WHERE u.User_Username = ?";
+            String query = "SELECT u.User_Username, u.Password FROM  USER u JOIN CONSUMER consumer "
+                    + "ON u.User_Username = consumer.Consumer_Username WHERE u.User_Username =  ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setString(1, username);

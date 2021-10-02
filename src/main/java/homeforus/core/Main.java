@@ -8,11 +8,8 @@
 
 package main.java.homeforus.core;
 
-
 import java.sql.SQLException;
 import java.io.IOException;
-
-
 import main.java.homeforus.gui.GUIStart;
 import main.java.homeforus.ui.UIstart;
 
@@ -30,25 +27,26 @@ public class Main {
      * Description: Start of program.
      * 
      * @throws SQLException
+     * @throws IOException 
      */
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IOException {
 
-        if (args.length == 1) {
-
-            switch (args[0]) {
-
-            case "console":
-                UIstart uiuser = new UIstart();
-                uiuser.console();
-                break;
-            default:
-                break;
-            }
-        } else {
+        if (args[0].equals("console"))
+        {
+            UIstart uiuser = new UIstart();
+            uiuser.console();
+        }
+        else if (args[0].equals("gui"))
+        {
             GUIStart guistart = new GUIStart();
             guistart.start();
         }
-
+        else {
+            System.out.println("Syntax is:");
+            System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar gui");
+            System.out.println("or");
+            System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar console");
+        }
     }
 }

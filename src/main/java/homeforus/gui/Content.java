@@ -6,16 +6,20 @@ import java.awt.*;
 
 public class Content extends JPanel {
 
+    public SearchInput sI;
+    public String testString;
+    private JTextArea tA;
     private double totalPercentSize = 0.75;
 
     public Content(BaseWindow baseWindow) {
         int totalVertSize = (int) (baseWindow.getWinHeight() * totalPercentSize);
         Dimension contentSize = new Dimension(baseWindow.getWinWidth(), totalVertSize);
-
+        tA = new JTextArea();
+        add(tA);
         setPreferredSize(contentSize);
+    }
 
-
-
-        add(new JLabel("Content"));
+    public void changeContent() {
+        tA.setText(sI.toString());
     }
 }

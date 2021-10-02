@@ -4,7 +4,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.AWTEventListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Objects;
@@ -12,13 +11,16 @@ import java.util.Objects;
 // This class houses the main window that the GUI elements will be added to
 public class BaseWindow extends JFrame {
 
-    public JLayeredPane layers;
+    private BaseWindow baseWindow;
+    private JLayeredPane layers;
+    private Content content;
     private Header header;
+    private SearchInput searchInput;
     private int winHeight = 700;
     private int winWidth = 1000;
 
     public BaseWindow() {
-        BaseWindow baseWindow = this;
+        baseWindow = this;
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -29,28 +31,34 @@ public class BaseWindow extends JFrame {
                     setIconImage(appIcon);
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException | IOException ex) {
                 }
-
-                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                setResizable(false);
-                setTitle("HomeForUs");
-                Dimension size = new Dimension(winWidth, winHeight);
-                setMinimumSize(size);
-
-                layers = new JLayeredPane();
-                add(layers);
-                JPanel basePanel = new BasePanel(size);
-
-                layers.add(basePanel, JLayeredPane.DEFAULT_LAYER);
-                header = new Header(baseWindow);
-                basePanel.add(header);
-
-                basePanel.add(new Content(baseWindow));
-
-                baseWindow.pack();
-                setLocationRelativeTo(null);
-                setVisible(true);
+                buildBaseWindow();
             }
         });
+    }
+
+    public void buildBaseWindow() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setTitle("HomeForUs");
+        Dimension size = new Dimension(winWidth, winHeight);
+        setMinimumSize(size);
+
+        setLayers(new JLayeredPane());
+        add(getLayers());
+        JPanel basePanel = new BasePanel(size);
+
+        getLayers().add(basePanel, JLayeredPane.DEFAULT_LAYER);
+        header = new Header(baseWindow);
+        basePanel.add(header);
+
+        content = new Content(baseWindow);
+        searchInput = new SearchInput();
+        content.sI = searchInput;
+        basePanel.add(content);
+
+        baseWindow.pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     public int getWinHeight() {
@@ -59,6 +67,14 @@ public class BaseWindow extends JFrame {
 
     public int getWinWidth() {
         return winWidth;
+    }
+
+    public JLayeredPane getLayers() {
+        return layers;
+    }
+
+    public void setLayers(JLayeredPane layers) {
+        this.layers = layers;
     }
 
     public class BasePanel extends JPanel {
@@ -105,6 +121,12 @@ public class BaseWindow extends JFrame {
                 }
             }, AWTEvent.MOUSE_EVENT_MASK);
         }
+    }
+
+    public void setSearchInput(SearchInput searchInput) {
+        this.searchInput = searchInput;
+        content.sI = this.searchInput;
+        content.changeContent();
     }
 }
 

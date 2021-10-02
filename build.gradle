@@ -17,7 +17,8 @@ repositories {
 }
 
 run {
-    standardInput = System.in
+    standardInput = System.in 
+    systemProperties System.getProperties()
 }
 
 dependencies {
