@@ -8,7 +8,6 @@
 
 package main.java.homeforus.core;
 
-
 import java.sql.SQLException;
 import java.io.IOException;
 import main.java.homeforus.gui.GUIStart;
@@ -28,22 +27,22 @@ public class Main {
      * Description: Start of program.
      * 
      * @throws SQLException
+     * @throws IOException 
      */
 
-    public static void main(String[] args) throws SQLException {
-
-        if (args.length == 1) {
-
-            switch (args[0]) {
-
-            case "console":
-                UIstart uiuser = new UIstart();
-                uiuser.console();
-                break;
-            default:
-                break;
-            }
-        } else {
+    public static void main(String[] args) throws SQLException, IOException {
+        
+        String propPath = System.getProperty("config");
+        
+        System.out.println(propPath);
+   
+        if (args[0].equals("console"))
+        {
+            UIstart uiuser = new UIstart();
+            uiuser.console();
+        }
+        else if (args[0].equals("gui"))
+        {
             GUIStart guistart = new GUIStart();
             guistart.start();
         }
