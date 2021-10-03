@@ -159,6 +159,34 @@ public class QueryConnector {
         return houseList;
     }
 
+
+    public boolean verifyUsername(String username) throws IOException {
+        PreparedStatement stmt = null;
+        Connection conn = DBConnect.connect(Setup.setup().get("jdbcUrl"), Setup.setup().get("jdbcUser"),
+                Setup.setup().get("jdbcPasswd"), Setup.setup().get("jdbcDriver"));
+        ResultSet rs = null;
+        try{
+            stmt = conn.prepareStatement("Select User_Username From user Where User_Username = ?");
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+            if (rs.next()){
+                rs.close();
+                conn.close();
+                return false;
+            }
+            else{
+                rs.close();
+                conn.close();
+                return true;
+            }
+        }
+
+        catch (java.sql.SQLException exc){
+            exc.printStackTrace();
+        }
+        return false;
+    }
+
     public boolean logInUser(String username, String password) throws SQLException, IOException {
         // Establish DB connection and obtain user information for who is attempting log in
         ResultSet rs = null;
