@@ -85,15 +85,15 @@ public class HouseList {
             tempstring.add("HOUSE.Year <= \"" + String.valueOf(searchin.getYearBuiltMax()) + "\"");
         }
         
-        if(searchin.getFloors() != -1) {
+        if(searchin.getFloors() != 0) {
             tempstring.add("HOUSE.Num_Floors = \"" + String.valueOf(searchin.getFloors()) + "\"");
         }
         
-        if(searchin.getBeds() != -1) {
+        if(searchin.getBeds() != 0) {
             tempstring.add("HOUSE.Num_Bed = \"" + String.valueOf(searchin.getBeds()) + "\"");
         }
         
-        if(searchin.getBaths() != -1) {
+        if(searchin.getBaths() != 0) {
             tempstring.add("HOUSE.Num_Bath = \"" + String.valueOf(searchin.getBaths()) + "\"");
         }
 
