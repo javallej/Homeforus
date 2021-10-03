@@ -1,5 +1,7 @@
 package main.java.homeforus.gui;
 
+import main.java.homeforus.core.HouseList;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -148,10 +150,10 @@ public class SearchBar extends JPanel {
 
                 searchInput = new SearchInput(houseNo, street, city, state, zipNo, priceMin, priceMax,
                                                  beds, baths, sqMin, sqMax, floors, yrMin, yrMax, dMin, dMax);
-                
+
                 QueryConnector query = new QueryConnector(window);
-                
-                
+
+
                 window.setSearchInput(searchInput);
                 try {
                     query.getSearchList(searchInput);
@@ -162,8 +164,8 @@ public class SearchBar extends JPanel {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                
-                
+
+
             }
         });
     }
@@ -610,7 +612,7 @@ public class SearchBar extends JPanel {
             city.setPreferredSize(new Dimension(100,height));
             bar.add(city);
 
-            state = new SearchTextBox(" State", 15);
+            state = new SearchTextBox(" State", 2);
             state.setPreferredSize(new Dimension(50,height));
             bar.add(state);
 

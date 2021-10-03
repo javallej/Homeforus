@@ -1,12 +1,12 @@
 package main.java.homeforus.gui;
 
 import main.java.homeforus.core.HouseListObject;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class HouseDetailPanel extends DetailPanel {
 
-
     private int houseID;
-
     private String price;
     private String details;
     private String address;
@@ -14,34 +14,59 @@ public class HouseDetailPanel extends DetailPanel {
     private String daysOn;
     private int numDays;
 
+    private String state;
+    private String city;
+    private String zip;
+    private String street;
+    private int house_number;
+    private int cost;
+    private int year;
+    private int num_floors;
+    private int num_bed;
+    private int num_bath;
+    private int sqr_feet;
+    private int days_listed;
 
     public HouseDetailPanel(HouseListObject houseListObject){
 
-//        houseID = 69;
-//        price = "$123,000";
-//        details = "2 bds 1ba 2 floors 1,500 sqft";
-//        address = "742 Evergreen Terrace, Springfield, OR 12345";
-//        year_built = "Year built: 1952";
-//        numDays = 52;
-//        daysOn = numDays + " days on HomeForUs";
 
-        // Create HouseListObject for testing using all the info you just put in up there
-        // houseObj = new HouseListObject(houseID, state, city, etc... check HouseListObject constructor);
+//
+//        houseID = houseListObject.getHouseID();
+//        cost = houseListObject.getCost();
+//        num_bed = houseListObject.getNumBed();
+//        num_bath = houseListObject.getNumBath();
+//        num_floors = houseListObject.getNumFloors();
+//        sqr_feet = houseListObject.getSqrFeet();
+//        house_number = houseListObject.getHouseNumber();
+//        street = houseListObject.getStreet();
+//        state = houseListObject.getState();
+//        city = houseListObject.getCity();
+//        zip = houseListObject.getZip();
+//        year = houseListObject.getYear();
+//        days_listed = houseListObject.getDaysListed();
+
+        //Test Values
+        houseID = 69;
+        cost = 123456;
+        num_bed = 2;
+        num_bath = 1;
+        num_floors = 2;
+        sqr_feet = 1500;
+        house_number = 742;
+        street = "Evergreen Terrace";
+        state = "OR";
+        city = "SpringField";
+        zip = "12345";
+        year = 1952;
+        days_listed = 52;
 
         // Set the fields and concatenate the text in the labels appropriately
         // eg:
-//        price = "$" + houseObj.getCost(); // can use a NumberFormat Java class if you want to format it with the comma and as a price automatically
-//        details = houseObj.getNum_bed() + " bds " + houseObj.getNum_bath() + " ba " .... etc
-    }
-    
-    public HouseDetailPanel(){
-
-        price = "$123,000";
-        details = "2 bds 1ba 2 floors 1,500 sqft";
-        address = "742 Evergreen Terrace, Springfield, OR, 12345";
-        year_built = "Year built: 1952";
-        numDays = 52;
-        daysOn = numDays + " days on HomeForUs";
+        price = NumberFormat.getCurrencyInstance(new Locale("en","US")).format(cost);
+        details = num_bed + " beds " + num_bath + " baths " + num_floors + " floors " + sqr_feet + " sqft";
+        address = house_number + " " + street + ", " + city + ", " + state + ", " + zip;
+        year_built = "Year built: " + year;
+        daysOn = "Days on HomeForUs: " + days_listed;
 
         getRow1().setText(price);
         getRow2().setText(details);
@@ -49,14 +74,6 @@ public class HouseDetailPanel extends DetailPanel {
         getRow4().setText(year_built);
         getRow5().setText(daysOn);
 
-    }
-
-    public int getHouseID() {
-        return houseID;
-    }
-
-    public void setHouseID(int houseID) {
-        this.houseID = houseID;
     }
 
 }

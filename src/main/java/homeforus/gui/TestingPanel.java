@@ -21,12 +21,17 @@ public class TestingPanel extends JPanel {
         add(addNewListing);
         RealtorListingsView r = new RealtorListingsView();
         listingWindow = new CreateListingWindow(r,window);
+        r.setCreateListingWindow(listingWindow);
 
         addNewListing.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!listingWindow.isVisible()) {
-                    listingWindow.setVisible(true);
+                if (window.getQueryConnector().getCurrentlyLoggedInUser() != null) {
+                    if (!listingWindow.isVisible()) {
+                        listingWindow.setVisible(true);
+                    }
+                } else {
+                    System.out.println("Log in as realtor first");
                 }
             }
         });
@@ -47,12 +52,16 @@ public class TestingPanel extends JPanel {
 
         JButton houseDetailTester = new JButton("House Detail Tester");
         add(houseDetailTester);
-        HouseDetailPanel houseDetailPanel = new HouseDetailPanel(null);
-        houseDetailPopUp = new HouseDetailWindow(window, houseDetailPanel);
+
 
         houseDetailTester.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
+                HouseDetailPanel houseDetailPanel = new HouseDetailPanel(null);
+                HouseDetailWindow houseDetailPopUp = new HouseDetailWindow(window, houseDetailPanel);
+
                 if (!houseDetailPopUp.isVisible()) {
                     houseDetailPopUp.setVisible(true);
                 }

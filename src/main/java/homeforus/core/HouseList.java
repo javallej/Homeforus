@@ -1311,6 +1311,7 @@ public class HouseList {
         return houseinformation;
         
     }
+
     
     public int getHouseCount() throws SQLException, IOException{
         
@@ -1361,5 +1362,6 @@ public class HouseList {
         return count;
         
     }
+
 }
 
