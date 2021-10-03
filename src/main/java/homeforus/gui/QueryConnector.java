@@ -3,6 +3,9 @@ package main.java.homeforus.gui;
 import main.java.homeforus.core.*;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -156,13 +159,99 @@ public class QueryConnector {
         return houseList;
     }
 
-    public void logInUser(String username, String password) {
+    public boolean logInUser(String username, String password) throws SQLException, IOException {
+        // Establish DB connection and obtain user information for who is attempting log in
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"),
+                Setup.setup().get("jdbcPasswd"), Setup.setup().get("jdbcDriver"));
+        try {
+            String query = "SELECT * FROM USER WHERE USER.User_Username = ?";
+            stmt = connect.prepareStatement(query);
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+            // Verify a user exists in the database with that name, otherwise move to else block
+            if (rs.next()) {
+                // If user exists, create UserListObject and update it with DB information
+                UserListObject uObject = new UserListObject();
+                uObject.setUserID(rs.getInt(1));
+                uObject.setUserUsername(rs.getString(2));
+                uObject.setFirstName(rs.getString(3));
+                uObject.setLastName(rs.getString(4));
+                uObject.setPhone(rs.getString(5));
+                uObject.setEmail(rs.getString(6));
+                uObject.setPassword(rs.getString(7));
+                // Verify if user entered password matches user password stored in database
+                if (uObject.getPassword().equals(password)) {
+                    // If password matches, find out if user is a realtor
+                    boolean isRealtor = true;
+                    try {
+                        query = "SELECT * FROM REALTOR WHERE REALTOR.Realtor_Username = ?";
+                        stmt = connect.prepareStatement(query);
+                        stmt.setString(1, uObject.getUsername());
+                        rs = stmt.executeQuery();
 
-        //See if username and password is valid in the DB
+                        if (rs.next()){
+                            isRealtor = true;
+                        }
+                        else {
+                            isRealtor = false;
+                        }
+                    } catch (Exception exc) {
+                        exc.printStackTrace();
+                    }
+                    finally {
+                        try {
+                            if (rs != null) {
+                                rs.close();
+                            }
+                            if (stmt != null) {
+                                stmt.close();
+                            }
+                            if (connect != null) {
+                                connect.close();
+                            }
+                        } catch (SQLException se) {
+                            se.printStackTrace();
+                        }
+                    }
+                    // Finally, if we made it this far, update CurrentlyLoggedInUser object
+                    CurrentlyLoggedInUser user = new CurrentlyLoggedInUser(uObject.getUsername(), uObject.getUserID(),
+                            isRealtor);
+                    currentlyLoggedInUser = user;
+                }
+                else {
+                    // This block can be used by GUI for failed password condition
+                    System.out.println("Invalid password");
+                    return false;
+                }
+            }
+            else {
+                // This block can be used by GUI for failed username condition
+                System.out.println("Invalid username");
+                return false;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
 
-        //Create CurrentlyLoggedInUser class
-
-
+        return true;
     }
 
     public void createNewListing(HouseInput houseInput) {
