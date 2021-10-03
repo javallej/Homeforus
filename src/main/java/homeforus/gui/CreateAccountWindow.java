@@ -1,5 +1,8 @@
 package main.java.homeforus.gui;
 
+import main.java.homeforus.core.DBConnect;
+import main.java.homeforus.core.Setup;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -7,6 +10,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.*;
 
 public class CreateAccountWindow extends JFrame {
 
@@ -27,6 +31,7 @@ public class CreateAccountWindow extends JFrame {
     private NewUserInput newUserInput;
     private JLabel errorFillOut;
     private JLabel errorSelectUserType;
+    private JLabel errorUsernameTaken;
     private boolean formComplete;
 
     public CreateAccountWindow(TopHeader topHeader, BaseWindow window) {
@@ -49,122 +54,8 @@ public class CreateAccountWindow extends JFrame {
         JPanel inputGrid = buildInputGrid();
         windowContainer.add(inputGrid);
         JButton signInSubmit = new JButton("Create Account");
-        signInSubmit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                formComplete = true;
-                // Parse Input
-                String usernameS;
-                String firstNameS;
-                String lastNameS;
-                String passwordS;
-                String emailS;
-                String phoneS;
-                boolean isRealtor = false;
-                String businessNameS = "";
-                String DOBS = "";
-                String SSNS = "";
-                int ssn = -1;
 
-                usernameS = oNotNull(getUsername().getTextField().getText()).toString();
-                usernameS = usernameS.trim();
-                firstNameS = oNotNull(getFirstName().getTextField().getText()).toString();
-                firstNameS = firstNameS.trim();
-                lastNameS = oNotNull(getLastName().getTextField().getText()).toString();
-                lastNameS = lastNameS.trim();
-                passwordS = oNotNull(getPassword().getTextField().getText()).toString();
-                passwordS = passwordS.trim();
-                emailS = oNotNull(getEmail().getTextField().getText()).toString();
-                emailS = emailS.trim();
-                phoneS = oNotNull(getPhone().getTextField().getText()).toString();
-                phoneS = phoneS.trim();
-
-
-                // decide whether user is realtor or not here
-                if (consumerBtn.isSelected()) {
-                    errorSelectUserType.setText(" ");
-                    isRealtor = false;
-                    inputs.add(conDOB);
-                    inputs.add(conSSN);
-                    if (inputs.contains(realtBN)) {
-                        inputs.remove(realtBN);
-                        realtBN.getLabel().setForeground(Color.black);
-                    }
-                } else if (realtorBtn.isSelected()) {
-                    errorSelectUserType.setText(" ");
-                    isRealtor = true;
-                    inputs.add(realtBN);
-                    if (inputs.contains(conDOB)) {
-                        inputs.remove(conDOB);
-                        conDOB.getLabel().setForeground(Color.black);
-                    }
-                    if (inputs.contains(conSSN)) {
-                        inputs.remove(conSSN);
-                        conSSN.getLabel().setForeground(Color.black);
-                    }
-                } else {
-                    errorSelectUserType.setText("Error: Please select either Buyer or Realtor user type");
-                }
-
-                for (InputField i:inputs) {
-                    if (i.getTextField().getText().isEmpty()) {
-                        setError(i);
-                    } else {
-                        i.getLabel().setForeground(Color.BLACK);
-                    }
-                    if (i.getLabel().getText().equals("Phone")) {
-                        if (i.getTextField().getText().length() < 10) {
-                            setError(phone);
-                        } else {
-                            i.getLabel().setForeground(Color.BLACK);
-                        }
-                    }
-                    if (!isRealtor) {
-                        if (i.getLabel().getText().equals("Date of Birth")) {
-                            if (i.getTextField().getText().length() < 8) {
-                                setError(conDOB);
-                            } else {
-                                i.getLabel().setForeground(Color.BLACK);
-                            }
-                        }
-                        if (i.getLabel().getText().equals("SSN")) {
-                            if (i.getTextField().getText().length() < 9) {
-                                setError(conSSN);
-                            } else {
-                                i.getLabel().setForeground(Color.BLACK);
-                            }
-                        }
-                    }
-                }
-
-                // Write verify existing username here
-                // pass usernameS to verify function
-                // if username exists in DB, set formComplete to false
-
-
-                if (formComplete) {
-                    phoneS = phoneS.substring(0, 9);
-                    if (!isRealtor) {
-                        SSNS = oNotNull(conSSN.getTextField().getText()).toString().substring(0, 8);
-                        DOBS = oNotNull(conDOB.getTextField().getText()).toString().substring(0, 7);
-                        ssn = toNum(SSNS);
-                    } else {
-                        businessNameS = oNotNull(realtBN.getTextField().getText()).toString();
-                        businessNameS = businessNameS.trim();
-                    }
-
-                    setNewUserInput(new NewUserInput(usernameS, firstNameS, lastNameS, passwordS, emailS,
-                            phoneS, isRealtor, businessNameS, DOBS, ssn));
-
-                    // Add calls to Create Account here
-                    try {
-                        caller.hideCreateAccount();
-                        window.getQueryConnector().addUserToDB(newUserInput);
-                    } catch (IOException | SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
+        signInSubmit.addActionListener(validationCreateListener());
         JPanel signInBtnHolder = new JPanel();
         signInBtnHolder.add(signInSubmit);
         windowContainer.add(signInBtnHolder);
@@ -178,11 +69,13 @@ public class CreateAccountWindow extends JFrame {
         errorSelectUserType = new JLabel(" ");
         errorSelectUserType.setForeground(Color.red);
         errorMsgHolder.add(errorSelectUserType);
+        errorUsernameTaken = new JLabel( " ");
+        errorUsernameTaken.setForeground(Color.red);
+        errorMsgHolder.add(errorUsernameTaken);
         windowContainer.add(errorMsgHolder);
 
         return windowContainer;
     }
-
 
 
     public void setError(InputField i) {
@@ -255,8 +148,6 @@ public class CreateAccountWindow extends JFrame {
         textBoxHolder.add(blank2);
         textBoxHolder.add(realtBN);
 
-
-
         return textBoxHolder;
     }
 
@@ -310,6 +201,164 @@ public class CreateAccountWindow extends JFrame {
         return num;
     }
 
+    private ActionListener validationCreateListener() {
+        ActionListener a = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                formComplete = true;
+                // Parse Input
+                String usernameS;
+                String firstNameS;
+                String lastNameS;
+                String passwordS;
+                String emailS;
+                String phoneS;
+                boolean isRealtor = false;
+                String businessNameS = "";
+                String DOBS = "";
+                String SSNS = "";
+                int ssn = -1;
+
+                usernameS = oNotNull(username.getTextField().getText()).toString();
+                usernameS = usernameS.trim();
+                firstNameS = oNotNull(getFirstName().getTextField().getText()).toString();
+                firstNameS = firstNameS.trim();
+                lastNameS = oNotNull(getLastName().getTextField().getText()).toString();
+                lastNameS = lastNameS.trim();
+                passwordS = oNotNull(getPassword().getTextField().getText()).toString();
+                passwordS = passwordS.trim();
+                emailS = oNotNull(getEmail().getTextField().getText()).toString();
+                emailS = emailS.trim();
+                phoneS = oNotNull(getPhone().getTextField().getText()).toString();
+                phoneS = phoneS.trim();
+
+                // decide whether user is realtor or not here
+                if (consumerBtn.isSelected()) {
+                    errorSelectUserType.setText(" ");
+                    isRealtor = false;
+                    inputs.add(conDOB);
+                    inputs.add(conSSN);
+                    if (inputs.contains(realtBN)) {
+                        inputs.remove(realtBN);
+                        realtBN.getLabel().setForeground(Color.black);
+                    }
+                } else if (realtorBtn.isSelected()) {
+                    errorSelectUserType.setText(" ");
+                    isRealtor = true;
+                    inputs.add(realtBN);
+                    if (inputs.contains(conDOB)) {
+                        inputs.remove(conDOB);
+                        conDOB.getLabel().setForeground(Color.black);
+                    }
+                    if (inputs.contains(conSSN)) {
+                        inputs.remove(conSSN);
+                        conSSN.getLabel().setForeground(Color.black);
+                    }
+                } else {
+                    errorSelectUserType.setText("Error: Please select either Buyer or Realtor user type");
+                }
+
+                for (InputField i:inputs) {
+                    if (i.getTextField().getText().isEmpty()) {
+                        setError(i);
+                    } else {
+                        i.getLabel().setForeground(Color.BLACK);
+                    }
+                    if (i.getLabel().getText().equals("Phone")) {
+                        if (i.getTextField().getText().length() < 10) {
+                            setError(phone);
+                        } else {
+                            i.getLabel().setForeground(Color.BLACK);
+                        }
+                    }
+                    if (!isRealtor) {
+                        if (i.getLabel().getText().equals("Date of Birth")) {
+                            if (i.getTextField().getText().length() < 8) {
+                                setError(conDOB);
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+                        if (i.getLabel().getText().equals("SSN")) {
+                            if (i.getTextField().getText().length() < 9) {
+                                setError(conSSN);
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+                    }
+                }
+
+                if (formComplete) {
+                    phoneS = phoneS.substring(0, 9);
+                    if (!isRealtor) {
+                        SSNS = oNotNull(conSSN.getTextField().getText()).toString().substring(0, 8);
+                        DOBS = oNotNull(conDOB.getTextField().getText()).toString().substring(0, 7);
+                        ssn = toNum(SSNS);
+                    } else {
+                        businessNameS = oNotNull(realtBN.getTextField().getText()).toString();
+                        businessNameS = businessNameS.trim();
+                    }
+
+                    setNewUserInput(new NewUserInput(usernameS, firstNameS, lastNameS, passwordS, emailS,
+                            phoneS, isRealtor, businessNameS, DOBS, ssn));
+
+                    // Add calls to Create Account here
+                    try {
+                        //This returns false if username is taken
+                        formComplete = verifyUsername(usernameS);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    //if formComplete = true add user
+                    if (formComplete){
+                        errorUsernameTaken.setText(" ");
+                        try {
+                            caller.hideCreateAccount();
+                            window.getQueryConnector().addUserToDB(newUserInput);
+                        } catch (IOException | SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+
+                    //else output error
+                    else{
+                        errorUsernameTaken.setText("Error: Username has already been taken");
+                    }
+
+                }
+            }
+        };
+        return a;
+    }
+
+    public boolean verifyUsername(String username) throws IOException {
+        PreparedStatement stmt = null;
+        Connection conn = DBConnect.connect(Setup.setup().get("jdbcUrl"), Setup.setup().get("jdbcUser"),
+                Setup.setup().get("jdbcPasswd"), Setup.setup().get("jdbcDriver"));
+        ResultSet rs = null;
+        try{
+            stmt = conn.prepareStatement("Select User_Username From user Where User_Username = ?");
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+            if (rs.next()){
+                rs.close();
+                conn.close();
+                return false;
+            }
+            else{
+                rs.close();
+                conn.close();
+                return true;
+            }
+        }
+
+        catch (java.sql.SQLException exc){
+            exc.printStackTrace();
+        }
+        return false;
+    }
     public InputField createInputField(String label) {
         return new InputField(label);
     }
