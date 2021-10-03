@@ -10,6 +10,7 @@ public class TestingPanel extends JPanel {
     BaseWindow window;
     CreateListingWindow listingWindow;
     ImageTesterWindow imgWindow;
+    HouseDetailWindow houseDetailPopUp;
 
     public TestingPanel(BaseWindow window) {
 
@@ -43,6 +44,20 @@ public class TestingPanel extends JPanel {
             }
         });
 
+
+        JButton houseDetailTester = new JButton("House Detail Tester");
+        add(houseDetailTester);
+        HouseDetailPanel houseDetailPanel = new HouseDetailPanel(null);
+        houseDetailPopUp = new HouseDetailWindow(window, houseDetailPanel);
+
+        houseDetailTester.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!houseDetailPopUp.isVisible()) {
+                    houseDetailPopUp.setVisible(true);
+                }
+            }
+        });
 
     }
 }

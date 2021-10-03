@@ -54,6 +54,7 @@ public class TopHeader extends JPanel {
             signOutButton.setVisible(false);
             signInButton.setVisible(true);
             manage.setVisible(false);
+            window.getQueryConnector().setCurrentlyLoggedInUser(null);
         }
     }
 

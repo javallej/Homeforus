@@ -15,7 +15,7 @@ public class CreateListingWindow extends JFrame {
     int width;
     int height;
     BaseWindow window;
-    RealtorListingsView caller;
+    private RealtorListingsView caller;
     private InputField price;
     private InputField houseNum;
     private InputField street;
@@ -29,6 +29,13 @@ public class CreateListingWindow extends JFrame {
     private ArrayList<InputField> inputs;
     private JLabel errorFillOut;
     private boolean formComplete;
+
+    // length constraints for input fields
+    static final int YEAR_LENGTH = 4;
+    static final int STATE_LENGTH = 12; //Road Island being the longest
+    static final int VAR_CHAR_LIMIT = 200;
+    static final int ZIP_CODE_LENGTH = 5;
+    static final int INT_LIMIT = 2147483647;
 
     public CreateListingWindow(RealtorListingsView r, BaseWindow window) {
         caller = r;
@@ -79,6 +86,10 @@ public class CreateListingWindow extends JFrame {
         grid.add(houseNum);
         grid.add(street);
         grid.add(city);
+        inputs.add(price);
+        inputs.add(houseNum);
+        inputs.add(street);
+        inputs.add(city);
 
         state = createInputField("State");
         zip = createInputField("Zip Code");
@@ -86,6 +97,8 @@ public class CreateListingWindow extends JFrame {
         stateZipHolder.add(state);
         stateZipHolder.add(zip);
         grid.add(stateZipHolder);
+        inputs.add(state);
+        inputs.add(zip);
 
         beds = createInputField("Beds");
         baths = createInputField("Baths");
@@ -93,6 +106,8 @@ public class CreateListingWindow extends JFrame {
         bedsBathsHolder.add(beds);
         bedsBathsHolder.add(baths);
         grid.add(bedsBathsHolder);
+        inputs.add(beds);
+        inputs.add(baths);
 
         floors = createInputField("Floors");
         yrBuilt = createInputField("Year Built");
@@ -100,6 +115,8 @@ public class CreateListingWindow extends JFrame {
         floorsYrsHolder.add(floors);
         floorsYrsHolder.add(yrBuilt);
         grid.add(floorsYrsHolder);
+        inputs.add(floors);
+        inputs.add(yrBuilt);
 
         JPanel btnHolder = new JPanel();
         JButton createNewListing = new JButton("Create New Listing");
@@ -130,36 +147,147 @@ public class CreateListingWindow extends JFrame {
 
                 // Step 1: Get text field from InputField object and trim
                 String priceS = oNotNull(price.getTextField().getText()).toString();
+                String houseNumS = oNotNull(houseNum.getTextField().getText()).toString();
+                String streetS = oNotNull(street.getTextField().getText()).toString();
+                String cityS = oNotNull(city.getTextField().getText()).toString();
+                String stateS = oNotNull(state.getTextField().getText()).toString();
+                String zipS = oNotNull(zip.getTextField().getText()).toString();
+                String bedsS = oNotNull(beds.getTextField().getText()).toString();
+                String bathsS = oNotNull(baths.getTextField().getText()).toString();
+                String floorsS = oNotNull(floors.getTextField().getText()).toString();
+                String yearS = oNotNull(yrBuilt.getTextField().getText()).toString();
+
                 priceS = priceS.trim();
 
                 // Step 2: Loop through and ensure they've all got text in them.
                 // Add additional checks for our character length database constraints
                 // Idk what they all are so you have to check somehow....
-                int someLength = 5;
+                int errors = 0;
                 for (InputField i:inputs) {
                     if (i.getTextField().getText().isEmpty()) {
                         setError(i);
+                        errors ++;
                     } else {
-                        i.getLabel().setForeground(Color.BLACK);
-                    }
-                    if (i.getLabel().getText().equals("Some Field")) {
-                        if (i.getTextField().getText().length() < someLength) {
-                            setError(i);
-                        } else {
-                            i.getLabel().setForeground(Color.BLACK);
+                        if (i.getLabel().getText().equals("Year Built")) {
+                            if (i.getTextField().getText().length() != YEAR_LENGTH) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+                        if (i.getLabel().getText().equals("State")) {
+                            if (i.getTextField().getText().length() > STATE_LENGTH) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+                        if (i.getLabel().getText().equals("City")) {
+                            if (i.getTextField().getText().length() > VAR_CHAR_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+
+                        if (i.getLabel().getText().equals("Zip Code")) {
+                            if (i.getTextField().getText().length() != ZIP_CODE_LENGTH) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+
+                        if (i.getLabel().getText().equals("Street")) {
+                            if (i.getTextField().getText().length() > VAR_CHAR_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+
+                        if (i.getLabel().getText().equals("Price")) {
+                            if (i.getTextField().getText().length() >= INT_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+
+                        if (i.getLabel().getText().equals("Beds")) {
+                            if (i.getTextField().getText().length() >= INT_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+
+                        if (i.getLabel().getText().equals("Baths")) {
+                            if (i.getTextField().getText().length() >= INT_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+
+                        if (i.getLabel().getText().equals("Floors")) {
+                            if (i.getTextField().getText().length() >= INT_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+                        if (i.getLabel().getText().equals("Street Address")) {
+                            if (i.getTextField().getText().length() > VAR_CHAR_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+                        if (i.getLabel().getText().equals("House Number")) {
+                            if (i.getTextField().getText().length() > VAR_CHAR_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
                         }
                     }
                 }
 
                 // Step 3: if (formComplete) check passes, then convert the int types into ints
-                int priceInt = -1;
-                priceInt = toNum(priceS);
+                if (errors == 0){
+                    int priceInt = -1;
+                    int houseNumInt = -1;
+                    int yearInt = -1;
+                    int floorsInt = -1;
+                    int bedsInt = -1;
+                    int bathsInt = -1;
+                    priceInt = toNum(priceS);
+                    houseNumInt = toNum(houseNumS);
+                    yearInt = toNum(yearS);
+                    floorsInt = toNum(floorsS);
+                    bedsInt = toNum(bedsS);
+                    bathsInt = toNum(bathsS);
 
-                // Step 4: Create sanitized HouseInput object
-                // HouseInput houseInput = new HouseInput(priceInt, etc... pass arguments from fields here);
+                    // Step 4: Create sanitized HouseInput object
+                     HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS, houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, 0);
 
-                // Step 5: Print object to make sure all of the fields stored OK.
-                // System.out.println(houseInput);
+                    // Step 5: Call to QueryConnector and close window
+                    window.getQueryConnector().createNewListing(houseInput);
+                    caller.hideCreateListingsWindow();
+                }
+
             }
         };
         return a;
