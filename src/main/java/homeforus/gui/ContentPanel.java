@@ -21,9 +21,12 @@ public class ContentPanel extends JPanel {
         setPreferredSize(new Dimension(890,150));
         setBorder(new MatteBorder(1,1,1,1, Color.gray));
 
-//        TestingPanel testingPanel = new TestingPanel(window);
-//        add(testingPanel);
+        TestingPanel testingPanel = new TestingPanel(window);
+        add(testingPanel);
+//        buildContentPanel();
+    }
 
+    public void buildContentPanel() {
         imgArea = new JPanel();
         Dimension imgDim = new Dimension(200,130);
         imgArea.setPreferredSize(imgDim);
@@ -45,8 +48,6 @@ public class ContentPanel extends JPanel {
         add(detailPanel);
         btnArea = new ButtonArea();
         add(btnArea);
-
-
     }
 
     public String getImage() {

@@ -110,12 +110,15 @@ public class QueryConnector {
     }
 
     public void createNewListing(HouseInput houseInput) {
+        // uncomment for testing
+//        currentlyLoggedInUser = new CurrentlyLoggedInUser("HomesByKaren", 13, true);
         // Add a new house
-//        houseAddDB.add( fields from houseInput here );
-
-        // Print a confirmation to console that it posted successfully.
-        // Maybe query the database to confirm and print it out? You don't have to though, if you want to just check
-        // it in Workbench~
+        try {
+            houseAddDB.add( currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), houseInput.getState(), houseInput.getCity(), houseInput.getZip(), houseInput.getStreet(), houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(), houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(), 0);
+            System.out.println("Listing Added Successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addUserToDB(NewUserInput newUserInput) throws IOException, SQLException {

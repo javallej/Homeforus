@@ -22,6 +22,7 @@ public class Content extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(innerPanel);
         scrollPane.setPreferredSize(new Dimension(940,460));
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         add(scrollPane);
 
         ContentPanelListDisplay defaultDisplayList = new ContentPanelListDisplay();
