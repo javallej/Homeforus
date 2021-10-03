@@ -1,9 +1,13 @@
 package main.java.homeforus.gui;
 
+import main.java.homeforus.core.HouseList;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -146,7 +150,22 @@ public class SearchBar extends JPanel {
 
                 searchInput = new SearchInput(houseNo, street, city, state, zipNo, priceMin, priceMax,
                                                  beds, baths, sqMin, sqMax, floors, yrMin, yrMax, dMin, dMax);
+
+                QueryConnector query = new QueryConnector(window);
+
+
                 window.setSearchInput(searchInput);
+                try {
+                    query.getSearchList(searchInput);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+
             }
         });
     }
