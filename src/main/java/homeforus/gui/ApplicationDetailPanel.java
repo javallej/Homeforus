@@ -9,7 +9,7 @@ public class ApplicationDetailPanel extends DetailPanel{
     BaseWindow window;
     private String buyerName;
     private String status;
-    private String appDate;
+    private String daysOld;
     private String address;
 
     public ApplicationDetailPanel(ApplicationInfo appInfo, BaseWindow window){
@@ -23,14 +23,16 @@ public class ApplicationDetailPanel extends DetailPanel{
         // Set the fields and concatenate the text in the labels appropriately from appInfo's fields
         // eg.
         buyerName = appInfo.getFirstName() + " " + appInfo.getLastName();
-        status = "Status: " + appInfo.getStatus();
+        status = "<html><font color=black>Status: </font>" + appInfo.getStatus();
         // and so on...
+        daysOld = "Days on HomeForUs: " +appInfo.getDaysOld(); //changed to daysOld because I don't see an address
+        address = appInfo.getAddress();
 
         getRow1().setText(buyerName);
         getRow2().setText(status);
         getRow3().setText(address);
         getRow4().setText("");
-        getRow5().setText(appDate);
+        getRow5().setText(daysOld);
 
         if(status.equals("DENIED")){
             getRow2().setForeground(Color.red);
