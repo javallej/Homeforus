@@ -51,7 +51,7 @@ public class HouseList {
             String query = "SELECT * FROM HOUSE WHERE HOUSE.House_ID = ?";
 
             stmt = connect.prepareStatement(query);
-            stmt.setInt(1, House_ID);
+            
             rs = stmt.executeQuery();
 
             
