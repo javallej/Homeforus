@@ -7,7 +7,10 @@ import java.awt.*;
 public class ContentPanel extends JPanel {
 
     private String image;
+    private DetailPanel detailPanel;
+    private ButtonArea btnArea;
     private BaseWindow window;
+    private JPanel imgArea;
 
     public ContentPanel(BaseWindow window, String image) {
         this.window = window;
@@ -15,12 +18,20 @@ public class ContentPanel extends JPanel {
         setPreferredSize(new Dimension(890,150));
         setBorder(new MatteBorder(2,2,2,2, Color.black));
 
-        DetailPanel detailPanel = new DetailPanel();
-//        add(detailPanel);
-        TestingPanel testingPanel = new TestingPanel(window);
-        add(testingPanel);
+//        TestingPanel testingPanel = new TestingPanel(window);
+//        add(testingPanel);
 
+        imgArea = new JPanel();
+        imgArea.setPreferredSize(new Dimension(200,130));
+        add(imgArea);
+        detailPanel = new DetailPanel();
+        add(detailPanel);
+        btnArea = new ButtonArea();
+        add(btnArea);
+
+        imgArea.setBorder(debugBorder());
         detailPanel.setBorder(debugBorder());
+        btnArea.setBorder(debugBorder());
     }
 
     public static MatteBorder debugBorder() {
