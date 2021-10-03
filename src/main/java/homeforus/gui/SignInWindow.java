@@ -1,24 +1,22 @@
 package main.java.homeforus.gui;
 
 import javax.swing.*;
-
-import main.java.homeforus.core.Login;
-import main.java.homeforus.ui.UIConsumerMenu;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.HashMap;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class SignInWindow extends JFrame {
 
+    BaseWindow window;
     TopHeader caller;
-    JTextField username;
-    JTextField password;
+    InputField username;
+    InputField password;
 
-    public SignInWindow(TopHeader topHeader) {
+    public SignInWindow(TopHeader topHeader, BaseWindow window) {
         caller = topHeader;
+        this.window = window;
         setPreferredSize(new Dimension(500,500));
         add(buildSignIn());
         setTitle("Sign In");
@@ -35,38 +33,30 @@ public class SignInWindow extends JFrame {
         JButton signInSubmit = new JButton("Sign In");
         signInSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                HashMap<String, String> Userchecklogin = new HashMap<String, String>();
-                HashMap<String, String> DatabasecheckloginUser = new HashMap<String, String>();
-                HashMap<String, String> DatabasecheckloginRealtor = new HashMap<String, String>();
-                Login check = new Login();
-                Userchecklogin.put("username", username.getText());
-                Userchecklogin.put("password", password.getText());
-                try {
-                    DatabasecheckloginUser = check.logincheck(username.getText());
-                    DatabasecheckloginRealtor = check.logincheckRealtor(username.getText());
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                
-                if(DatabasecheckloginUser.equals(Userchecklogin)) {
-                    System.out.println(username.getText() + " and " + password.getText());
-                    changeHeaderState("consumer");
-                }
-                else if(DatabasecheckloginRealtor.equals(Userchecklogin)) {
-                    System.out.println(username.getText() + " and " + password.getText());
-                    changeHeaderState("realtor");
-                }
+                System.out.println(username.getTextField().getText() + " and " + password.getTextField().getText());
 
+                window.getQueryConnector().logInUser(username.getTextField().getText(), password.getTextField().getText());
 
-                username.setText("");
-                password.setText("");
+                username.getTextField().setText("");
+                password.getTextField().setText("");
                 caller.hideSignIn();
             }
         });
         JPanel btnHolder = new JPanel();
         btnHolder.add(signInSubmit);
         windowContainer.add(btnHolder);
+
+        JButton createAccount = new JButton("Create New Account");
+        CreateAccountWindow createAccountWindow = new CreateAccountWindow(caller, window);
+        windowContainer.add(createAccount);
+        createAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                caller.setCreateAccountWindow(createAccountWindow);
+                createAccountWindow.setVisible(true);
+                caller.hideSignIn();
+            }
+        });
 
         return windowContainer;
     }
@@ -85,10 +75,10 @@ public class SignInWindow extends JFrame {
         textBoxHolder.setLayout(new GridLayout(2,1));
         InputField userNameInput = new InputField("username");
         textBoxHolder.add(userNameInput);
-        username = userNameInput.getTextField();
+        username = userNameInput;
         InputField passwordInput = new InputField("password");
         textBoxHolder.add(passwordInput);
-        password = passwordInput.getTextField();
+        password = passwordInput;
 
         return textBoxHolder;
     }

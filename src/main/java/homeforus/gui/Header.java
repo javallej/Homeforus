@@ -18,7 +18,7 @@ public class Header extends JPanel {
         setPreferredSize(new Dimension((int)headerDimension.getWidth(), totalVertSize));
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        TopHeader topHeader = new TopHeader(headerDimension);
+        TopHeader topHeader = new TopHeader(headerDimension,baseWindow);
         searchBar = new SearchBar(headerDimension, topHeader, baseWindow);
         add(topHeader);
         addLine();
