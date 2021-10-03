@@ -29,7 +29,10 @@ public class QueryConnector {
         houseListDB = new HouseList();
     }
 
-    public void addApplicationToDB(int houseID) {
+    public void createNewApplication(int houseID) {
+        // uncomment for testing
+//        int houseID = 13;
+//        currentlyLoggedInUser = new CurrentlyLoggedInUser("darthvader", 12, false);
         // Get CurrentlyLoggedInUser object from this class
         // Pull their userID
         // Pull the Realtor's userID and Realtor's username via the houseID that was passed in
