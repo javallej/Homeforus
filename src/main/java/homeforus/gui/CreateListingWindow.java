@@ -287,7 +287,6 @@ public class CreateListingWindow extends JFrame {
                     window.getQueryConnector().createNewListing(houseInput);
                     caller.hideCreateListingsWindow();
                 }
-
             }
         };
         return a;

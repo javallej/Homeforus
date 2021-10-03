@@ -8,6 +8,10 @@ public class RealtorListingsView {
 
     }
 
+    public void setCreateListingWindow(CreateListingWindow createListingWindow) {
+        this.createListingWindow = createListingWindow;
+    }
+
     public void hideCreateListingsWindow() {
         createListingWindow.setVisible(false);
         createListingWindow = null;
