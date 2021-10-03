@@ -90,7 +90,7 @@ public class ImageAdd {
 
             connect.setAutoCommit(false);
             
-            File image = new File("/home/lazyuser/SER322/Project/test.jpg");
+            File image = new File(File_Path + Image_Name);
             FileInputStream inputstream = new FileInputStream(image);
             
             String query = "INSERT INTO IMAGE VALUES (?,?,?,?)";

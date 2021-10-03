@@ -18,7 +18,7 @@ public class UIimage {
         
         addimage.addimage(id, path, name);
         
-        editimage.getImage("test.jpg");
+        editimage.getImage("test.jpg", 1);
         
         
         

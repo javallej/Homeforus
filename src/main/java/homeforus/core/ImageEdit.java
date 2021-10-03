@@ -79,10 +79,11 @@ public class ImageEdit {
         }
 }
     
-    public synchronized void getImage(String Image_Name) throws IOException {
+    public synchronized InputStream getImage(String Image_Name, int House_ID) throws IOException {
         
         ResultSet rs = null;
         PreparedStatement stmt = null;
+        InputStream b_stream = null;
         
         Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
                 Setup.setup().get("jdbcDriver"));
@@ -90,24 +91,18 @@ public class ImageEdit {
         try {
 
             
-            String query = "SELECT * FROM IMAGE WHERE Image_Name = ?";
+            String query = "SELECT * FROM IMAGE WHERE Image_Name = ? AND House_ID = ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setString(1, Image_Name);
+            stmt.setInt(2, House_ID);
             rs = stmt.executeQuery();
 
             if(rs.next()) {
-            File f = new File("/home/lazyuser/SER322/Project/src/main/resources/homeforus/houses/dbget.jpg");
-            FileOutputStream fs = new FileOutputStream(f);
-            Blob blob = rs.getBlob("Image_Data");
-            byte b[] = blob.getBytes(1, (int)blob.length());
-            fs.write(b, 0, (int)blob.length());
-            fs.close();
+                Blob blob = rs.getBlob("Image_Data");
+                b_stream = blob.getBinaryStream(); 
             }
-
-     
-
-        } catch (Exception exc) {
+            } catch (Exception exc) {
             exc.printStackTrace();
         }
 
@@ -128,5 +123,7 @@ public class ImageEdit {
             }
 
         }
+        return b_stream;
     }
+    
 }
