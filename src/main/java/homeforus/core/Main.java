@@ -35,18 +35,12 @@ public class Main {
         try {
         
         if (args.length == 1) {
-                if (args[0].equals("console")) {
+            if (args[0].equals("console")) {
             UIstart uiuser = new UIstart();
             uiuser.console();
         } else if (args[0].equals("gui")) {
             GUIStart guistart = new GUIStart();
             guistart.start();
-        }
-        else {
-            System.out.println("Syntax is:");
-            System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar gui");
-            System.out.println("or");
-            System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar console");
         }
         }} catch (SQLException e) {
             System.out.println("Syntax is:");
@@ -54,12 +48,8 @@ public class Main {
             System.out.println("or");
             System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar console");
         }
-        finally {
-            System.out.println("Syntax is:");
-            System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar gui");
-            System.out.println("or");
-            System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar console");
+        GUIStart guistart = new GUIStart();
+        guistart.start();
         }
         
     }
-}
