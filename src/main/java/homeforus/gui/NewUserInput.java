@@ -2,45 +2,45 @@ package main.java.homeforus.gui;
 
 public class NewUserInput {
 
-    String username;
-    String firstName;
-    String lastName;
-    String password;
-    String email;
-    String phone;
-    boolean isRealtor;
-    String businessName;
-    String DOB;
-    int SSN;
+    private String username;
+    private String firstName;
+    private String lastName;
+    private String password;
+    private String email;
+    private String phone;
+    private boolean isRealtor;
+    private String businessName;
+    private String DOB;
+    private int SSN;
 
     @Override
     public String toString() {
         return "NewUserInput{" +
-                "username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", isRealtor=" + isRealtor +
-                ", businessName='" + businessName + '\'' +
-                ", DOB='" + DOB + '\'' +
-                ", SSN=" + SSN +
+                "username='" + getUsername() + '\'' +
+                ", firstName='" + getFirstName() + '\'' +
+                ", lastName='" + getLastName() + '\'' +
+                ", password='" + getPassword() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", phone='" + getPhone() + '\'' +
+                ", isRealtor=" + isRealtor() +
+                ", businessName='" + getBusinessName() + '\'' +
+                ", DOB='" + getDOB() + '\'' +
+                ", SSN=" + getSSN() +
                 '}';
     }
 
     public NewUserInput(String username, String firstName, String lastName, String password,
                         String email, String phone, boolean isRealtor, String businessName, String DOB, int SSN) {
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.email = email;
-        this.phone = phone;
-        this.isRealtor = isRealtor;
-        this.businessName = businessName;
-        this.DOB = DOB;
-        this.SSN = SSN;
+        this.setUsername(username);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setPassword(password);
+        this.setEmail(email);
+        this.setPhone(phone);
+        this.setRealtor(isRealtor);
+        this.setBusinessName(businessName);
+        this.setDOB(DOB);
+        this.setSSN(SSN);
     }
 
     public String getUsername() {

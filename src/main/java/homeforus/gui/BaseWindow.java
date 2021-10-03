@@ -16,11 +16,14 @@ public class BaseWindow extends JFrame {
     private Content content;
     private Header header;
     private SearchInput searchInput;
+    private QueryConnector queryConnector;
+
     private int winHeight = 700;
     private int winWidth = 1000;
 
     public BaseWindow() {
         baseWindow = this;
+        queryConnector = new QueryConnector(this);
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -121,6 +124,10 @@ public class BaseWindow extends JFrame {
                 }
             }, AWTEvent.MOUSE_EVENT_MASK);
         }
+    }
+
+    public QueryConnector getQueryConnector() {
+        return queryConnector;
     }
 
     public void setSearchInput(SearchInput searchInput) {

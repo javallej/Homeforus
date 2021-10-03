@@ -27,9 +27,11 @@ public class TopHeader extends JPanel {
     private JButton signOutButton;
     private SignInWindow signInWindow;
     private CreateAccountWindow createAccountWindow;
+    private BaseWindow window;
 
-    public TopHeader(Dimension headerSize) {
+    public TopHeader(Dimension headerSize, BaseWindow window) {
             buildTopHeader(headerSize);
+            this.window = window;
     }
 
     public void LoggedInConsumer(boolean state) {
@@ -52,6 +54,7 @@ public class TopHeader extends JPanel {
             signOutButton.setVisible(false);
             signInButton.setVisible(true);
             manage.setVisible(false);
+            window.getQueryConnector().setCurrentlyLoggedInUser(null);
         }
     }
 
@@ -60,13 +63,13 @@ public class TopHeader extends JPanel {
     }
 
     public void hideCreateAccount() {
-//        createAccountWindow.dispose();
-        createAccountWindow.setVisible(false);
+        createAccountWindow.dispose();
+//        createAccountWindow.setVisible(false);
     }
 
     public void hideSignIn() {
-//        signInWindow.dispose();
-        signInWindow.setVisible(false);
+        signInWindow.dispose();
+//        signInWindow.setVisible(false);
     }
 
     // This class determines the size for the top 3 sections of the top portion of the header.
@@ -150,7 +153,7 @@ public class TopHeader extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (signInWindow == null) {
-                        signInWindow = new SignInWindow(TopHeader.this);
+                        signInWindow = new SignInWindow(TopHeader.this, window);
                         signInWindow.setVisible(true);
                     } else {
                         signInWindow.setVisible(true);
