@@ -65,6 +65,55 @@ public class HouseList {
             tempstring.add("HOUSE.Street = \"" + searchin.getStreet() + "\"");
         }
         
+        if(searchin.getHouseNum() != -1) {
+            tempstring.add("HOUSE.House_Number = \"" + String.valueOf(searchin.getHouseNum()) + "\"");
+        }
+        
+        if(searchin.getPriceMax() != -1) {
+            tempstring.add("HOUSE.Cost <= \"" + String.valueOf(searchin.getPriceMax()) + "\"");
+        }
+        
+        if(searchin.getPriceMin() != -1) {
+            tempstring.add("HOUSE.Cost >= \"" + String.valueOf(searchin.getPriceMin()) + "\"");
+        }
+        
+        if(searchin.getYearBuiltMin() != -1) {
+            tempstring.add("HOUSE.Year >= \"" + String.valueOf(searchin.getYearBuiltMin()) + "\"");
+        }
+        
+        if(searchin.getYearBuiltMax() != -1) {
+            tempstring.add("HOUSE.Year <= \"" + String.valueOf(searchin.getYearBuiltMax()) + "\"");
+        }
+        
+        if(searchin.getFloors() != -1) {
+            tempstring.add("HOUSE.Num_Floors = \"" + String.valueOf(searchin.getFloors()) + "\"");
+        }
+        
+        if(searchin.getBeds() != -1) {
+            tempstring.add("HOUSE.Num_Bed = \"" + String.valueOf(searchin.getBeds()) + "\"");
+        }
+        
+        if(searchin.getBaths() != -1) {
+            tempstring.add("HOUSE.Num_Bath = \"" + String.valueOf(searchin.getBaths()) + "\"");
+        }
+
+        if(searchin.getSqftMin() != -1) {
+            tempstring.add("HOUSE.Sqr_Feet >= \"" + String.valueOf(searchin.getSqftMin()) + "\"");
+        }
+        
+        if(searchin.getSqftMax() != -1) {
+            tempstring.add("HOUSE.Sqr_Feet <= \"" + String.valueOf(searchin.getSqftMax()) + "\"");
+        }
+        
+        if(searchin.getDaysListedMax() != -1) {
+            tempstring.add("HOUSE.Days_Listed <= \"" + String.valueOf(searchin.getDaysListedMax())  + "\"");
+        }
+        
+        if(searchin.getDaysListedMin() != -1) {
+            tempstring.add("HOUSE.Days_Listed >= \"" + String.valueOf(searchin.getDaysListedMin())  + "\"");
+        }
+        
+
         if (tempstring.size() > 1) {
             for(int i=0; i< tempstring.size() -1 ; i++) {
                 masterquery += tempstring.get(i);
@@ -75,6 +124,10 @@ public class HouseList {
         }else
         for(int i=0; i< tempstring.size(); i++) {
             masterquery += tempstring.get(i);
+        }
+
+        if (tempstring.size() == 0) {
+            return houseinformation;
         }
         
         try {
