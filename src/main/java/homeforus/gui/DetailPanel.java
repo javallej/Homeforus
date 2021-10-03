@@ -15,12 +15,18 @@ public class DetailPanel extends JPanel {
 
     public DetailPanel() {
 
-        row1 = new JLabel("Price");
-        row2 = new JLabel("HouseInfo");
-        row3 = new JLabel( "some other stuff");
-        row4 = new JLabel("row 4 information");
-        row5 = new JLabel("row 5 information");
-        setPreferredSize(new Dimension(540,130));
+        row1 = new JLabel("$123,000");
+        row1.setFont(new Font("Sans_Serif",Font.BOLD,20));
+        row2 = new JLabel("2 bds 1 ba 2 floors 1,500 sqft");
+        row2.setFont(new Font("Sans_Serif",Font.BOLD,14));
+        row3 = new JLabel( "742 Evergreen Terrace, Springfield, OR 12345");
+        row3.setFont(new Font("Sans_Serif", Font.PLAIN,14));
+        row4 = new JLabel("Year built: 1969");
+        row4.setFont(new Font("Sans_Serif", Font.PLAIN,14));
+        row5 = new JLabel("52 days on HomeForUs");
+        row5.setFont(new Font("Sans_Serif", Font.PLAIN,14));
+
+        setPreferredSize(new Dimension(500,130));
         setLayout(new GridLayout(5,0));
         add(row1);
         add(row2);
