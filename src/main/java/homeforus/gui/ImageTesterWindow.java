@@ -2,7 +2,11 @@ package main.java.homeforus.gui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import main.java.homeforus.core.ImageEdit;
+
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -25,11 +29,14 @@ public class ImageTesterWindow extends JFrame {
         Image testerImg = null;
 
         try {
-            testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
+            ImageEdit editimage = new ImageEdit();
+            editimage.getImage("test.jpg");
+            //testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/dbget.jpg")));
+            testerImg = ImageIO.read(new File("/home/lazyuser/SER322/Project/src/main/resources/homeforus/houses/dbget.jpg"));
             imgHolder.add(new JLabel(new ImageIcon(testerImg)));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } 
 
     }
 

@@ -79,7 +79,7 @@ public class ImageEdit {
         }
 }
     
-    public void getImage(String Image_Name) throws IOException {
+    public synchronized void getImage(String Image_Name) throws IOException {
         
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -97,7 +97,7 @@ public class ImageEdit {
             rs = stmt.executeQuery();
 
             if(rs.next()) {
-            File f = new File("/home/lazyuser/SER322/Project/new.jpg");
+            File f = new File("/home/lazyuser/SER322/Project/src/main/resources/homeforus/houses/dbget.jpg");
             FileOutputStream fs = new FileOutputStream(f);
             Blob blob = rs.getBlob("Image_Data");
             byte b[] = blob.getBytes(1, (int)blob.length());
