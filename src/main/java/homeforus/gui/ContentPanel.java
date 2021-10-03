@@ -48,7 +48,7 @@ public class ContentPanel extends JPanel {
 
         detailPanel = new DetailPanel();
         add(detailPanel);
-        btnArea = new ButtonArea();
+        btnArea = new ButtonArea(window);
         add(btnArea);
     }
 

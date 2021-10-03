@@ -8,7 +8,7 @@ public class ApplicationInfo {
     private int daysOld;
     private String address;
 
-    public ApplicationInfo(String firstName, String lastName, String status, int daysOld, String address) {
+    public ApplicationInfo(String firstName, String lastName, String status,  String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.status = status;

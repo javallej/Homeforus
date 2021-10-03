@@ -9,13 +9,15 @@ import java.awt.*;
 // it still holds all the panels and buttons for every child class tho
 public class ButtonArea extends JPanel {
 
+    private BaseWindow window;
     private int width;
     private int height;
     private JPanel inner;
     private JButton btn1;
     private JButton btn2;
 
-    public ButtonArea() {
+    public ButtonArea(BaseWindow window) {
+        this.window = window;
         width = 150;
         height = 130;
         setPreferredSize(new Dimension(width, height));
