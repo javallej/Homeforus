@@ -39,6 +39,8 @@ public class HouseList {
         
         ResultSet rs = null;
         PreparedStatement stmt = null;
+        List<String> tempstring=new ArrayList<String>();
+
         
         Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
                 Setup.setup().get("jdbcDriver"));
@@ -48,27 +50,32 @@ public class HouseList {
         String masterquery = "SELECT * FROM HOUSE WHERE ";
         
         if(!searchin.getState().equals("")) {
-            masterquery += "HOUSE.State = " + searchin.getState() + " ";
-
+            tempstring.add("HOUSE.State = \"" + searchin.getState() + "\"");
         }
         
-        if(searchin.getCity() != "") {
-            masterquery += searchin.getCity();
-
+        if(!searchin.getCity().equals("")) {
+            tempstring.add("HOUSE.City = \"" + searchin.getCity() + "\"");
         }
 
         if(searchin.getZip()!= -1) {
-            masterquery += "HOUSE.Zip = " + String.valueOf(searchin.getZip()) + " ";
+            tempstring.add("HOUSE.Zip = \"" + String.valueOf(searchin.getZip()) + "\"");
         }
 
-        if(searchin.getStreet() != "") {
-            masterquery += searchin.getStreet();
+        if(!searchin.getStreet().equals("")) {
+            tempstring.add("HOUSE.Street = \"" + searchin.getStreet() + "\"");
         }
         
-    
-
-        System.out.println(masterquery);
-
+        if (tempstring.size() > 1) {
+            for(int i=0; i< tempstring.size() -1 ; i++) {
+                masterquery += tempstring.get(i);
+                masterquery += " AND ";
+        }
+           masterquery +=  tempstring.get(tempstring.size() -1);
+            
+        }else
+        for(int i=0; i< tempstring.size(); i++) {
+            masterquery += tempstring.get(i);
+        }
         
         try {
 
@@ -83,15 +90,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
 
@@ -116,9 +124,9 @@ public class HouseList {
                 }
             } catch (SQLException se) {
                 se.printStackTrace();
-            }
-
-        }
+            }}    
+            
+        System.out.println(masterquery);
         return houseinformation;
     }
     
