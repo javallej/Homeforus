@@ -13,9 +13,12 @@ public class HouseDetailWindow extends JFrame {
     int width;
     int height;
     BaseWindow window;
+    HouseDetailPanel houseDetail;
+    boolean userIsConsumer;
 
-    public HouseDetailWindow(BaseWindow window) {
+    public HouseDetailWindow(BaseWindow window, HouseDetailPanel houseDetail) {
         this.window = window;
+        this.houseDetail = houseDetail;
         this.width = 600;
         this.height = 600;
         setPreferredSize(new Dimension(width,height));
@@ -41,18 +44,35 @@ public class HouseDetailWindow extends JFrame {
             e.printStackTrace();
         }
 
-        HouseDetailPanel houseDetailPanel = new HouseDetailPanel();
+        houseDetail = new HouseDetailPanel(null);
         // set size of panel here
 
         JPanel submitAppHolder = new JPanel();
         // set size of panel here
+
         JButton submitAppBtn = new JButton("Submit Application");
         submitAppHolder.add(submitAppBtn);
 
+        if (window.getQueryConnector().getCurrentlyLoggedInUser() != null) {
+            userIsConsumer = window.getQueryConnector().getCurrentlyLoggedInUser().isRealtor();
+        } else {
+            userIsConsumer = false;
+        }
+
+        showAppBtn(submitAppBtn, userIsConsumer);
 
         contentHolder.add(imageHolder);
-        contentHolder.add(houseDetailPanel);
+        contentHolder.add(houseDetail);
         contentHolder.add(submitAppHolder);
         return contentHolder;
+    }
+
+    // make a method that hides this when user is not logged in as a Consumer
+    private void showAppBtn(JButton appBtn, boolean consumerView) {
+        if (userIsConsumer) {
+            appBtn.setVisible(true);
+        } else {
+            appBtn.setVisible(false);
+        }
     }
 }

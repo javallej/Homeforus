@@ -1,7 +1,10 @@
 package main.java.homeforus.gui;
 
+import main.java.homeforus.core.HouseListObject;
+
 public class HouseDetailPanel extends DetailPanel {
 
+    private int houseID;
     private String price;
     private String details;
     private String address;
@@ -9,14 +12,23 @@ public class HouseDetailPanel extends DetailPanel {
     private String daysOn;
     private int numDays;
 
-    public HouseDetailPanel(){
+    public HouseDetailPanel(HouseInput houseInput){
 
-        price = "$123,000";
-        details = "2 bds 1ba 2 floors 1,500 sqft";
-        address = "742 Evergreen Terrace, Springfield, OR 12345";
-        year_built = "Year built: 1952";
-        numDays = 52;
-        daysOn = numDays + " days on HomeForUs";
+//        houseID = 69;
+//        price = "$123,000";
+//        details = "2 bds 1ba 2 floors 1,500 sqft";
+//        address = "742 Evergreen Terrace, Springfield, OR 12345";
+//        year_built = "Year built: 1952";
+//        numDays = 52;
+//        daysOn = numDays + " days on HomeForUs";
+
+        // Create HouseInput object for testing using all the info you just put in up there
+        // houseInput = new HouseInput(houseID, state, city, etc... check HouseInput constructor);
+
+        // Set the fields and concatenate the text in the labels appropriately
+        // eg:
+//        price = "$" + houseInput.getCost(); // can use a NumberFormat Java class if you want to format it with the comma and as a price automatically
+//        details = houseInput.getNum_bed() + " bds " + houseInput.getNum_bath() + " ba " .... etc
 
         getRow1().setText(price);
         getRow2().setText(details);
@@ -26,4 +38,11 @@ public class HouseDetailPanel extends DetailPanel {
 
     }
 
+    public int getHouseID() {
+        return houseID;
+    }
+
+    public void setHouseID(int houseID) {
+        this.houseID = houseID;
+    }
 }

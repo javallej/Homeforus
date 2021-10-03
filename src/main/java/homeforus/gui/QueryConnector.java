@@ -4,6 +4,7 @@ import main.java.homeforus.core.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class QueryConnector {
 
@@ -11,11 +12,45 @@ public class QueryConnector {
     private UserAdd userAddDB;
     private ConsumerAdd consumerAddDB;
     private RealtorAdd realtorAddDB;
+    private HouseAdd houseAddDB;
+    private ApplicationAdd applicationAddDB;
+    private ApplicationList applicationListDB;
 
     public QueryConnector() {
         userAddDB = new UserAdd();
         consumerAddDB = new ConsumerAdd();
         realtorAddDB = new RealtorAdd();
+        houseAddDB = new HouseAdd();
+        applicationAddDB = new ApplicationAdd();
+        applicationListDB = new ApplicationList();
+    }
+
+    public void addApplicationToDB(int houseID) {
+        // Get CurrentlyLoggedInUser object from this class
+        // Pull their userID
+        // Pull the Realtor's userID and Realtor's username via the houseID that was passed in
+        // Pass these parameters to ApplicationAdd:
+//        applicationAddDB.add( parameters here );
+        // Print a confirmation to console that it posted successfully.
+        // Maybe query the database to confirm and print it out? You don't have to though, if you want to just check
+        // it in Workbench~
+    }
+
+    public ArrayList<ApplicationInfo> getAppList() throws SQLException, IOException {
+        ArrayList<ApplicationInfo> appList = null;
+
+        // Get currently logged in user's applications using applicationListDB
+        // method is yet to be written but it will be something like:
+//        ArrayList<ApplicationListObject> appsForUser = (ArrayList<ApplicationListObject>) applicationListDB.List( currentlyLoggedInUser.getUserID() );
+
+        // in a loop, go through and convert all the ApplicationListObjects to ApplicationInfo objects
+//        for (ApplicationListObject app:appsForUser) {
+//            ApplicationInfo appInfo = new ApplicationInfo( fill in the required parameters for ApplicationInfo class (see constructor) );
+            // add to appList
+//            appList.add(appInfo);
+//        }
+
+        return appList;
     }
 
     public void logInUser(String username, String password) {
@@ -25,6 +60,15 @@ public class QueryConnector {
         //Create CurrentlyLoggedInUser class
 
 
+    }
+
+    public void createNewListing(HouseInput houseInput) {
+        // Add a new house
+//        houseAddDB.add( fields from houseInput here );
+
+        // Print a confirmation to console that it posted successfully.
+        // Maybe query the database to confirm and print it out? You don't have to though, if you want to just check
+        // it in Workbench~
     }
 
     public void addUserToDB(NewUserInput newUserInput) throws IOException, SQLException {
