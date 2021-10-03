@@ -133,7 +133,7 @@ public class BaseWindow extends JFrame {
     public void setSearchInput(SearchInput searchInput) {
         this.searchInput = searchInput;
         content.sI = this.searchInput;
-        content.changeContent();
+//        content.changeContent();
     }
 }
 

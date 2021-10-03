@@ -38,8 +38,24 @@ public class ButtonArea extends JPanel {
         btnHolder.add(btn2);
         btnHolder.add(Box.createVerticalGlue());
 
-        btnHolder.setBorder(debugBorder());
-        inner.setBorder(debugBorder());
+        btn1.setVisible(false);
+        btn2.setVisible(false);
+    }
+
+    public JButton getBtn1() {
+        return btn1;
+    }
+
+    public void setBtn1(JButton btn1) {
+        this.btn1 = btn1;
+    }
+
+    public JButton getBtn2() {
+        return btn2;
+    }
+
+    public void setBtn2(JButton btn2) {
+        this.btn2 = btn2;
     }
 
     public static MatteBorder debugBorder() {

@@ -57,6 +57,7 @@ public class QueryConnector {
         return appList;
     }
 
+
     public ArrayList<HouseContentPanel> getRealtorHouses(int userID) {
         ArrayList<HouseContentPanel> houseList = null;
 
