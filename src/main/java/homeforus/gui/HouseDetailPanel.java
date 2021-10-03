@@ -4,13 +4,16 @@ import main.java.homeforus.core.HouseListObject;
 
 public class HouseDetailPanel extends DetailPanel {
 
+
     private int houseID;
+
     private String price;
     private String details;
     private String address;
     private String year_built;
     private String daysOn;
     private int numDays;
+
 
     public HouseDetailPanel(HouseListObject houseListObject){
 
@@ -29,6 +32,16 @@ public class HouseDetailPanel extends DetailPanel {
         // eg:
 //        price = "$" + houseObj.getCost(); // can use a NumberFormat Java class if you want to format it with the comma and as a price automatically
 //        details = houseObj.getNum_bed() + " bds " + houseObj.getNum_bath() + " ba " .... etc
+    }
+    
+    public HouseDetailPanel(){
+
+        price = "$123,000";
+        details = "2 bds 1ba 2 floors 1,500 sqft";
+        address = "742 Evergreen Terrace, Springfield, OR, 12345";
+        year_built = "Year built: 1952";
+        numDays = 52;
+        daysOn = numDays + " days on HomeForUs";
 
         getRow1().setText(price);
         getRow2().setText(details);
@@ -45,4 +58,5 @@ public class HouseDetailPanel extends DetailPanel {
     public void setHouseID(int houseID) {
         this.houseID = houseID;
     }
+
 }
