@@ -5,31 +5,29 @@ import java.sql.SQLException;
 
 public class PrepareDatabase {
 
-    public void prepare(String filepath) {
+    public void prepare(String filepath){
         
         HouseList listcount = new HouseList();
-        try {
-            System.out.println(listcount.getHouseCount());
-        } catch (SQLException | IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        System.out.println(filepath);
         
         String path = filepath;
         String imagename = ".jpg";
-
-        ImageAdd addimage = new ImageAdd();
-        try {
-            for(int i=1; i< 9; i++)
-            {
-                addimage.addimage(i, filepath, i + imagename);
+        int count = 1;
+        ImageAdd addimage = new ImageAdd();{
+            try {
+                do { 
+                for(int i=1; i< 11; i++) {
+                    try {
+                        addimage.addimage(count, filepath, i + imagename);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    count++;
+                } 
+                }while (count < listcount.getHouseCount());
+            } catch (SQLException | IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-    }
-}
+
+            }}}

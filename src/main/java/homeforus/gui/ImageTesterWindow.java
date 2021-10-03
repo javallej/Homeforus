@@ -35,7 +35,7 @@ public class ImageTesterWindow extends JFrame {
 
         try {
 
-            storeimage = editimage.getImage("3.jpg", 3);
+            storeimage = editimage.getImage("5.jpg", 5);
             
             if(storeimage != null) {
                 imgHolder.add(new JLabel(new ImageIcon(ImageIO.read(storeimage))));
