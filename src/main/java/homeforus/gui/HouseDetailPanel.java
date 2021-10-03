@@ -13,7 +13,7 @@ public class HouseDetailPanel extends DetailPanel {
 
         price = "$123,000";
         details = "2 bds 1ba 2 floors 1,500 sqft";
-        address = "742 Evergreen Terrace, Springfield, OR 12345";
+        address = "742 Evergreen Terrace, Springfield, OR, 12345";
         year_built = "Year built: 1952";
         numDays = 52;
         daysOn = numDays + " days on HomeForUs";
