@@ -29,17 +29,6 @@ public class HouseDetailPanel extends DetailPanel {
 
     public HouseDetailPanel(HouseListObject houseListObject){
 
-//        houseID = 69;
-//        price = "$123,000";
-//        details = "2 bds 1ba 2 floors 1,500 sqft";
-//        address = "742 Evergreen Terrace, Springfield, OR 12345";
-//        year_built = "Year built: 1952";
-//        numDays = 52;
-//        daysOn = numDays + " days on HomeForUs";
-
-        // Create HouseListObject for testing using all the info you just put in up there
-        //HouseListObject houseObj = new HouseListObject();
-
         houseID = houseListObject.getHouseID();
         cost = houseListObject.getCost();
         num_bed = houseListObject.getNumBed();
@@ -47,11 +36,27 @@ public class HouseDetailPanel extends DetailPanel {
         num_floors = houseListObject.getNumFloors();
         sqr_feet = houseListObject.getSqrFeet();
         house_number = houseListObject.getHouseNumber();
+        street = houseListObject.getStreet();
         state = houseListObject.getState();
         city = houseListObject.getCity();
         zip = houseListObject.getZip();
         year = houseListObject.getYear();
         days_listed = houseListObject.getDaysListed();
+
+        //Test Values
+//        houseID = 69;
+//        cost = 123456;
+//        num_bed = 2;
+//        num_bath = 1;
+//        num_floors = 2;
+//        sqr_feet = 1500;
+//        house_number = 742;
+//        street = "Evergreen Terrace";
+//        state = "OR";
+//        city = "SpringField";
+//        zip = "12345";
+//        year = 1952;
+//        days_listed = 52;
 
         // Set the fields and concatenate the text in the labels appropriately
         // eg:
