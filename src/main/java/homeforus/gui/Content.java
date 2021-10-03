@@ -23,7 +23,7 @@ public class Content extends JPanel {
         scrollPane.setPreferredSize(new Dimension(940,460));
         add(scrollPane);
 
-        ContentPanel contentPanel = new ContentPanel(baseWindow);
+        ContentPanel contentPanel = new ContentPanel(baseWindow, "test");
         innerPanel.add(contentPanel);
     }
 

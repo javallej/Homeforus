@@ -12,7 +12,7 @@ public class HouseDetailPanel extends DetailPanel {
     private String daysOn;
     private int numDays;
 
-    public HouseDetailPanel(HouseInput houseInput){
+    public HouseDetailPanel(HouseListObject houseListObject){
 
 //        houseID = 69;
 //        price = "$123,000";
@@ -22,13 +22,13 @@ public class HouseDetailPanel extends DetailPanel {
 //        numDays = 52;
 //        daysOn = numDays + " days on HomeForUs";
 
-        // Create HouseInput object for testing using all the info you just put in up there
-        // houseInput = new HouseInput(houseID, state, city, etc... check HouseInput constructor);
+        // Create HouseListObject for testing using all the info you just put in up there
+        // houseObj = new HouseListObject(houseID, state, city, etc... check HouseListObject constructor);
 
         // Set the fields and concatenate the text in the labels appropriately
         // eg:
-//        price = "$" + houseInput.getCost(); // can use a NumberFormat Java class if you want to format it with the comma and as a price automatically
-//        details = houseInput.getNum_bed() + " bds " + houseInput.getNum_bath() + " ba " .... etc
+//        price = "$" + houseObj.getCost(); // can use a NumberFormat Java class if you want to format it with the comma and as a price automatically
+//        details = houseObj.getNum_bed() + " bds " + houseObj.getNum_bath() + " ba " .... etc
 
         getRow1().setText(price);
         getRow2().setText(details);

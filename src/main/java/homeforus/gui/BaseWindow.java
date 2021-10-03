@@ -23,7 +23,7 @@ public class BaseWindow extends JFrame {
 
     public BaseWindow() {
         baseWindow = this;
-        queryConnector = new QueryConnector();
+        queryConnector = new QueryConnector(this);
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
