@@ -100,7 +100,7 @@ public class CreateAccountWindow extends JFrame {
         consumerPanel.setLayout(new FlowLayout());
         consumerPanel.setPreferredSize(new Dimension(150,20));
         consumerBtn = new JRadioButton("");
-        JLabel consumerLabel = new JLabel("I'm looking for a house");
+        JLabel consumerLabel = new JLabel("I'm a buyer");
         consumerPanel.add(consumerBtn);
         consumerPanel.add(consumerLabel);
         conDOB = createInputField("Date of Birth");
