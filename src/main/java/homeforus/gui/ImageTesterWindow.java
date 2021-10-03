@@ -34,11 +34,8 @@ public class ImageTesterWindow extends JFrame {
         InputStream storeimage = null;
 
         try {
-            String filepath = "/home/lazyuser/SER322/Project/";
-            String imagename = "test.jpg";
 
-            addimage.addimage(2, filepath, imagename);
-            storeimage = editimage.getImage("test.jpg", 2);
+            storeimage = editimage.getImage("3.jpg", 3);
             
             if(storeimage != null) {
                 imgHolder.add(new JLabel(new ImageIcon(ImageIO.read(storeimage))));

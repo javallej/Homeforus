@@ -1311,5 +1311,55 @@ public class HouseList {
         return houseinformation;
         
     }
+    
+    public int getHouseCount() throws SQLException, IOException{
+        
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        int count = 0;
+        
+        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
+                Setup.setup().get("jdbcDriver"));
+        
+
+        try {
+
+
+            String query = "SELECT COUNT(House_ID) FROM HOUSE";
+
+            stmt = connect.prepareStatement(query);
+            rs = stmt.executeQuery();
+
+            
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+            
+    
+            
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+
+        finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+
+        }
+        return count;
+        
+    }
 }
 

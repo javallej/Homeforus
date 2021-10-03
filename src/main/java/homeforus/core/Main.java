@@ -36,9 +36,10 @@ public class Main {
         
         try {
         
-        if(database.equals("PrepareDatabase")) {
+        if(database != null) {
             PrepareDatabase data= new PrepareDatabase();
             data.prepare(database);
+            System.exit(0);
         }
             
         if (args.length == 1) {
