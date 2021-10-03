@@ -44,14 +44,35 @@ public class HouseList {
                 Setup.setup().get("jdbcDriver"));
         
         List <HouseListObject> houseinformation = new ArrayList<HouseListObject>();
+        
+        String masterquery = "SELECT * FROM HOUSE WHERE ";
+        
+        if(!searchin.getState().equals("")) {
+            masterquery += "HOUSE.State = " + searchin.getState() + " ";
 
+        }
+        
+        if(searchin.getCity() != "") {
+            masterquery += searchin.getCity();
+
+        }
+
+        if(searchin.getZip()!= -1) {
+            masterquery += "HOUSE.Zip = " + String.valueOf(searchin.getZip()) + " ";
+        }
+
+        if(searchin.getStreet() != "") {
+            masterquery += searchin.getStreet();
+        }
+        
+    
+
+        System.out.println(masterquery);
+
+        
         try {
 
-
-            String query = "SELECT * FROM HOUSE WHERE HOUSE.House_ID = ?";
-
-            stmt = connect.prepareStatement(query);
-            
+            stmt = connect.prepareStatement(masterquery);
             rs = stmt.executeQuery();
 
             
@@ -73,6 +94,7 @@ public class HouseList {
                 hobject.setDaysListed(rs.getInt(14));
                 houseinformation.add(hobject);
             }
+
             
     
             
