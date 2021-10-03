@@ -28,17 +28,17 @@ public class ApplicationDetailPanel extends DetailPanel{
         daysOld = "Days on HomeForUs: " +appInfo.getDaysOld(); //changed to daysOld because I don't see an address
         address = appInfo.getAddress();
 
-        main.java.homeforus.gui.DetailPanel.getRow1().setText(buyerName);
-        main.java.homeforus.gui.DetailPanel.getRow2().setText(status);
-        main.java.homeforus.gui.DetailPanel.getRow3().setText(address);
-        main.java.homeforus.gui.DetailPanel.getRow4().setText("");
-        main.java.homeforus.gui.DetailPanel.getRow5().setText(daysOld);
+        getRow1().setText(buyerName);
+        getRow2().setText(status);
+        getRow3().setText(address);
+        getRow4().setText("");
+        getRow5().setText(daysOld);
 
         if(status.equals("DENIED")){
-            main.java.homeforus.gui.DetailPanel.getRow2().setForeground(Color.red);
+            getRow2().setForeground(Color.red);
         }
         if(status.equals("ACCEPTED")){
-            main.java.homeforus.gui.DetailPanel.getRow2().setForeground(Color.green);
+            getRow2().setForeground(Color.green);
         }
     }
 }

@@ -12,6 +12,19 @@ public class HouseDetailPanel extends DetailPanel {
     private String daysOn;
     private int numDays;
 
+    private String state;
+    private String city;
+    private String zip;
+    private String street;
+    private int house_number;
+    private int cost;
+    private int year;
+    private int num_floors;
+    private int num_bed;
+    private int num_bath;
+    private int sqr_feet;
+    private int days_listed;
+
     public HouseDetailPanel(HouseListObject houseListObject){
 
 //        houseID = 69;
@@ -23,12 +36,28 @@ public class HouseDetailPanel extends DetailPanel {
 //        daysOn = numDays + " days on HomeForUs";
 
         // Create HouseListObject for testing using all the info you just put in up there
-        // houseObj = new HouseListObject(houseID, state, city, etc... check HouseListObject constructor);
+        //HouseListObject houseObj = new HouseListObject();
+
+        houseID = houseListObject.getHouseID();
+        cost = houseListObject.getCost();
+        num_bed = houseListObject.getNumBed();
+        num_bath = houseListObject.getNumBath();
+        num_floors = houseListObject.getNumFloors();
+        sqr_feet = houseListObject.getSqrFeet();
+        house_number = houseListObject.getHouseNumber();
+        state = houseListObject.getState();
+        city = houseListObject.getCity();
+        zip = houseListObject.getZip();
+        year = houseListObject.getYear();
+        days_listed = houseListObject.getDaysListed();
 
         // Set the fields and concatenate the text in the labels appropriately
         // eg:
-//        price = "$" + houseObj.getCost(); // can use a NumberFormat Java class if you want to format it with the comma and as a price automatically
-//        details = houseObj.getNum_bed() + " bds " + houseObj.getNum_bath() + " ba " .... etc
+        price = "$" + cost;
+        details = num_bed + " beds " + num_bath + " baths " + num_floors + " floors " + sqr_feet + " sqft";
+        address = house_number + " " + street + ", " + city + ", " + state + ", " + zip;
+        year_built = "Year built: " + year;
+        daysOn = "Days on HomeForUs: " + days_listed;
 
         getRow1().setText(price);
         getRow2().setText(details);
@@ -38,11 +67,4 @@ public class HouseDetailPanel extends DetailPanel {
 
     }
 
-    public int getHouseID() {
-        return houseID;
-    }
-
-    public void setHouseID(int houseID) {
-        this.houseID = houseID;
-    }
 }
