@@ -2,6 +2,8 @@ package main.java.homeforus.gui;
 
 import main.java.homeforus.core.ApplicationListObject;
 
+import java.awt.*;
+
 public class ApplicationDetailPanel extends DetailPanel{
 
     BaseWindow window;
@@ -30,5 +32,11 @@ public class ApplicationDetailPanel extends DetailPanel{
         getRow4().setText("");
         getRow5().setText(appDate);
 
+        if(status.equals("DENIED")){
+            getRow2().setForeground(Color.red);
+        }
+        if(status.equals("ACCEPTED")){
+            getRow2().setForeground(Color.green);
+        }
     }
 }
