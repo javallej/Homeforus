@@ -52,12 +52,16 @@ public class TestingPanel extends JPanel {
 
         JButton houseDetailTester = new JButton("House Detail Tester");
         add(houseDetailTester);
-        HouseDetailPanel houseDetailPanel = new HouseDetailPanel(null);
-        houseDetailPopUp = new HouseDetailWindow(window, houseDetailPanel);
+
 
         houseDetailTester.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
+                HouseDetailPanel houseDetailPanel = new HouseDetailPanel(null);
+                HouseDetailWindow houseDetailPopUp = new HouseDetailWindow(window, houseDetailPanel);
+
                 if (!houseDetailPopUp.isVisible()) {
                     houseDetailPopUp.setVisible(true);
                 }

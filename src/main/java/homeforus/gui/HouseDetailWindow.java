@@ -1,11 +1,12 @@
 package main.java.homeforus.gui;
 
 import javax.imageio.ImageIO;
-import javax.print.attribute.standard.JobKOctets;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class HouseDetailWindow extends JFrame {
@@ -13,6 +14,7 @@ public class HouseDetailWindow extends JFrame {
     int width;
     int height;
     BaseWindow window;
+    private JButton appBtn;
     HouseDetailPanel houseDetail;
     boolean userIsConsumer;
 
@@ -50,16 +52,26 @@ public class HouseDetailWindow extends JFrame {
         JPanel submitAppHolder = new JPanel();
         // set size of panel here
 
-        JButton submitAppBtn = new JButton("Submit Application");
-        submitAppHolder.add(submitAppBtn);
+        appBtn = new JButton("Submit Application");
+        submitAppHolder.add(appBtn);
 
-        if (window.getQueryConnector().getCurrentlyLoggedInUser() != null) {
-            userIsConsumer = window.getQueryConnector().getCurrentlyLoggedInUser().isRealtor();
-        } else {
-            userIsConsumer = false;
-        }
+        showAppBtn();
 
-        showAppBtn(submitAppBtn, userIsConsumer);
+
+        appBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (window.getQueryConnector().getCurrentlyLoggedInUser() != null) {
+                    try {
+                        window.getQueryConnector().createNewApplication(10);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
 
         contentHolder.add(imageHolder);
         contentHolder.add(houseDetail);
@@ -67,12 +79,17 @@ public class HouseDetailWindow extends JFrame {
         return contentHolder;
     }
 
-    // make a method that hides this when user is not logged in as a Consumer
-    private void showAppBtn(JButton appBtn, boolean consumerView) {
-        if (userIsConsumer) {
-            appBtn.setVisible(true);
+
+    public void setHouseDetail(HouseDetailPanel houseDetail) {
+        this.houseDetail = houseDetail;
+    }
+
+    public void showAppBtn() {
+        if (window.getQueryConnector().getCurrentlyLoggedInUser() != null) {
+            userIsConsumer = !window.getQueryConnector().getCurrentlyLoggedInUser().isRealtor();
         } else {
-            appBtn.setVisible(false);
+            userIsConsumer = false;
         }
+        appBtn.setVisible(userIsConsumer);
     }
 }

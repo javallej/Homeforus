@@ -50,7 +50,9 @@ public class SignInWindow extends JFrame {
                 password.getTextField().setText("");
                 if (logInSuccessful) {
                     System.out.println("Sign in successful!");
-                    changeHeaderState(window.getQueryConnector().getCurrentlyLoggedInUser().isRealtor());
+                    boolean isRealtor = window.getQueryConnector().getCurrentlyLoggedInUser().isRealtor();
+                    changeHeaderState(isRealtor);
+                    window.getSignInManager().loggedInChangeGUI(isRealtor);
                     caller.hideSignIn();
                 } else {
                     System.out.println("sign in failed");
