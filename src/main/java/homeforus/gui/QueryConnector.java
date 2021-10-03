@@ -33,16 +33,18 @@ public class QueryConnector {
         houseListDB = new HouseList();
     }
 
-    public void createNewApplication(int houseID) {
-        // uncomment for testing
-//        int houseID = 13;
-//        currentlyLoggedInUser = new CurrentlyLoggedInUser("darthvader", 12, false);
-        // Get CurrentlyLoggedInUser object from this class
-        // Pull their userID
-        // Pull the Realtor's userID and Realtor's username via the houseID that was passed in
-        // Pass these parameters to ApplicationAdd:
-//        applicationAddDB.add( parameters here );
+    public void createNewApplication(int houseID) throws SQLException, IOException {
+    /* uncomment this box for testing
+    houseID = 13;
+    currentlyLoggedInUser = new CurrentlyLoggedInUser("darthvader", 12, false);
+    HouseList hl = new HouseList();
+    /*/
+
+//        applicationAddDB.add(houseID, currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), hl.List(houseID).get(0).getRealtorID(),hl.List(houseID).get(0).getRealtorUsername(),"Submitted");
+
         // Print a confirmation to console that it posted successfully.
+        System.out.println("Posting Successful");
+
         // Maybe query the database to confirm and print it out? You don't have to though, if you want to just check
         // it in Workbench~
     }
