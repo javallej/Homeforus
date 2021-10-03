@@ -1,6 +1,8 @@
 package main.java.homeforus.gui;
 
 import main.java.homeforus.core.HouseListObject;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class HouseDetailPanel extends DetailPanel {
 
@@ -53,7 +55,7 @@ public class HouseDetailPanel extends DetailPanel {
 
         // Set the fields and concatenate the text in the labels appropriately
         // eg:
-        price = "$" + cost;
+        price = NumberFormat.getCurrencyInstance(new Locale("en","US")).format(cost);
         details = num_bed + " beds " + num_bath + " baths " + num_floors + " floors " + sqr_feet + " sqft";
         address = house_number + " " + street + ", " + city + ", " + state + ", " + zip;
         year_built = "Year built: " + year;
