@@ -605,7 +605,7 @@ public class SearchBar extends JPanel {
             city.setPreferredSize(new Dimension(100,height));
             bar.add(city);
 
-            state = new SearchTextBox(" State", 2);
+            state = new SearchTextBox(" State", 15);
             state.setPreferredSize(new Dimension(50,height));
             bar.add(state);
 
