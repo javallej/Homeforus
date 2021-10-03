@@ -6,27 +6,27 @@ import java.awt.*;
 
 public class DetailPanel extends JPanel {
 
-    private JLabel topRow = new JLabel("Price");
-    private JLabel secondRow = new JLabel("HouseInfo");
-    private JLabel lastRow = new JLabel( "some other stuff");
+    private JLabel row1;
+    private JLabel row2;
+    private JLabel row3;
+    private JLabel row4;
+    private JLabel row5;
 
-    JPanel picSpace = new JPanel();
-    JPanel infoSpace = new JPanel();
-    JPanel btnSpace = new JPanel();
 
     public DetailPanel() {
-        //picSpace.setPreferredSize(new Dimension(130,130));
-        //picSpace.add(new JLabel("picSpace"));
-//        infoSpace.setPreferredSize(new Dimension(540,130));
-//        infoSpace.setLayout(new GridLayout(3,0));
-//        infoSpace.add(topRow);
-//        infoSpace.add(secondRow);
-//        infoSpace.add(lastRow);
+
+        row1 = new JLabel("Price");
+        row2 = new JLabel("HouseInfo");
+        row3 = new JLabel( "some other stuff");
+        row4 = new JLabel("row 4 information");
+        row5 = new JLabel("row 5 information");
         setPreferredSize(new Dimension(540,130));
-        setLayout(new GridLayout(3,0));
-        add(topRow);
-        add(secondRow);
-        add(lastRow);
+        setLayout(new GridLayout(5,0));
+        add(row1);
+        add(row2);
+        add(row3);
+        add(row4);
+        add(row5);
 
         setBorder(debugBorder());
 
