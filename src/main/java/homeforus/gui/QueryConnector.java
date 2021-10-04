@@ -120,8 +120,9 @@ public class QueryConnector {
     }
 
 
-    public ArrayList<HouseContentPanel> getRealtorHouses(int userID) {
+    public ArrayList<HouseContentPanel> getRealtorHouses(int userID) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
+        System.out.println("called");
 
         // This is going to be almost the same as getSearchList() method, but instead, a userID will be passed in,
         // and a query will be called to return all
@@ -129,12 +130,21 @@ public class QueryConnector {
         // eg.
 //        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.ListRealtorID( userID );
 
+        List<HouseListObject> h = new ArrayList<>();
+
+        HouseList house = new HouseList();
+        h = house.ListRealtorID(userID);
+
+        houseList = convertHouseListToContentPanels(h);
+
         // Call the re-usable method that was written for getSearchList
+        // (later to be written by Rachel)
         // Then return the list
 
         return houseList;
     }
 
+    // I will write this (Rachel)
     public ArrayList<HouseContentPanel> convertHouseListToContentPanels(List<HouseListObject> houses) {
 
         ArrayList<HouseContentPanel> houseContentPanels = null;

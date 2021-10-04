@@ -33,9 +33,9 @@ public class Content extends JPanel {
         }
         defaultDisplayList.buildDisplayList();
         ContentView contentView = new ContentSearchView(baseWindow, defaultDisplayList);
-        innerPanel.add(contentView);
-//        ContentPanel contentPanel = new ContentPanel(baseWindow, "test");
-//        innerPanel.add(contentPanel);
+//        innerPanel.add(contentView);
+        innerPanel.add(new TestingPanel(baseWindow));
+
     }
 
     public void setContentView(ContentView contentView) {

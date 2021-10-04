@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class TestingPanel extends JPanel {
 
@@ -67,6 +69,24 @@ public class TestingPanel extends JPanel {
                 }
             }
         });
+
+        JButton getRealtorHouses = new JButton("Get Realtor Houses by Realtor ID");
+        getRealtorHouses.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    window.getQueryConnector().getRealtorHouses(2);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        add(getRealtorHouses);
+
+
 
     }
 }
