@@ -21,7 +21,7 @@ public class TestingPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         JButton addNewListing = new JButton("Edit listing");
         add(addNewListing);
-        RealtorListingsView r = new RealtorListingsView();
+        RealtorListingsView r = new RealtorListingsView(window, null);
 
         // Create the CreateListingWindow window here
         // Remember it's going to have to be passed the HouseID and/or all the House

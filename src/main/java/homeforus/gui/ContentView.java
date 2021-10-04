@@ -15,6 +15,11 @@ public class ContentView extends JPanel {
     public ContentView(BaseWindow window, ContentPanelListDisplay c) {
         this.window = window;
         this.contentPanelListDisplay = c;
+        add(contentPanelListDisplay);
+    }
+
+    public void removePanels() {
+        remove(contentPanelListDisplay);
     }
 
     public ContentPanelListDisplay getContentPanelListDisplay() {

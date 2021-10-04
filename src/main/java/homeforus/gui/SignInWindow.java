@@ -54,17 +54,7 @@ public class SignInWindow extends JFrame {
                     boolean isRealtor = window.getQueryConnector().getCurrentlyLoggedInUser().isRealtor();
                     changeHeaderState(isRealtor);
                     window.getSignInManager().loggedInChangeGUI(isRealtor);
-
-                    ArrayList<HouseContentPanel> randomHouses = null;
-                    try {
-                        randomHouses = window.getQueryConnector().getRandomHouses(10);
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    window.setContentWindowWithHouses(randomHouses);
-
+                    window.setContentWindowWithRandomHouses();
                     caller.hideSignIn();
                 } else {
                     System.out.println("sign in failed");

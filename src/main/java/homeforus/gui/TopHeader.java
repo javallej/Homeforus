@@ -4,8 +4,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 // This class contains the elements that are in the top part of the Header class:
@@ -55,6 +58,7 @@ public class TopHeader extends JPanel {
             signInButton.setVisible(true);
             manage.setVisible(false);
             window.getQueryConnector().setCurrentlyLoggedInUser(null);
+            window.setContentWindowWithRandomHouses();
         }
     }
 
@@ -94,6 +98,28 @@ public class TopHeader extends JPanel {
             buttons.setLayout(new BoxLayout(buttons,BoxLayout.PAGE_AXIS));
             manageApplications = addButton("Manage Applications");
             manageListings = addButton("Manage Listings");
+
+            manageListings.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    QueryConnector q = window.getQueryConnector();
+                    ArrayList<HouseContentPanel> realtorsHouses = null;
+                    try {
+                        realtorsHouses = q.getRealtorHouses(q.getCurrentlyLoggedInUser().getUserID());
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    if (realtorsHouses != null) {
+                        ArrayList<ContentPanel> cH = new ArrayList<>(realtorsHouses);
+                        ContentPanelListDisplay h = new ContentPanelListDisplay(cH);
+                        RealtorListingsView r = new RealtorListingsView(window, h);
+                        window.setContentView(r);
+                    }
+                }
+            });
+
             appPanel.add(manageApplications);
             listPanel.add(manageListings);
             buttons.add(appPanel);

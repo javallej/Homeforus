@@ -28,10 +28,6 @@ public class HouseDetailWindow extends JFrame {
         this.width = 600;
         this.height = 600;
         setPreferredSize(new Dimension(width,height));
-
-
-
-
     }
 
     public void buildHouseDetailWindow() {
@@ -42,10 +38,19 @@ public class HouseDetailWindow extends JFrame {
 
         JPanel imageHolder = new JPanel();
         // set size of panel here
-        Image testerImg = null;
+        Image houseImage = null;
+        Image placeholderImg = null;
+
         try {
-            testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
-            imageHolder.add(new JLabel(new ImageIcon(testerImg)));
+            houseImage = caller.getImgL();
+                if (houseImage != null) {
+                    ImageIcon ic = new ImageIcon(houseImage);
+                    ic.setImage(ic.getImage().getScaledInstance(width - 100, height - 300, Image.SCALE_DEFAULT));
+                    imageHolder.add(new JLabel(ic));
+                } else {
+                    placeholderImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
+                    imageHolder.add(new JLabel(new ImageIcon(placeholderImg)));
+                }
         } catch (IOException e) {
             e.printStackTrace();
         }

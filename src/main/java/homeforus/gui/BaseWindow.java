@@ -62,8 +62,13 @@ public class BaseWindow extends JFrame {
         searchInput = new SearchInput();
         content.sI = searchInput;
         basePanel.add(content);
+        setContentWindowWithRandomHouses();
+        baseWindow.pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
 
-
+    public void setContentWindowWithRandomHouses() {
         ArrayList<HouseContentPanel> randomHouses = null;
         try {
             randomHouses = getQueryConnector().getRandomHouses(10);
@@ -73,17 +78,12 @@ public class BaseWindow extends JFrame {
             e.printStackTrace();
         }
         setContentWindowWithHouses(randomHouses);
-
-
-        baseWindow.pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     public void setContentWindowWithHouses(ArrayList<HouseContentPanel> houses) {
         ArrayList<ContentPanel> contents = new ArrayList<>(houses);
         ContentPanelListDisplay contentPanelListDisplay = new ContentPanelListDisplay(contents);
-        ContentSearchView contentSearchView = new ContentSearchView(this, contentPanelListDisplay);
+        ContentView contentSearchView = new ContentView(this, contentPanelListDisplay);
         setContentView(contentSearchView);
     }
 

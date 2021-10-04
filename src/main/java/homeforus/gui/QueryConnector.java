@@ -196,52 +196,6 @@ public class QueryConnector {
         h = house.ListRealtorID(realtorUserID);
         houseList = convertHouseListToContentPanels(h);
 
-        for(int i=0; i< h.size(); i++) {
-            System.out.print("HouseID: ");
-            System.out.println(h.get(i).getHouseID());
-
-            System.out.print("RealtorID: ");
-            System.out.println(h.get(i).getRealtorID());
-
-            System.out.print("Realtor Username: ");
-            System.out.println(h.get(i).getRealtorUsername());
-
-            System.out.print("State: ");
-            System.out.println(h.get(i).getState());
-
-            System.out.print("City: ");
-            System.out.println(h.get(i).getCity());
-
-            System.out.print("Zip: ");
-            System.out.println(h.get(i).getZip());
-
-            System.out.print("Street: ");
-            System.out.println(h.get(i).getStreet());
-
-            System.out.print("House Number: ");
-            System.out.println(h.get(i).getHouseNumber());
-
-            System.out.print("Cost: ");
-            System.out.println(h.get(i).getCost());
-
-            System.out.print("Year: ");
-            System.out.println(h.get(i).getYear());
-
-            System.out.print("Number of Floors: ");
-            System.out.println(h.get(i).getNumFloors());
-
-            System.out.print("Number of Beds: ");
-            System.out.println(h.get(i).getNumBed());
-
-            System.out.print("Number of Baths: ");
-            System.out.println(h.get(i).getNumBath());
-
-            System.out.print("Square Feet: ");
-            System.out.println(h.get(i).getSqrFeet());
-
-            System.out.print("Days Listed: ");
-            System.out.println(h.get(i).getDaysListed());
-        }
         return houseList;
     }
 
