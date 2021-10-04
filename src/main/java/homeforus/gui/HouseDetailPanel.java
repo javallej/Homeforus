@@ -1,6 +1,11 @@
 package main.java.homeforus.gui;
 
 import main.java.homeforus.core.HouseListObject;
+
+import javax.swing.border.MatteBorder;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -26,8 +31,10 @@ public class HouseDetailPanel extends DetailPanel {
     private int num_bath;
     private int sqr_feet;
     private int days_listed;
+    HouseListObject hLO;
 
     public HouseDetailPanel(HouseListObject houseListObject){
+        this.hLO = houseListObject;
         houseID = houseListObject.getHouseID();
         cost = houseListObject.getCost();
         num_bed = houseListObject.getNumBed();
@@ -71,6 +78,11 @@ public class HouseDetailPanel extends DetailPanel {
         getRow4().setText(year_built);
         getRow5().setText(daysOn);
 
+
+    }
+
+    public HouseListObject gethLO() {
+        return hLO;
     }
 
     public int getHouseID() {

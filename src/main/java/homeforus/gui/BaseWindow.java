@@ -166,10 +166,6 @@ public class BaseWindow extends JFrame {
         return queryConnector;
     }
 
-    public void setSearchInput(SearchInput searchInput) {
-        this.searchInput = searchInput;
-        content.sI = this.searchInput;
-//        content.changeContent();
-    }
+
 }
 

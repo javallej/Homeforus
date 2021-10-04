@@ -45,13 +45,9 @@ public class Content extends JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         add(scrollPane);
         innerPanel.add(contentView);
-        innerPanel.revalidate();
         window.pack();
     }
 
-    //    public void changeContent() {
-//        tA.setText(sI.toString());
-//    }
 
     public JPanel getInnerPanel() {
         return innerPanel;

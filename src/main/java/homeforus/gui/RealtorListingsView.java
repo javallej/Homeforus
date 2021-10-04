@@ -14,7 +14,6 @@ public class RealtorListingsView {
 
     public void hideCreateListingsWindow() {
         createListingWindow.setVisible(false);
-        createListingWindow = null;
     }
 
 }
