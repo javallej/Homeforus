@@ -36,8 +36,8 @@ public class Content extends JPanel {
         }
         ContentPanelListDisplay defaultDisplayList = new ContentPanelListDisplay(panels);
         contentView = new ContentSearchView(baseWindow, defaultDisplayList);
-        innerPanel.add(contentView);
-//        innerPanel.add(new TestingPanel(baseWindow));
+//        innerPanel.add(contentView);
+        innerPanel.add(new TestingPanel(baseWindow));
 
     }
 

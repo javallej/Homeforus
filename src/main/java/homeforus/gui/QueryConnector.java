@@ -125,11 +125,11 @@ public class QueryConnector {
     }
 
 
-    public ArrayList<HouseContentPanel> getRealtorHouses(int userID) throws SQLException, IOException {
+    public ArrayList<HouseContentPanel> getRealtorHouses(int realtorUserID) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
         List<HouseListObject> h;
         HouseList house = new HouseList();
-        h = house.ListRealtorID(userID);
+        h = house.ListRealtorID(realtorUserID);
         houseList = convertHouseListToContentPanels(h);
 
         for(int i=0; i< h.size(); i++) {
