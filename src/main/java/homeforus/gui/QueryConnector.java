@@ -119,28 +119,59 @@ public class QueryConnector {
         return appList;
     }
 
-
     public ArrayList<HouseContentPanel> getRealtorHouses(int userID) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
-        System.out.println("called");
-
-        // This is going to be almost the same as getSearchList() method, but instead, a userID will be passed in,
-        // and a query will be called to return all
-        // houses that a Realtor with the given user ID has listed
-        // eg.
-//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.ListRealtorID( userID );
-
-        List<HouseListObject> h = new ArrayList<>();
-
+        List<HouseListObject> h;
         HouseList house = new HouseList();
         h = house.ListRealtorID(userID);
-
         houseList = convertHouseListToContentPanels(h);
 
-        // Call the re-usable method that was written for getSearchList
-        // (later to be written by Rachel)
-        // Then return the list
+        for(int i=0; i< h.size(); i++) {
+            System.out.print("HouseID: ");
+            System.out.println(h.get(i).getHouseID());
 
+            System.out.print("RealtorID: ");
+            System.out.println(h.get(i).getRealtorID());
+
+            System.out.print("Realtor Username: ");
+            System.out.println(h.get(i).getRealtorUsername());
+
+            System.out.print("State: ");
+            System.out.println(h.get(i).getState());
+
+            System.out.print("City: ");
+            System.out.println(h.get(i).getCity());
+
+            System.out.print("Zip: ");
+            System.out.println(h.get(i).getZip());
+
+            System.out.print("Street: ");
+            System.out.println(h.get(i).getStreet());
+
+            System.out.print("House Number: ");
+            System.out.println(h.get(i).getHouseNumber());
+
+            System.out.print("Cost: ");
+            System.out.println(h.get(i).getCost());
+
+            System.out.print("Year: ");
+            System.out.println(h.get(i).getYear());
+
+            System.out.print("Number of Floors: ");
+            System.out.println(h.get(i).getNumFloors());
+
+            System.out.print("Number of Beds: ");
+            System.out.println(h.get(i).getNumBed());
+
+            System.out.print("Number of Baths: ");
+            System.out.println(h.get(i).getNumBath());
+
+            System.out.print("Square Feet: ");
+            System.out.println(h.get(i).getSqrFeet());
+
+            System.out.print("Days Listed: ");
+            System.out.println(h.get(i).getDaysListed());
+        }
         return houseList;
     }
 
