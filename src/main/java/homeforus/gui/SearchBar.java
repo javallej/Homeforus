@@ -151,12 +151,12 @@ public class SearchBar extends JPanel {
                 searchInput = new SearchInput(houseNo, street, city, state, zipNo, priceMin, priceMax,
                                                  beds, baths, sqMin, sqMax, floors, yrMin, yrMax, dMin, dMax);
 
-                QueryConnector query = new QueryConnector(window);
+                QueryConnector query = window.getQueryConnector();
 
-
-                window.setSearchInput(searchInput);
                 try {
-                    query.getSearchList(searchInput);
+                    ArrayList<HouseContentPanel> houses = query.getSearchList(searchInput);
+                    window.setContentWindowWithHouses(houses);
+
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -164,8 +164,6 @@ public class SearchBar extends JPanel {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-
-
             }
         });
     }
@@ -612,7 +610,7 @@ public class SearchBar extends JPanel {
             city.setPreferredSize(new Dimension(100,height));
             bar.add(city);
 
-            state = new SearchTextBox(" State", 2);
+            state = new SearchTextBox(" State", 20);
             state.setPreferredSize(new Dimension(50,height));
             bar.add(state);
 

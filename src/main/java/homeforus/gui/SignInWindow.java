@@ -8,6 +8,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SignInWindow extends JFrame {
 
@@ -53,6 +54,7 @@ public class SignInWindow extends JFrame {
                     boolean isRealtor = window.getQueryConnector().getCurrentlyLoggedInUser().isRealtor();
                     changeHeaderState(isRealtor);
                     window.getSignInManager().loggedInChangeGUI(isRealtor);
+                    window.setContentWindowWithRandomHouses();
                     caller.hideSignIn();
                 } else {
                     System.out.println("sign in failed");

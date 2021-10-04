@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 // This class houses the main window that the GUI elements will be added to
@@ -60,11 +62,35 @@ public class BaseWindow extends JFrame {
         searchInput = new SearchInput();
         content.sI = searchInput;
         basePanel.add(content);
-
+        setContentWindowWithRandomHouses();
         baseWindow.pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    public void setContentWindowWithRandomHouses() {
+        ArrayList<HouseContentPanel> randomHouses = null;
+        try {
+            randomHouses = getQueryConnector().getRandomHouses(10);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setContentWindowWithHouses(randomHouses);
+    }
+
+    public void setContentWindowWithHouses(ArrayList<HouseContentPanel> houses) {
+        ArrayList<ContentPanel> contents = new ArrayList<>(houses);
+        ContentPanelListDisplay contentPanelListDisplay = new ContentPanelListDisplay(contents);
+        ContentView contentSearchView = new ContentView(this, contentPanelListDisplay);
+        setContentView(contentSearchView);
+    }
+
+    public void setContentView(ContentView contentView) {
+        content.setContentView(contentView);
+    }
+
 
     public SignInManager getSignInManager() {
         return signInManager;
@@ -140,10 +166,6 @@ public class BaseWindow extends JFrame {
         return queryConnector;
     }
 
-    public void setSearchInput(SearchInput searchInput) {
-        this.searchInput = searchInput;
-        content.sI = this.searchInput;
-//        content.changeContent();
-    }
+
 }
 

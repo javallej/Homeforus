@@ -1,67 +1,78 @@
 package main.java.homeforus.gui;
 
+import main.java.homeforus.core.ImageEdit;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class ContentPanel extends JPanel {
 
-    private String image;
+    private Image imgL;
+    private String imageName;
     private DetailPanel detailPanel;
     private ButtonArea btnArea;
     private BaseWindow window;
     private JPanel imgArea;
-    private HouseDetailWindow houseDetailWindow;
 
-    public ContentPanel(BaseWindow window, String image) {
+    public ContentPanel(BaseWindow window, String imageName) {
         this.window = window;
-        this.image = image;
-        houseDetailWindow = new HouseDetailWindow(window, null);
+        this.imageName = imageName;
         setPreferredSize(new Dimension(890,150));
         setBorder(new MatteBorder(1,1,1,1, Color.gray));
 
-        TestingPanel testingPanel = new TestingPanel(window);
-        add(testingPanel);
-//        buildContentPanel();
+//        TestingPanel testingPanel = new TestingPanel(window);
+//        add(testingPanel);
     }
 
-    public void buildContentPanel() {
+    public void buildImgArea(String imgName, int houseID) {
         imgArea = new JPanel();
         Dimension imgDim = new Dimension(200,130);
         imgArea.setPreferredSize(imgDim);
-        // put code to put image from string here
 
         Image testerImg = null;
+        ImageEdit editimage = new ImageEdit();
+        InputStream storeimage = null;
 
         try {
-            testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
-            testerImg = testerImg.getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT);
-            imgArea.add(new JLabel(new ImageIcon(testerImg)));
+            storeimage = editimage.getImage(imgName, houseID);
+
+            if(storeimage != null) {
+                ImageIcon img = new ImageIcon(ImageIO.read(storeimage));
+                imgL = img.getImage();
+                img.setImage(img.getImage().getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT));
+                imgArea.add(new JLabel(new ImageIcon(img.getImage())));
+            }
+            else {
+                System.out.println("Image not found: " + "imgName: " + imgName + "houseID: " + houseID);
+                testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
+                imgL = testerImg;
+                imgArea.add(new JLabel(new ImageIcon(imgL)));
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        add(imgArea);
-
-
-        detailPanel = new DetailPanel();
-        add(detailPanel);
-        btnArea = new ButtonArea(window);
-        add(btnArea);
     }
 
-    public HouseDetailWindow getHouseDetailWindow() {
-        return houseDetailWindow;
+    public Image getImgL() {
+        return imgL;
     }
 
-    public String getImage() {
-        return image;
+    public void setImgL(Image imgL) {
+        this.imgL = imgL;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     public DetailPanel getDetailPanel() {

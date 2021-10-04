@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class QueryConnector {
 
@@ -20,10 +21,12 @@ public class QueryConnector {
     private HouseAdd houseAddDB;
     private ApplicationAdd applicationAddDB;
     private ApplicationList applicationListDB;
-    private ApplicationEdit applicationEdit;
     private HouseList houseListDB;
-    private HouseDelete houseDelete;
-    private HouseEdit houseEdit;
+    private ImageList imageListDB;
+    private ImageEdit imageEditDB;
+    private HouseEdit houseEditDB;
+    private HouseDelete houseDeleteDB;
+    private ApplicationEdit applicationEditDB;
 
     public QueryConnector(BaseWindow window) {
         this.window = window;
@@ -34,6 +37,12 @@ public class QueryConnector {
         applicationAddDB = new ApplicationAdd();
         applicationListDB = new ApplicationList();
         houseListDB = new HouseList();
+        imageListDB = new ImageList();
+        imageEditDB = new ImageEdit();
+        houseEditDB = new HouseEdit();
+        houseDeleteDB = new HouseDelete();
+        applicationEditDB = new ApplicationEdit();
+
     }
 
     public void deleteHouse(int houseID) {
@@ -42,15 +51,15 @@ public class QueryConnector {
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
-                houseDelete.delete(houseID);
+                houseDeleteDB.delete(houseID);
             }
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     public void updateHouse(int houseID, HouseInput houseInput) {
@@ -58,22 +67,38 @@ public class QueryConnector {
         // see below to createNewListing to see what it should vaguely be structured like.
         // Could probably just update every single field of the House in the table, because the rest
         // of the properties of the houseInput object will be the same if they didn't change anything.
-        
+
         List<HouseListObject> house_exists = new ArrayList<>();
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
-                houseEdit.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(), 
-                        houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(), 
+                houseEditDB.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(),
+                        houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(),
                         houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet());
             }
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
+    }
+
+    public void denyApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
+        List<ApplicationListObject> application_exists = new ArrayList<>();
+        try {
+            application_exists = applicationListDB.List(House_ID, Consumer_ID, Realtor_ID);
+            if(application_exists.size() == 1) {
+                applicationEditDB.editStatus("Denied", House_ID, Consumer_ID, Realtor_ID);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void createNewListing(HouseInput houseInput) {
@@ -91,25 +116,9 @@ public class QueryConnector {
         try {
             application_exists = applicationListDB.List(House_ID, Consumer_ID, Realtor_ID);
             if(application_exists.size() == 1) {
-                applicationEdit.editStatus("Approved", House_ID, Consumer_ID, Realtor_ID);
+                applicationEditDB.editStatus("Approved", House_ID, Consumer_ID, Realtor_ID);
             }
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-    }
-    
-    public void denyApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
-        List<ApplicationListObject> application_exists = new ArrayList<>();
-        try {
-            application_exists = applicationListDB.List(House_ID, Consumer_ID, Realtor_ID);
-            if(application_exists.size() == 1) {
-                applicationEdit.editStatus("Denied", House_ID, Consumer_ID, Realtor_ID);
-            }
-            
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -180,49 +189,33 @@ public class QueryConnector {
     }
 
 
-    public ArrayList<HouseContentPanel> getRealtorHouses(int userID) {
+    public ArrayList<HouseContentPanel> getRealtorHouses(int realtorUserID) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
-
-        // This is going to be almost the same as getSearchList() method, but instead, a userID will be passed in,
-        // and a query will be called to return all
-        // houses that a Realtor with the given user ID has listed
-        // eg.
-//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.ListRealtorID( userID );
-
-        // Call the re-usable method that was written for getSearchList
-        // Then return the list
+        List<HouseListObject> h;
+        HouseList house = new HouseList();
+        h = house.ListRealtorID(realtorUserID);
+        houseList = convertHouseListToContentPanels(h);
 
         return houseList;
     }
 
-    public ArrayList<HouseContentPanel> convertHouseListToContentPanels(List<HouseListObject> houses) {
+    public ArrayList<HouseContentPanel> convertHouseListToContentPanels(List<HouseListObject> houses) throws SQLException, IOException {
+        ArrayList<HouseContentPanel> houseContentPanels = new ArrayList<>();
 
-        ArrayList<HouseContentPanel> houseContentPanels = null;
-
-        // ******
-        // in a loop, go through and convert all the HouseListObjects to HouseContentPanel objects
-        // you have to create the HouseDetailPanel first, set the properties in there from each HouseListObject, then
-        // pass it into the HouseContentPanel's constructor
-//        for (HouseListObject h : searchResultObjects) {
-//            HouseDetailPanel details = new HouseDetailPanel(h);
-//            HouseContentPanel houseInfo = new HouseContentPanel(window, h.getImage()? [it's not written yet...] , details);
-        // add to houseList
-//            houseList.add(houseInfo);
-//        }
-
-        //*****
-
+        for (HouseListObject h : houses) {
+            HouseDetailPanel details = new HouseDetailPanel(h);
+            String imgS = "";
+            if (imageListDB.List(h.getHouseID()).size() == 1) {
+                imgS = imageListDB.List(h.getHouseID()).get(0).getImageName();
+            }
+            HouseContentPanel houseInfo = new HouseContentPanel(window, imgS, details);
+            houseContentPanels.add(houseInfo);
+        }
         return houseContentPanels;
     }
 
     public ArrayList<HouseContentPanel> getSearchList(SearchInput searchInput) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
-
-        // Get a list of houses from the database matching the searchInput queries that the user gave
-        // I know the method in HouseList isn't written that does this yet but hopefully it can be written similarly to
-        // HouseSearch.java?
-        // eg.
-//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.SearchList( params from houseList object );
 
         List<HouseListObject> h = new ArrayList<>();
 
@@ -231,52 +224,27 @@ public class QueryConnector {
 
         houseList = convertHouseListToContentPanels(h);
 
-        for(int i=0; i< h.size(); i++) {
-            System.out.print("HouseID: ");
-            System.out.println(h.get(i).getHouseID());
+        return houseList;
+    }
 
-            System.out.print("RealtorID: ");
-            System.out.println(h.get(i).getRealtorID());
+    public ArrayList<HouseContentPanel> getRandomHouses(int numOfHouses) throws SQLException, IOException {
+        ArrayList<HouseContentPanel> houseList = null;
 
-            System.out.print("Realtor Username: ");
-            System.out.println(h.get(i).getRealtorUsername());
+        List<HouseListObject> h = new ArrayList<>();
+        List<HouseListObject> randomHouse = new ArrayList<>();
 
-            System.out.print("State: ");
-            System.out.println(h.get(i).getState());
+        HouseList house = new HouseList();
+        Random rand = new Random();
 
-            System.out.print("City: ");
-            System.out.println(h.get(i).getCity());
-
-            System.out.print("Zip: ");
-            System.out.println(h.get(i).getZip());
-
-            System.out.print("Street: ");
-            System.out.println(h.get(i).getStreet());
-
-            System.out.print("House Number: ");
-            System.out.println(h.get(i).getHouseNumber());
-
-            System.out.print("Cost: ");
-            System.out.println(h.get(i).getCost());
-
-            System.out.print("Year: ");
-            System.out.println(h.get(i).getYear());
-
-            System.out.print("Number of Floors: ");
-            System.out.println(h.get(i).getNumFloors());
-
-            System.out.print("Number of Beds: ");
-            System.out.println(h.get(i).getNumBed());
-
-            System.out.print("Number of Baths: ");
-            System.out.println(h.get(i).getNumBath());
-
-            System.out.print("Square Feet: ");
-            System.out.println(h.get(i).getSqrFeet());
-
-            System.out.print("Days Listed: ");
-            System.out.println(h.get(i).getDaysListed());
+        for (int i = 0; i < numOfHouses; i++) {
+            randomHouse = house.List(rand.nextInt(80));
+            while (randomHouse.size() == 0) {
+                randomHouse = house.List(rand.nextInt(80));
+            }
+            h.add(randomHouse.get(0));
         }
+
+        houseList = convertHouseListToContentPanels(h);
 
         return houseList;
     }

@@ -16,34 +16,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
-Class: HouseEdit  
+ Class: HouseEdit
 
-Description: Edits a house from the database.
-*/
+ Description: Edits a house from the database.
+ */
 
 public class HouseEdit {
-    
-    /**
-    Method: editALl
-    Inputs:  String State, String Zip, String Street, int House_Number, int Cost, int Year, int Num_Floors, int Num_Bed,
-            int Num_Bath, int Sqr_Feet, int Days_Listed
-    Returns: void
 
-    Description: Edits a house from the database.
-  */
+    /**
+     Method: editALl
+     Inputs:  String State, String Zip, String Street, int House_Number, int Cost, int Year, int Num_Floors, int Num_Bed,
+     int Num_Bath, int Sqr_Feet, int Days_Listed
+     Returns: void
+
+     Description: Edits a house from the database.
+     */
     public void editAll(int House_ID, String State, String Zip, String Street, int House_Number, int Cost, int Year, int Num_Floors, int Num_Bed,
-            int Num_Bath, int Sqr_Feet) throws IOException {
-        
+                        int Num_Bath, int Sqr_Feet) throws IOException {
+
         ResultSet rs = null;
         PreparedStatement stmt = null;
-        
+
         Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
                 Setup.setup().get("jdbcDriver"));
 
         try {
 
             connect.setAutoCommit(false);
-            
+
             String query = "UPDATE HOUSE SET State,Zip,Street,House_Number,Cost,Year,Num_Floors,Num_Bed,Num_Bath,Sqr_Feet,"
                     + "Days_Listed = ?,?,?,?,?,?,?,?,?,?, WHERE HOUSE.House_ID = ?";
 
@@ -59,9 +59,9 @@ public class HouseEdit {
             stmt.setInt(9, Num_Bath);
             stmt.setInt(10, Sqr_Feet);
             stmt.setInt(11, House_ID);
-            
+
             stmt.executeUpdate();
-            
+
             connect.commit();
 
         } catch (Exception exc) {
@@ -87,28 +87,28 @@ public class HouseEdit {
         }
 
     }
-    
+
     public void editCost(int Cost, int House_ID) throws IOException {
-        
+
         ResultSet rs = null;
         PreparedStatement stmt = null;
-        
+
         Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
                 Setup.setup().get("jdbcDriver"));
 
         try {
 
             connect.setAutoCommit(false);
-            
+
             String query = "UPDATE HOUSE SET Cost = ? WHERE HOUSE.House_ID = ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setInt(1, Cost);
             stmt.setInt(2, House_ID);
-  
-            
+
+
             stmt.executeUpdate();
-            
+
             connect.commit();
 
         } catch (Exception exc) {

@@ -1,6 +1,9 @@
 package main.java.homeforus.gui;
 
 
+import main.java.homeforus.core.HouseList;
+import main.java.homeforus.core.HouseListObject;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -8,7 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateListingWindow extends JFrame {
 
@@ -26,6 +32,7 @@ public class CreateListingWindow extends JFrame {
     private InputField baths;
     private InputField floors;
     private InputField yrBuilt;
+    private InputField sqrFeet;
     private ArrayList<InputField> inputs;
     private JLabel errorFillOut;
     private boolean formComplete;
@@ -82,14 +89,17 @@ public class CreateListingWindow extends JFrame {
         houseNum = createInputField("House Number");
         street = createInputField("Street Address");
         city = createInputField("City");
+        sqrFeet = createInputField("Square Feet");
         grid.add(price);
         grid.add(houseNum);
         grid.add(street);
         grid.add(city);
+        grid.add(sqrFeet);
         inputs.add(price);
         inputs.add(houseNum);
         inputs.add(street);
         inputs.add(city);
+        inputs.add(sqrFeet);
 
         state = createInputField("State");
         zip = createInputField("Zip Code");
@@ -150,6 +160,7 @@ public class CreateListingWindow extends JFrame {
                 String houseNumS = oNotNull(houseNum.getTextField().getText()).toString();
                 String streetS = oNotNull(street.getTextField().getText()).toString();
                 String cityS = oNotNull(city.getTextField().getText()).toString();
+                String sqrFeetS = oNotNull(sqrFeet.getTextField().getText()).toString();
                 String stateS = oNotNull(state.getTextField().getText()).toString();
                 String zipS = oNotNull(zip.getTextField().getText()).toString();
                 String bedsS = oNotNull(beds.getTextField().getText()).toString();
@@ -220,6 +231,15 @@ public class CreateListingWindow extends JFrame {
                             }
                         }
 
+                        if (i.getLabel().getText().equals("Square Feet")) {
+                            if (i.getTextField().getText().length() >= INT_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+
                         if (i.getLabel().getText().equals("Beds")) {
                             if (i.getTextField().getText().length() >= INT_LIMIT) {
                                 setError(i);
@@ -273,15 +293,17 @@ public class CreateListingWindow extends JFrame {
                     int floorsInt = -1;
                     int bedsInt = -1;
                     int bathsInt = -1;
+                    int sqrFeetInt = -1;
                     priceInt = toNum(priceS);
                     houseNumInt = toNum(houseNumS);
                     yearInt = toNum(yearS);
                     floorsInt = toNum(floorsS);
                     bedsInt = toNum(bedsS);
                     bathsInt = toNum(bathsS);
+                    sqrFeetInt = toNum(sqrFeetS);
 
                     // Step 4: Create sanitized HouseInput object
-                     HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS, houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, 0);
+                     HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS, houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, sqrFeetInt);
 
                     // Step 5: Call to QueryConnector and close window
                     window.getQueryConnector().createNewListing(houseInput);
@@ -291,6 +313,7 @@ public class CreateListingWindow extends JFrame {
         };
         return a;
     }
+
 
     private JPanel doubleInputFields() {
         JPanel dbl = new JPanel();
@@ -309,7 +332,6 @@ public class CreateListingWindow extends JFrame {
         return new MatteBorder(3, 3, 3, 3, Color.CYAN);
     }
 
-
     public Object oNotNull(Object o) {
         if (o != null) {
             return o;
@@ -327,11 +349,30 @@ public class CreateListingWindow extends JFrame {
         return num;
     }
 
-
     public void setError(InputField i) {
         i.getLabel().setForeground(Color.RED);
         errorFillOut.setText("Error: Please fully fill out the fields in red.");
         formComplete = false;
     }
 
+    public void populateHouseData(int house_ID) throws SQLException, IOException {
+        ArrayList<HouseContentPanel> houseList = null;
+        List<HouseListObject> h;
+        HouseList house = new HouseList();
+        h = house.ListHouseID(house_ID);
+
+        int houseCost = h.get(0).getCost();
+
+        price.setTextField(Integer.toString(h.get(0).getCost()));
+        houseNum.setTextField(Integer.toString(h.get(0).getHouseNumber()));
+        street.setTextField(h.get(0).getStreet());
+        city.setTextField(h.get(0).getCity());
+        sqrFeet.setTextField(Integer.toString(h.get(0).getSqrFeet()));
+        state.setTextField(h.get(0).getState());
+        zip.setTextField(h.get(0).getZip());
+        beds.setTextField(Integer.toString(h.get(0).getNumBed()));
+        baths.setTextField(Integer.toString(h.get(0).getNumBath()));
+        floors.setTextField(Integer.toString(h.get(0).getNumFloors()));
+        yrBuilt.setTextField(Integer.toString(h.get(0).getYear()));
+    }
 }
