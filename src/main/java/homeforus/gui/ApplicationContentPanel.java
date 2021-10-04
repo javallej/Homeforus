@@ -24,11 +24,12 @@ public class ApplicationContentPanel extends ContentPanel {
             btnArea = new ButtonAreaApplicationsConsumer(window, applicationListObject);
         }
 
-        ButtonAreaApplicationsConsumer btnArea = new ButtonAreaApplicationsConsumer(window, appObject);
         setBtnArea(btnArea);
 
-
-//        applicationDetailPanel = new ApplicationDetailPanel(appInfo, window);
+        buildImgArea(getImageName(), appObject.getHouseID());
+        add(getImgArea());
+        add(applicationDetailPanel);
+        add(btnArea);
 
 
     }

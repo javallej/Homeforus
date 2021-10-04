@@ -25,6 +25,14 @@ public class ApplicationsView extends ContentView {
 
         // TODO: change dummy appInfo object to use the convert method in QueryConnector
         ApplicationInfo appInfo = new ApplicationInfo("Kirry", "Chan", "Submitted", "123 Fake St, Houston, TX 12345");
+        ArrayList<ApplicationInfo> appInfoList = new ArrayList<>();
+        appInfoList.add(appInfo);
+
+        ApplicationContentPanel panel1 = new ApplicationContentPanel();
+
+        ArrayList<ContentPanel> panels = new ArrayList<>();
+
+        ContentPanelListDisplay cpld = new ContentPanelListDisplay();
 
 
     }
