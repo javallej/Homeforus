@@ -302,7 +302,7 @@ public class CreateListingWindow extends JFrame {
                     bathsInt = toNum(bathsS);
                     sqrFeetInt = toNum(sqrFeetS);
 
-                    // Step 4: Create sanitized HouseInput object
+                    // Step 4: Create sanitized HouseInput objects
                      HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS, houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, sqrFeetInt);
 
                     // Step 5: Call to QueryConnector and close window
