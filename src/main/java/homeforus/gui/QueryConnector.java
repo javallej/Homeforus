@@ -239,7 +239,7 @@ public class QueryConnector {
         for (HouseListObject h : houses) {
             HouseDetailPanel details = new HouseDetailPanel(h);
             String imgS = "";
-            if (imageListDB.List(h.getHouseID()).size() > 1) {
+            if (imageListDB.List(h.getHouseID()).size() == 1) {
                 imgS = imageListDB.List(h.getHouseID()).get(0).getImageName();
             }
             HouseContentPanel houseInfo = new HouseContentPanel(window, imgS, details);
@@ -272,7 +272,7 @@ public class QueryConnector {
 
         for (int i = 0; i < numOfHouses; i++) {
             randomHouse = house.List(rand.nextInt(80));
-            while (randomHouse == null) {
+            while (randomHouse.size() == 0) {
                 randomHouse = house.List(rand.nextInt(80));
             }
             h.add(randomHouse.get(0));

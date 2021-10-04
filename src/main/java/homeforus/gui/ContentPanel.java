@@ -1,10 +1,13 @@
 package main.java.homeforus.gui;
 
+import main.java.homeforus.core.ImageEdit;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class ContentPanel extends JPanel {
@@ -23,25 +26,34 @@ public class ContentPanel extends JPanel {
 
 //        TestingPanel testingPanel = new TestingPanel(window);
 //        add(testingPanel);
-        buildContentPanel();
     }
 
-    public void buildContentPanel() {
+    public void buildImgArea(String imgName, int houseID) {
         imgArea = new JPanel();
         Dimension imgDim = new Dimension(200,130);
         imgArea.setPreferredSize(imgDim);
-        // put code to put image from string here
 
         Image testerImg = null;
+        ImageEdit editimage = new ImageEdit();
+        InputStream storeimage = null;
 
         try {
-            testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
-            testerImg = testerImg.getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT);
-            imgArea.add(new JLabel(new ImageIcon(testerImg)));
+            storeimage = editimage.getImage(imgName, houseID);
+
+            if(storeimage != null) {
+                ImageIcon img = new ImageIcon(ImageIO.read(storeimage));
+                img.setImage(img.getImage().getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT));
+                imgArea.add(new JLabel(img));
+            }
+            else {
+                System.out.println("Image not found: " + "imgName: " + imgName + "houseID: " + houseID);
+                testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
+                imgArea.add(new JLabel(new ImageIcon(testerImg)));
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public String getImageName() {

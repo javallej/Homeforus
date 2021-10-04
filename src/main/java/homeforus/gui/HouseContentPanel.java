@@ -10,6 +10,7 @@ public class HouseContentPanel extends ContentPanel {
         houseDetailWindow = new HouseDetailWindow(window, hDP);
 
         // build House content panel here
+        buildImgArea(image, hDP.getHouseID());
         add(getImgArea());
         add(getDetailPanel());
         setBtnArea(new ButtonArea(window));

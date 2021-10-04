@@ -73,4 +73,7 @@ public class HouseDetailPanel extends DetailPanel {
 
     }
 
+    public int getHouseID() {
+        return houseID;
+    }
 }

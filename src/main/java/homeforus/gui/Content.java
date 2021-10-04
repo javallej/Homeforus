@@ -29,20 +29,7 @@ public class Content extends JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         add(scrollPane);
 
-
-
-
-//        ArrayList<ContentPanel> panels = new ArrayList<>();
-//        // We can populate this ContentPanelListDisplay with default Home listings when the user launches the program
-//        for (int i = 0; i < 9; i++) {
-//            ContentPanel c = new ContentPanel(baseWindow, "image");
-//            panels.add(c);
-//        }
-//        ContentPanelListDisplay defaultDisplayList = new ContentPanelListDisplay(panels);
-//        contentView = new ContentSearchView(baseWindow, defaultDisplayList);
-//        innerPanel.add(contentView);
 //        innerPanel.add(new TestingPanel(baseWindow));
-
     }
 
     public ContentView getContentView() {
