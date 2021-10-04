@@ -1,26 +1,99 @@
 package main.java.homeforus.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
 
 public class ContentPanel extends JPanel {
 
     private String image;
+    private DetailPanel detailPanel;
+    private ButtonArea btnArea;
     private BaseWindow window;
+    private JPanel imgArea;
+    private HouseDetailWindow houseDetailWindow;
 
     public ContentPanel(BaseWindow window, String image) {
         this.window = window;
         this.image = image;
+        houseDetailWindow = new HouseDetailWindow(window, null);
         setPreferredSize(new Dimension(890,150));
-        setBorder(new MatteBorder(2,2,2,2, Color.black));
+        setBorder(new MatteBorder(1,1,1,1, Color.gray));
 
-        DetailPanel detailPanel = new DetailPanel();
-//        add(detailPanel);
         TestingPanel testingPanel = new TestingPanel(window);
         add(testingPanel);
+//        buildContentPanel();
+    }
 
-        detailPanel.setBorder(debugBorder());
+    public void buildContentPanel() {
+        imgArea = new JPanel();
+        Dimension imgDim = new Dimension(200,130);
+        imgArea.setPreferredSize(imgDim);
+        // put code to put image from string here
+
+        Image testerImg = null;
+
+        try {
+            testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
+            testerImg = testerImg.getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT);
+            imgArea.add(new JLabel(new ImageIcon(testerImg)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        add(imgArea);
+
+
+        detailPanel = new DetailPanel();
+        add(detailPanel);
+        btnArea = new ButtonArea(window);
+        add(btnArea);
+    }
+
+    public HouseDetailWindow getHouseDetailWindow() {
+        return houseDetailWindow;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public DetailPanel getDetailPanel() {
+        return detailPanel;
+    }
+
+    public void setDetailPanel(DetailPanel detailPanel) {
+        this.detailPanel = detailPanel;
+    }
+
+    public ButtonArea getBtnArea() {
+        return btnArea;
+    }
+
+    public void setBtnArea(ButtonArea btnArea) {
+        this.btnArea = btnArea;
+    }
+
+    public BaseWindow getWindow() {
+        return window;
+    }
+
+    public void setWindow(BaseWindow window) {
+        this.window = window;
+    }
+
+    public JPanel getImgArea() {
+        return imgArea;
+    }
+
+    public void setImgArea(JPanel imgArea) {
+        this.imgArea = imgArea;
     }
 
     public static MatteBorder debugBorder() {

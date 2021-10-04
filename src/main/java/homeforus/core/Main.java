@@ -32,8 +32,16 @@ public class Main {
 
     public static void main(String[] args) {
         
+        String database = System.getProperty("PrepareDatabase");
+        
         try {
         
+        if(database != null) {
+            PrepareDatabase data= new PrepareDatabase();
+            data.prepare(database);
+            System.exit(0);
+        }
+            
         if (args.length == 1) {
             if (args[0].equals("console")) {
             UIstart uiuser = new UIstart();
@@ -42,6 +50,8 @@ public class Main {
             GUIStart guistart = new GUIStart();
             guistart.start();
         }
+            
+
         }} catch (SQLException e) {
             System.out.println("Syntax is:");
             System.out.println("java -Dconfig=/path/rdbm.properties -jar homeforus-5.0.jar gui");

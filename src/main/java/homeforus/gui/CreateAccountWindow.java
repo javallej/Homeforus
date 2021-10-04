@@ -306,7 +306,7 @@ public class CreateAccountWindow extends JFrame {
                     // Add calls to Create Account here
                     try {
                         //This returns false if username is taken
-                        formComplete = verifyUsername(usernameS);
+                        formComplete = window.getQueryConnector().verifyUsername(usernameS);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -333,32 +333,7 @@ public class CreateAccountWindow extends JFrame {
         return a;
     }
 
-    public boolean verifyUsername(String username) throws IOException {
-        PreparedStatement stmt = null;
-        Connection conn = DBConnect.connect(Setup.setup().get("jdbcUrl"), Setup.setup().get("jdbcUser"),
-                Setup.setup().get("jdbcPasswd"), Setup.setup().get("jdbcDriver"));
-        ResultSet rs = null;
-        try{
-            stmt = conn.prepareStatement("Select User_Username From user Where User_Username = ?");
-            stmt.setString(1, username);
-            rs = stmt.executeQuery();
-            if (rs.next()){
-                rs.close();
-                conn.close();
-                return false;
-            }
-            else{
-                rs.close();
-                conn.close();
-                return true;
-            }
-        }
 
-        catch (java.sql.SQLException exc){
-            exc.printStackTrace();
-        }
-        return false;
-    }
     public InputField createInputField(String label) {
         return new InputField(label);
     }

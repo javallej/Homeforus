@@ -150,6 +150,11 @@ public class ApplicationList {
 
 
     /**
+    Method: ListUserID
+    Inputs: void
+
+
+    /**
      Method: ListByConsumerID
      Inputs: void
      Returns: List<ApplicationListObject>
@@ -215,11 +220,14 @@ public class ApplicationList {
     /**
      Method: ListByConsumerID
      Inputs: void
+>>>>>>> testing
     Returns: List<ApplicationListObject>
 
     Description: Returns all Applications from the database.
   */
+
     public List<ApplicationListObject> ListByConsumerID(int Consumer_ID) throws SQLException, IOException {
+
         ResultSet rs = null;
         PreparedStatement stmt = null;
         

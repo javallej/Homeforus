@@ -2,8 +2,14 @@ package main.java.homeforus.gui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import main.java.homeforus.core.ImageAdd;
+import main.java.homeforus.core.ImageEdit;
+
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class ImageTesterWindow extends JFrame {
@@ -23,13 +29,24 @@ public class ImageTesterWindow extends JFrame {
         inner.add(imgHolder);
 
         Image testerImg = null;
+        ImageAdd addimage = new ImageAdd();
+        ImageEdit editimage = new ImageEdit();
+        InputStream storeimage = null;
 
         try {
-            testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
-            imgHolder.add(new JLabel(new ImageIcon(testerImg)));
+
+            storeimage = editimage.getImage("8.jpg", 88);
+            
+            if(storeimage != null) {
+                imgHolder.add(new JLabel(new ImageIcon(ImageIO.read(storeimage))));
+               }
+            else {
+                testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } 
 
     }
 

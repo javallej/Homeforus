@@ -9,6 +9,7 @@ public class Content extends JPanel {
     private JPanel innerPanel;
     private JTextArea tA;
     private double totalPercentSize = 0.75;
+    private ContentView contentView;
 
     public Content(BaseWindow baseWindow) {
         int totalVertSize = (int) (baseWindow.getWinHeight() * totalPercentSize);
@@ -17,19 +18,33 @@ public class Content extends JPanel {
         setPreferredSize(contentSize);
 
         innerPanel = new JPanel();
-        innerPanel.setPreferredSize(new Dimension(900,440));
+//        innerPanel.setPreferredSize(new Dimension(900,440));
 
         JScrollPane scrollPane = new JScrollPane(innerPanel);
         scrollPane.setPreferredSize(new Dimension(940,460));
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         add(scrollPane);
 
-        ContentPanel contentPanel = new ContentPanel(baseWindow, "test");
-        innerPanel.add(contentPanel);
+        ContentPanelListDisplay defaultDisplayList = new ContentPanelListDisplay();
+        // We can populate this ContentPanelListDisplay with default Home listings when the user launches the program
+        for (int i = 0; i < 9; i++) {
+            ContentPanel c = new ContentPanel(baseWindow, "image");
+            defaultDisplayList.getPanelList().add(c);
+        }
+        defaultDisplayList.buildDisplayList();
+        ContentView contentView = new ContentSearchView(baseWindow, defaultDisplayList);
+        innerPanel.add(contentView);
+//        ContentPanel contentPanel = new ContentPanel(baseWindow, "test");
+//        innerPanel.add(contentPanel);
     }
 
-    public void changeContent() {
-        tA.setText(sI.toString());
+    public void setContentView(ContentView contentView) {
+        this.contentView = contentView;
     }
+
+    //    public void changeContent() {
+//        tA.setText(sI.toString());
+//    }
 
     public JPanel getInnerPanel() {
         return innerPanel;

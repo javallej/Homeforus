@@ -17,6 +17,7 @@ public class BaseWindow extends JFrame {
     private Header header;
     private SearchInput searchInput;
     private QueryConnector queryConnector;
+    private SignInManager signInManager;
 
     private int winHeight = 700;
     private int winWidth = 1000;
@@ -24,6 +25,7 @@ public class BaseWindow extends JFrame {
     public BaseWindow() {
         baseWindow = this;
         queryConnector = new QueryConnector(this);
+        signInManager = new SignInManager(this);
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -62,6 +64,14 @@ public class BaseWindow extends JFrame {
         baseWindow.pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public SignInManager getSignInManager() {
+        return signInManager;
+    }
+
+    public void setSignInManager(SignInManager signInManager) {
+        this.signInManager = signInManager;
     }
 
     public int getWinHeight() {
@@ -133,7 +143,7 @@ public class BaseWindow extends JFrame {
     public void setSearchInput(SearchInput searchInput) {
         this.searchInput = searchInput;
         content.sI = this.searchInput;
-        content.changeContent();
+//        content.changeContent();
     }
 }
 

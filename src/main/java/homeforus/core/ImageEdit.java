@@ -8,7 +8,11 @@
 
 package main.java.homeforus.core;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,5 +78,52 @@ public class ImageEdit {
 
         }
 }
+    
+    public synchronized InputStream getImage(String Image_Name, int House_ID) throws IOException {
+        
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        InputStream b_stream = null;
+        
+        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
+                Setup.setup().get("jdbcDriver"));
 
+        try {
+
+            
+            String query = "SELECT * FROM IMAGE WHERE Image_Name = ? AND House_ID = ?";
+
+            stmt = connect.prepareStatement(query);
+            stmt.setString(1, Image_Name);
+            stmt.setInt(2, House_ID);
+            rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                Blob blob = rs.getBlob("Image_Data");
+                b_stream = blob.getBinaryStream(); 
+            }
+            } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+
+        finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+
+        }
+        return b_stream;
+    }
+    
 }
