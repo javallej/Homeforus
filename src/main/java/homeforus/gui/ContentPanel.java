@@ -38,25 +38,25 @@ public class ContentPanel extends JPanel {
         ImageEdit editimage = new ImageEdit();
         InputStream storeimage = null;
 
-        try {
-            storeimage = editimage.getImage(imgName, houseID);
-
-            if(storeimage != null) {
-                ImageIcon img = new ImageIcon(ImageIO.read(storeimage));
-                imgL = img.getImage();
-                img.setImage(img.getImage().getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT));
-                imgArea.add(new JLabel(new ImageIcon(img.getImage())));
-            }
-            else {
-                System.out.println("Image not found: " + "imgName: " + imgName + "houseID: " + houseID);
-                testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
-                imgL = testerImg;
-                imgArea.add(new JLabel(new ImageIcon(imgL)));
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            storeimage = editimage.getImage(imgName, houseID);
+//
+//            if(storeimage != null) {
+//                ImageIcon img = new ImageIcon(ImageIO.read(storeimage));
+//                imgL = img.getImage();
+//                img.setImage(img.getImage().getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT));
+//                imgArea.add(new JLabel(new ImageIcon(img.getImage())));
+//            }
+//            else {
+//                System.out.println("Image not found: " + "imgName: " + imgName + "houseID: " + houseID);
+//                testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
+//                imgL = testerImg;
+//                imgArea.add(new JLabel(new ImageIcon(imgL)));
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public Image getImgL() {
