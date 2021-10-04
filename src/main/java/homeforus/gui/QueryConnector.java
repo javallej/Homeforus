@@ -23,6 +23,9 @@ public class QueryConnector {
     private HouseList houseListDB;
     private ImageList imageListDB;
     private ImageEdit imageEditDB;
+    private HouseEdit houseEditDB;
+    private HouseDelete houseDeleteDB;
+    private ApplicationEdit applicationEditDB;
 
     public QueryConnector(BaseWindow window) {
         this.window = window;
@@ -35,18 +38,66 @@ public class QueryConnector {
         houseListDB = new HouseList();
         imageListDB = new ImageList();
         imageEditDB = new ImageEdit();
+        houseEditDB = new HouseEdit();
+        houseDeleteDB = new HouseDelete();
+        applicationEditDB = new ApplicationEdit();
 
     }
 
     public void deleteHouse(int houseID) {
         // delete the house in the DB based on its houseID. ez pz.
+        List<HouseListObject> house_exists = new ArrayList<>();
+        try {
+            house_exists = houseListDB.List(houseID);
+            if(house_exists.size() == 1) {
+                houseDeleteDB.delete(houseID);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public void updateHouse(HouseInput houseInput) {
+    public void updateHouse(int houseID, HouseInput houseInput) {
         // update a house in the Database, given this passed-in houseInput object
         // see below to createNewListing to see what it should vaguely be structured like.
         // Could probably just update every single field of the House in the table, because the rest
         // of the properties of the houseInput object will be the same if they didn't change anything.
+
+        List<HouseListObject> house_exists = new ArrayList<>();
+        try {
+            house_exists = houseListDB.List(houseID);
+            if(house_exists.size() == 1) {
+                houseEditDB.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(),
+                        houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(),
+                        houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void denyApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
+        List<ApplicationListObject> application_exists = new ArrayList<>();
+        try {
+            application_exists = applicationListDB.List(House_ID, Consumer_ID, Realtor_ID);
+            if(application_exists.size() == 1) {
+                applicationEditDB.editStatus("Denied", House_ID, Consumer_ID, Realtor_ID);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void createNewListing(HouseInput houseInput) {
