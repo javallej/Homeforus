@@ -33,17 +33,12 @@ public class HouseEdit {
      */
     public void editAll(int House_ID, String State, String Zip, String Street, int House_Number, int Cost, int Year, int Num_Floors, int Num_Bed,
                         int Num_Bath, int Sqr_Feet) throws IOException {
-
         ResultSet rs = null;
         PreparedStatement stmt = null;
-
         Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
                 Setup.setup().get("jdbcDriver"));
-
         try {
-
             connect.setAutoCommit(false);
-
             String query = "UPDATE HOUSE SET State,Zip,Street,House_Number,Cost,Year,Num_Floors,Num_Bed,Num_Bath,Sqr_Feet,"
                     + "Days_Listed = ?,?,?,?,?,?,?,?,?,?, WHERE HOUSE.House_ID = ?";
 

@@ -1,8 +1,6 @@
 package main.java.homeforus.gui;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -40,6 +38,7 @@ public class RealtorListingsView extends ContentView{
             public void actionPerformed(ActionEvent e) {
                 if (!createListingWindow.isVisible()) {
                     createListingWindow.setVisible(true);
+                    createListingWindow.setNewHouse(true);
                 }
             }
         });

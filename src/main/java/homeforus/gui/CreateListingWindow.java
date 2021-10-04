@@ -36,6 +36,8 @@ public class CreateListingWindow extends JFrame {
     private ArrayList<InputField> inputs;
     private JLabel errorFillOut;
     private boolean formComplete;
+    private boolean isNewHouse = true;
+    private int houseID;
 
     // length constraints for input fields
     static final int YEAR_LENGTH = 4;
@@ -130,7 +132,7 @@ public class CreateListingWindow extends JFrame {
 
         JPanel btnHolder = new JPanel();
         JButton updateListing = new JButton("Commit");
-        updateListing.addActionListener(validateInputAndSubmit());
+        updateListing.addActionListener(validateInputAndSubmit(this.isNewHouse()));
         btnHolder.setPreferredSize(new Dimension(width - 100, 50));
         btnHolder.add(updateListing);
         holderPanel.add(Box.createVerticalGlue());
@@ -146,15 +148,20 @@ public class CreateListingWindow extends JFrame {
         return holderPanel;
     }
 
-    private ActionListener validateInputAndSubmit() {
+    private ActionListener validateInputAndSubmit(Boolean isNewHouse) {
         ActionListener a = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formComplete = true;
-                System.out.println("Create New Listing Button Clicked");
-                // TODO: For Seth
-                // Parse user input and create a sanitized HouseInput object here!
 
+                System.out.println("My current houseID is " + getHouseID() + " and my isNewHouse state is " + isNewHouse());
+
+                if (isNewHouse()) {
+                    System.out.println("Button Used as Create New Listing");
+                } else {
+                    System.out.println("Button Used as Update Existing");
+                }
+                // Parse user input and create a sanitized HouseInput object here!
                 // Step 1: Get text field from InputField object and trim
                 String priceS = oNotNull(price.getTextField().getText()).toString();
                 String houseNumS = oNotNull(houseNum.getTextField().getText()).toString();
@@ -169,7 +176,6 @@ public class CreateListingWindow extends JFrame {
                 String yearS = oNotNull(yrBuilt.getTextField().getText()).toString();
 
                 priceS = priceS.trim();
-
                 // Step 2: Loop through and ensure they've all got text in them.
                 // Add additional checks for our character length database constraints
                 // Idk what they all are so you have to check somehow....
@@ -203,7 +209,6 @@ public class CreateListingWindow extends JFrame {
                                 i.getLabel().setForeground(Color.BLACK);
                             }
                         }
-
                         if (i.getLabel().getText().equals("Zip Code")) {
                             if (i.getTextField().getText().length() != ZIP_CODE_LENGTH) {
                                 setError(i);
@@ -212,7 +217,6 @@ public class CreateListingWindow extends JFrame {
                                 i.getLabel().setForeground(Color.BLACK);
                             }
                         }
-
                         if (i.getLabel().getText().equals("Street")) {
                             if (i.getTextField().getText().length() > VAR_CHAR_LIMIT) {
                                 setError(i);
@@ -221,7 +225,6 @@ public class CreateListingWindow extends JFrame {
                                 i.getLabel().setForeground(Color.BLACK);
                             }
                         }
-
                         if (i.getLabel().getText().equals("Price")) {
                             if (i.getTextField().getText().length() >= INT_LIMIT) {
                                 setError(i);
@@ -230,7 +233,6 @@ public class CreateListingWindow extends JFrame {
                                 i.getLabel().setForeground(Color.BLACK);
                             }
                         }
-
                         if (i.getLabel().getText().equals("Square Feet")) {
                             if (i.getTextField().getText().length() >= INT_LIMIT) {
                                 setError(i);
@@ -239,7 +241,6 @@ public class CreateListingWindow extends JFrame {
                                 i.getLabel().setForeground(Color.BLACK);
                             }
                         }
-
                         if (i.getLabel().getText().equals("Beds")) {
                             if (i.getTextField().getText().length() >= INT_LIMIT) {
                                 setError(i);
@@ -248,7 +249,6 @@ public class CreateListingWindow extends JFrame {
                                 i.getLabel().setForeground(Color.BLACK);
                             }
                         }
-
                         if (i.getLabel().getText().equals("Baths")) {
                             if (i.getTextField().getText().length() >= INT_LIMIT) {
                                 setError(i);
@@ -257,7 +257,6 @@ public class CreateListingWindow extends JFrame {
                                 i.getLabel().setForeground(Color.BLACK);
                             }
                         }
-
                         if (i.getLabel().getText().equals("Floors")) {
                             if (i.getTextField().getText().length() >= INT_LIMIT) {
                                 setError(i);
@@ -284,7 +283,6 @@ public class CreateListingWindow extends JFrame {
                         }
                     }
                 }
-
                 // Step 3: if (formComplete) check passes, then convert the int types into ints
                 if (errors == 0){
                     int priceInt = -1;
@@ -303,23 +301,44 @@ public class CreateListingWindow extends JFrame {
                     sqrFeetInt = toNum(sqrFeetS);
 
                     // Step 4: Create sanitized HouseInput objects
-                     HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS, houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, sqrFeetInt);
+                     HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS,
+                             houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, sqrFeetInt);
 
                     // Step 5: Call to QueryConnector and close window
-                    window.getQueryConnector().createNewListing(houseInput);
-                    caller.hideCreateListingsWindow();
+                    if (isNewHouse()) {
+                        System.out.println("Calling CREATE NEW LISTING!");
+                        window.getQueryConnector().createNewListing(houseInput);
+                        caller.hideCreateListingsWindow();
+                    } else {
+                        System.out.println("Calling UPDATE HOUSE!");
+                        window.getQueryConnector().updateHouse(getHouseID(), houseInput);
+                        caller.hideCreateListingsWindow();
+                    }
+                    QueryConnector q = window.getQueryConnector();
+                    ArrayList<HouseContentPanel> realtorsHouses = null;
+                    try {
+                        realtorsHouses = q.getRealtorHouses(q.getCurrentlyLoggedInUser().getUserID());
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    if (realtorsHouses != null) {
+                        ArrayList<ContentPanel> cH = new ArrayList<>(realtorsHouses);
+                        ContentPanelListDisplay h = new ContentPanelListDisplay(cH);
+                        RealtorListingsView r = new RealtorListingsView(window, h);
+                        window.setContentView(r);
+                    }
                 }
             }
         };
         return a;
     }
 
-
     private JPanel doubleInputFields() {
         JPanel dbl = new JPanel();
         dbl.setLayout(new BoxLayout(dbl, BoxLayout.LINE_AXIS));
         setPreferredSize(new Dimension(150,20));
-
         return dbl;
     }
 
@@ -356,7 +375,6 @@ public class CreateListingWindow extends JFrame {
     }
 
     public void populateHouseData(int house_ID) throws SQLException, IOException {
-        ArrayList<HouseContentPanel> houseList = null;
         List<HouseListObject> h;
         HouseList house = new HouseList();
         h = house.ListHouseID(house_ID);
@@ -371,5 +389,21 @@ public class CreateListingWindow extends JFrame {
         baths.setTextField(Integer.toString(h.get(0).getNumBath()));
         floors.setTextField(Integer.toString(h.get(0).getNumFloors()));
         yrBuilt.setTextField(Integer.toString(h.get(0).getYear()));
+    }
+
+    public boolean isNewHouse() {
+        return isNewHouse;
+    }
+
+    public void setNewHouse(boolean newHouse) {
+        isNewHouse = newHouse;
+    }
+
+    public int getHouseID() {
+        return houseID;
+    }
+
+    public void setHouseID(int houseID) {
+        this.houseID = houseID;
     }
 }

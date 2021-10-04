@@ -1,14 +1,10 @@
 package main.java.homeforus.gui;
 
-import main.java.homeforus.core.HouseList;
-import main.java.homeforus.core.HouseListObject;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ButtonAreaManageListings extends ButtonArea {
@@ -33,7 +29,11 @@ public class ButtonAreaManageListings extends ButtonArea {
                 }
                 try {
                     System.out.println("Update Button Heard for House " + houseID + "!");
+                    updateListingWindow.setNewHouse(false);
+                    updateListingWindow.setHouseID(houseID);
                     updateListingWindow.populateHouseData(houseID);
+                    System.out.println("My Listing Window has the values " + updateListingWindow.getHouseID() + " and " +
+                            updateListingWindow.isNewHouse());
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } catch (IOException ex) {

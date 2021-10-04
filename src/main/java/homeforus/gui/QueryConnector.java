@@ -67,6 +67,7 @@ public class QueryConnector {
         // Could probably just update every single field of the House in the table, because the rest
         // of the properties of the houseInput object will be the same if they didn't change anything.
 
+        System.out.println("MADE IT INTO QUERY CONNECTOR UPDATE HOUSE");
         List<HouseListObject> house_exists = new ArrayList<>();
         try {
             house_exists = houseListDB.List(houseID);
