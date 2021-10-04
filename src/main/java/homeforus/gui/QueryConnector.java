@@ -33,6 +33,27 @@ public class QueryConnector {
         houseListDB = new HouseList();
     }
 
+    public void deleteHouse(int houseID) {
+        // delete the house in the DB based on its houseID. ez pz.
+    }
+
+    public void updateHouse(HouseInput houseInput) {
+        // update a house in the Database, given this passed-in houseInput object
+        // see below to createNewListing to see what it should vaguely be structured like.
+        // Could probably just update every single field of the House in the table, because the rest
+        // of the properties of the houseInput object will be the same if they didn't change anything.
+    }
+
+    public void createNewListing(HouseInput houseInput) {
+        // Add a new house
+        try {
+            houseAddDB.add( currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), houseInput.getState(), houseInput.getCity(), houseInput.getZip(), houseInput.getStreet(), houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(), houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(), 0);
+            System.out.println("Listing Added Successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void approveApplication() {
 
     }
@@ -103,10 +124,10 @@ public class QueryConnector {
         ArrayList<HouseContentPanel> houseList = null;
 
         // This is going to be almost the same as getSearchList() method, but instead, a userID will be passed in,
-        // and a query (that hasn't been written yet in HouseList.java) will be called to return all
+        // and a query will be called to return all
         // houses that a Realtor with the given user ID has listed
         // eg.
-//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.SearchByRealtor( userID );
+//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.ListRealtorID( userID );
 
         // Call the re-usable method that was written for getSearchList
         // Then return the list
@@ -114,18 +135,11 @@ public class QueryConnector {
         return houseList;
     }
 
-    public ArrayList<HouseContentPanel> getSearchList(SearchInput searchInput) throws SQLException, IOException {
-        ArrayList<HouseContentPanel> houseList = null;
+    public ArrayList<HouseContentPanel> convertHouseListToContentPanels(List<HouseListObject> houses) {
 
-        // Get a list of houses from the database matching the searchInput queries that the user gave
-        // I know the method in HouseList isn't written that does this yet but hopefully it can be written similarly to
-        // HouseSearch.java?
-        // eg.
-//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.SearchList( params from houseList object );
+        ArrayList<HouseContentPanel> houseContentPanels = null;
 
         // ******
-        // Write this part in a separate method so we can use it to display Realtor's houses (getRealtorHouses) as well
-
         // in a loop, go through and convert all the HouseListObjects to HouseContentPanel objects
         // you have to create the HouseDetailPanel first, set the properties in there from each HouseListObject, then
         // pass it into the HouseContentPanel's constructor
@@ -138,10 +152,24 @@ public class QueryConnector {
 
         //*****
 
+        return houseContentPanels;
+    }
+
+    public ArrayList<HouseContentPanel> getSearchList(SearchInput searchInput) throws SQLException, IOException {
+        ArrayList<HouseContentPanel> houseList = null;
+
+        // Get a list of houses from the database matching the searchInput queries that the user gave
+        // I know the method in HouseList isn't written that does this yet but hopefully it can be written similarly to
+        // HouseSearch.java?
+        // eg.
+//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.SearchList( params from houseList object );
+
         List<HouseListObject> h = new ArrayList<>();
 
         HouseList house = new HouseList();
         h = house.ListAllSearchInput(searchInput);
+
+        houseList = convertHouseListToContentPanels(h);
 
         for(int i=0; i< h.size(); i++) {
             System.out.print("HouseID: ");
@@ -316,17 +344,7 @@ public class QueryConnector {
         return true;
     }
 
-    public void createNewListing(HouseInput houseInput) {
-        // uncomment for testing
-//        currentlyLoggedInUser = new CurrentlyLoggedInUser("HomesByKaren", 13, true);
-        // Add a new house
-        try {
-            houseAddDB.add( currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), houseInput.getState(), houseInput.getCity(), houseInput.getZip(), houseInput.getStreet(), houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(), houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(), 0);
-            System.out.println("Listing Added Successfully");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public void addUserToDB(NewUserInput newUserInput) throws IOException, SQLException {
         // Add a user
