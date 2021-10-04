@@ -21,6 +21,8 @@ public class QueryConnector {
     private ApplicationAdd applicationAddDB;
     private ApplicationList applicationListDB;
     private HouseList houseListDB;
+    private ImageList imageListDB;
+    private ImageEdit imageEditDB;
 
     public QueryConnector(BaseWindow window) {
         this.window = window;
@@ -31,6 +33,9 @@ public class QueryConnector {
         applicationAddDB = new ApplicationAdd();
         applicationListDB = new ApplicationList();
         houseListDB = new HouseList();
+        imageListDB = new ImageList();
+        imageEditDB = new ImageEdit();
+
     }
 
     public void deleteHouse(int houseID) {
@@ -122,57 +127,73 @@ public class QueryConnector {
 
     public ArrayList<HouseContentPanel> getRealtorHouses(int userID) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
-        System.out.println("called");
-
-        // This is going to be almost the same as getSearchList() method, but instead, a userID will be passed in,
-        // and a query will be called to return all
-        // houses that a Realtor with the given user ID has listed
-        // eg.
-//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.ListRealtorID( userID );
-
-        List<HouseListObject> h = new ArrayList<>();
-
+        List<HouseListObject> h;
         HouseList house = new HouseList();
         h = house.ListRealtorID(userID);
-
         houseList = convertHouseListToContentPanels(h);
 
-        // Call the re-usable method that was written for getSearchList
-        // (later to be written by Rachel)
-        // Then return the list
+        for(int i=0; i< h.size(); i++) {
+            System.out.print("HouseID: ");
+            System.out.println(h.get(i).getHouseID());
 
+            System.out.print("RealtorID: ");
+            System.out.println(h.get(i).getRealtorID());
+
+            System.out.print("Realtor Username: ");
+            System.out.println(h.get(i).getRealtorUsername());
+
+            System.out.print("State: ");
+            System.out.println(h.get(i).getState());
+
+            System.out.print("City: ");
+            System.out.println(h.get(i).getCity());
+
+            System.out.print("Zip: ");
+            System.out.println(h.get(i).getZip());
+
+            System.out.print("Street: ");
+            System.out.println(h.get(i).getStreet());
+
+            System.out.print("House Number: ");
+            System.out.println(h.get(i).getHouseNumber());
+
+            System.out.print("Cost: ");
+            System.out.println(h.get(i).getCost());
+
+            System.out.print("Year: ");
+            System.out.println(h.get(i).getYear());
+
+            System.out.print("Number of Floors: ");
+            System.out.println(h.get(i).getNumFloors());
+
+            System.out.print("Number of Beds: ");
+            System.out.println(h.get(i).getNumBed());
+
+            System.out.print("Number of Baths: ");
+            System.out.println(h.get(i).getNumBath());
+
+            System.out.print("Square Feet: ");
+            System.out.println(h.get(i).getSqrFeet());
+
+            System.out.print("Days Listed: ");
+            System.out.println(h.get(i).getDaysListed());
+        }
         return houseList;
     }
 
-    // I will write this (Rachel)
-    public ArrayList<HouseContentPanel> convertHouseListToContentPanels(List<HouseListObject> houses) {
+    public ArrayList<HouseContentPanel> convertHouseListToContentPanels(List<HouseListObject> houses) throws SQLException, IOException {
+        ArrayList<HouseContentPanel> houseContentPanels = new ArrayList<>();
 
-        ArrayList<HouseContentPanel> houseContentPanels = null;
-
-        // ******
-        // in a loop, go through and convert all the HouseListObjects to HouseContentPanel objects
-        // you have to create the HouseDetailPanel first, set the properties in there from each HouseListObject, then
-        // pass it into the HouseContentPanel's constructor
-//        for (HouseListObject h : searchResultObjects) {
-//            HouseDetailPanel details = new HouseDetailPanel(h);
-//            HouseContentPanel houseInfo = new HouseContentPanel(window, h.getImage()? [it's not written yet...] , details);
-        // add to houseList
-//            houseList.add(houseInfo);
-//        }
-
-        //*****
-
+        for (HouseListObject h : houses) {
+            HouseDetailPanel details = new HouseDetailPanel(h);
+            HouseContentPanel houseInfo = new HouseContentPanel(window, imageListDB.List(h.getHouseID()).get(0).getImageName(), details);
+            houseContentPanels.add(houseInfo);
+        }
         return houseContentPanels;
     }
 
     public ArrayList<HouseContentPanel> getSearchList(SearchInput searchInput) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
-
-        // Get a list of houses from the database matching the searchInput queries that the user gave
-        // I know the method in HouseList isn't written that does this yet but hopefully it can be written similarly to
-        // HouseSearch.java?
-        // eg.
-//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.SearchList( params from houseList object );
 
         List<HouseListObject> h = new ArrayList<>();
 

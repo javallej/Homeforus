@@ -8,11 +8,16 @@ public class ContentPanelListDisplay extends JPanel {
     private ArrayList<ContentPanel> panelList;
     private JPanel holder;
 
-    public ContentPanelListDisplay() {
-        panelList = new ArrayList<>();
+    public ContentPanelListDisplay(ArrayList<ContentPanel> panels) {
+        panelList = panels;
+        buildHolder();
+    }
+
+    private void buildHolder() {
         holder = new JPanel();
         holder.setLayout(new BoxLayout(holder, BoxLayout.PAGE_AXIS));
         add(holder);
+        buildDisplayList();
     }
 
     public void buildDisplayList() {

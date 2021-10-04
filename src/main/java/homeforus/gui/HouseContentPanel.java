@@ -7,5 +7,7 @@ public class HouseContentPanel extends ContentPanel {
     public HouseContentPanel(BaseWindow window, String image, HouseDetailPanel hDP) {
         super(window, image);
         this.houseDetailPanel = hDP;
+
+        // build House content panel here
     }
 }

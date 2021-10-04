@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 // This class houses the main window that the GUI elements will be added to
@@ -65,6 +66,11 @@ public class BaseWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    public void setContentView(ContentView contentView) {
+        content.setContentView(contentView);
+    }
+
 
     public SignInManager getSignInManager() {
         return signInManager;

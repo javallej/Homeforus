@@ -9,23 +9,23 @@ import java.util.Objects;
 
 public class ContentPanel extends JPanel {
 
-    private String image;
+    private String imageName;
     private DetailPanel detailPanel;
     private ButtonArea btnArea;
     private BaseWindow window;
     private JPanel imgArea;
     private HouseDetailWindow houseDetailWindow;
 
-    public ContentPanel(BaseWindow window, String image) {
+    public ContentPanel(BaseWindow window, String imageName) {
         this.window = window;
-        this.image = image;
+        this.imageName = imageName;
         houseDetailWindow = new HouseDetailWindow(window, null);
         setPreferredSize(new Dimension(890,150));
         setBorder(new MatteBorder(1,1,1,1, Color.gray));
 
-        TestingPanel testingPanel = new TestingPanel(window);
-        add(testingPanel);
-//        buildContentPanel();
+//        TestingPanel testingPanel = new TestingPanel(window);
+//        add(testingPanel);
+        buildContentPanel();
     }
 
     public void buildContentPanel() {
@@ -56,12 +56,12 @@ public class ContentPanel extends JPanel {
         return houseDetailWindow;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     public DetailPanel getDetailPanel() {
