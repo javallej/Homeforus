@@ -314,6 +314,7 @@ public class CreateListingWindow extends JFrame {
         return a;
     }
 
+
     private JPanel doubleInputFields() {
         JPanel dbl = new JPanel();
         dbl.setLayout(new BoxLayout(dbl, BoxLayout.LINE_AXIS));

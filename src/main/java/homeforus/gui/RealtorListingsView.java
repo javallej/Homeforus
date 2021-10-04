@@ -1,13 +1,15 @@
 package main.java.homeforus.gui;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class RealtorListingsView extends ContentView{
 
     private CreateListingWindow createListingWindow;
-
 
     public RealtorListingsView(BaseWindow window, ContentPanelListDisplay c) {
         super(window, c);
@@ -17,7 +19,19 @@ public class RealtorListingsView extends ContentView{
         JButton newListing = new JButton("Add New Listing");
         add(addNewL);
         addNewL.add(newListing);
-        add(c);
+
+        ArrayList<ContentPanel> realtorListingsPanels = new ArrayList<>(c.getPanelList());
+
+        for (ContentPanel p:realtorListingsPanels) {
+            ButtonAreaManageListings btns = new ButtonAreaManageListings(window, this, ((HouseContentPanel) p).getHouseID());
+            btns.setButtonsVisible(true);
+            ((HouseContentPanel) p).removeBtnArea();
+            p.setBtnArea(btns);
+            p.add(p.getBtnArea());
+            p.revalidate();
+        }
+        ContentPanelListDisplay cpld = new ContentPanelListDisplay(realtorListingsPanels);
+        add(cpld);
 
         createListingWindow = new CreateListingWindow(this, window);
 

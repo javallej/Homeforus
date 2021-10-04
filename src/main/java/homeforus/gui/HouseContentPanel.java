@@ -4,6 +4,8 @@ import java.awt.event.*;
 
 public class HouseContentPanel extends ContentPanel {
 
+    private int houseID;
+    private ButtonArea btnArea;
     private HouseDetailPanel houseDetailPanel;
     private HouseDetailWindow houseDetailWindow;
     private ContentPanel t;
@@ -11,6 +13,7 @@ public class HouseContentPanel extends ContentPanel {
     public HouseContentPanel(BaseWindow window, String image, HouseDetailPanel hDP) {
         super(window, image);
         this.houseDetailPanel = hDP;
+        houseID = houseDetailPanel.getHouseID();
         t = this;
         houseDetailWindow = new HouseDetailWindow(window, this, hDP);
 
@@ -18,8 +21,9 @@ public class HouseContentPanel extends ContentPanel {
         buildImgArea(image, hDP.getHouseID());
         add(getImgArea());
         add(hDP);
-        setBtnArea(new ButtonArea(window));
-        add(getBtnArea());
+        btnArea = new ButtonArea(window);
+        setBtnArea(btnArea);
+        add(btnArea);
 
 
         addMouseListener(new MouseAdapter() {
@@ -34,7 +38,25 @@ public class HouseContentPanel extends ContentPanel {
         });
     }
 
+    @Override
+    public void setBtnArea(ButtonArea btnArea) {
+        this.btnArea = btnArea;
+    }
+
+    @Override
+    public ButtonArea getBtnArea() {
+        return btnArea;
+    }
+
+    public void removeBtnArea() {
+        remove(btnArea);
+    }
+
     public HouseDetailPanel getHouseDetailPanel() {
         return houseDetailPanel;
+    }
+
+    public int getHouseID() {
+        return houseID;
     }
 }
