@@ -37,6 +37,18 @@ public class TestingPanel extends JPanel {
                 if (!listingWindow.isVisible()) {
                     listingWindow.setVisible(true);
                 }
+                try {
+                    /*
+                    THIS IS WHERE YOU WOULD NEED TO FETCH THE ACTUAL
+                    HOUSE ID FOR THE HOUSE THE BUTTON IS NEXT TO!!!!
+                    CURRENTLY USING HARDCODED HOUSE ID OF 2 FOR TESTING!!!
+                    */
+                    listingWindow.populateHouseData(2);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
