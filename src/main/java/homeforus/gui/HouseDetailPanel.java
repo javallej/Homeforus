@@ -28,37 +28,34 @@ public class HouseDetailPanel extends DetailPanel {
     private int days_listed;
 
     public HouseDetailPanel(HouseListObject houseListObject){
-
-
-//
-//        houseID = houseListObject.getHouseID();
-//        cost = houseListObject.getCost();
-//        num_bed = houseListObject.getNumBed();
-//        num_bath = houseListObject.getNumBath();
-//        num_floors = houseListObject.getNumFloors();
-//        sqr_feet = houseListObject.getSqrFeet();
-//        house_number = houseListObject.getHouseNumber();
-//        street = houseListObject.getStreet();
-//        state = houseListObject.getState();
-//        city = houseListObject.getCity();
-//        zip = houseListObject.getZip();
-//        year = houseListObject.getYear();
-//        days_listed = houseListObject.getDaysListed();
+        houseID = houseListObject.getHouseID();
+        cost = houseListObject.getCost();
+        num_bed = houseListObject.getNumBed();
+        num_bath = houseListObject.getNumBath();
+        num_floors = houseListObject.getNumFloors();
+        sqr_feet = houseListObject.getSqrFeet();
+        house_number = houseListObject.getHouseNumber();
+        street = houseListObject.getStreet();
+        state = houseListObject.getState();
+        city = houseListObject.getCity();
+        zip = houseListObject.getZip();
+        year = houseListObject.getYear();
+        days_listed = houseListObject.getDaysListed();
 
         //Test Values
-        houseID = 69;
-        cost = 123456;
-        num_bed = 2;
-        num_bath = 1;
-        num_floors = 2;
-        sqr_feet = 1500;
-        house_number = 742;
-        street = "Evergreen Terrace";
-        state = "OR";
-        city = "SpringField";
-        zip = "12345";
-        year = 1952;
-        days_listed = 52;
+//        houseID = 69;
+//        cost = 123456;
+//        num_bed = 2;
+//        num_bath = 1;
+//        num_floors = 2;
+//        sqr_feet = 1500;
+//        house_number = 742;
+//        street = "Evergreen Terrace";
+//        state = "OR";
+//        city = "SpringField";
+//        zip = "12345";
+//        year = 1952;
+//        days_listed = 52;
 
         // Set the fields and concatenate the text in the labels appropriately
         // eg:

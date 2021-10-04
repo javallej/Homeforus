@@ -155,10 +155,8 @@ public class SearchBar extends JPanel {
 
                 try {
                     ArrayList<HouseContentPanel> houses = query.getSearchList(searchInput);
-                    ArrayList<ContentPanel> contents = new ArrayList<>(houses);
-                    ContentPanelListDisplay contentPanelListDisplay = new ContentPanelListDisplay(contents);
-                    ContentSearchView contentSearchView = new ContentSearchView(window, contentPanelListDisplay);
-                    window.setContentView(contentSearchView);
+                    window.setContentWindowWithHouses(houses);
+
                 } catch (SQLException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

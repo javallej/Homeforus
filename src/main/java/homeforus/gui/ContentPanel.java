@@ -14,12 +14,10 @@ public class ContentPanel extends JPanel {
     private ButtonArea btnArea;
     private BaseWindow window;
     private JPanel imgArea;
-    private HouseDetailWindow houseDetailWindow;
 
     public ContentPanel(BaseWindow window, String imageName) {
         this.window = window;
         this.imageName = imageName;
-        houseDetailWindow = new HouseDetailWindow(window, null);
         setPreferredSize(new Dimension(890,150));
         setBorder(new MatteBorder(1,1,1,1, Color.gray));
 
@@ -43,17 +41,7 @@ public class ContentPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        add(imgArea);
 
-
-        detailPanel = new DetailPanel();
-        add(detailPanel);
-        btnArea = new ButtonArea(window);
-        add(btnArea);
-    }
-
-    public HouseDetailWindow getHouseDetailWindow() {
-        return houseDetailWindow;
     }
 
     public String getImageName() {

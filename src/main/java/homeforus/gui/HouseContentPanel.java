@@ -2,12 +2,17 @@ package main.java.homeforus.gui;
 
 public class HouseContentPanel extends ContentPanel {
 
-    private HouseDetailPanel houseDetailPanel;
+    private HouseDetailWindow houseDetailWindow;
 
     public HouseContentPanel(BaseWindow window, String image, HouseDetailPanel hDP) {
         super(window, image);
-        this.houseDetailPanel = hDP;
+        setDetailPanel(hDP);
+        houseDetailWindow = new HouseDetailWindow(window, hDP);
 
         // build House content panel here
+        add(getImgArea());
+        add(getDetailPanel());
+        setBtnArea(new ButtonArea(window));
+        add(getBtnArea());
     }
 }

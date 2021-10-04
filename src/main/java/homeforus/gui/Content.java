@@ -2,6 +2,8 @@ package main.java.homeforus.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Content extends JPanel {
@@ -28,16 +30,18 @@ public class Content extends JPanel {
         add(scrollPane);
 
 
-        ArrayList<ContentPanel> panels = new ArrayList<>();
-        // We can populate this ContentPanelListDisplay with default Home listings when the user launches the program
-        for (int i = 0; i < 9; i++) {
-            ContentPanel c = new ContentPanel(baseWindow, "image");
-            panels.add(c);
-        }
-        ContentPanelListDisplay defaultDisplayList = new ContentPanelListDisplay(panels);
-        contentView = new ContentSearchView(baseWindow, defaultDisplayList);
+
+
+//        ArrayList<ContentPanel> panels = new ArrayList<>();
+//        // We can populate this ContentPanelListDisplay with default Home listings when the user launches the program
+//        for (int i = 0; i < 9; i++) {
+//            ContentPanel c = new ContentPanel(baseWindow, "image");
+//            panels.add(c);
+//        }
+//        ContentPanelListDisplay defaultDisplayList = new ContentPanelListDisplay(panels);
+//        contentView = new ContentSearchView(baseWindow, defaultDisplayList);
 //        innerPanel.add(contentView);
-        innerPanel.add(new TestingPanel(baseWindow));
+//        innerPanel.add(new TestingPanel(baseWindow));
 
     }
 

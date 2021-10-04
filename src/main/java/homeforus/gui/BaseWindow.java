@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -62,9 +63,28 @@ public class BaseWindow extends JFrame {
         content.sI = searchInput;
         basePanel.add(content);
 
+
+        ArrayList<HouseContentPanel> randomHouses = null;
+        try {
+            randomHouses = getQueryConnector().getRandomHouses(10);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setContentWindowWithHouses(randomHouses);
+
+
         baseWindow.pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public void setContentWindowWithHouses(ArrayList<HouseContentPanel> houses) {
+        ArrayList<ContentPanel> contents = new ArrayList<>(houses);
+        ContentPanelListDisplay contentPanelListDisplay = new ContentPanelListDisplay(contents);
+        ContentSearchView contentSearchView = new ContentSearchView(this, contentPanelListDisplay);
+        setContentView(contentSearchView);
     }
 
     public void setContentView(ContentView contentView) {

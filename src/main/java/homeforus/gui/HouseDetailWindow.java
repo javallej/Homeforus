@@ -46,7 +46,6 @@ public class HouseDetailWindow extends JFrame {
             e.printStackTrace();
         }
 
-        houseDetail = new HouseDetailPanel(null);
         // set size of panel here
 
         JPanel submitAppHolder = new JPanel();
