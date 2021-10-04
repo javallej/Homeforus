@@ -111,7 +111,19 @@ public class QueryConnector {
         }
     }
 
-    public void approveApplication() {
+    public void approveApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
+        List<ApplicationListObject> application_exists = new ArrayList<>();
+        try {
+            application_exists = applicationListDB.List(House_ID, Consumer_ID, Realtor_ID);
+            if(application_exists.size() == 1) {
+                applicationEditDB.editStatus("Approved", House_ID, Consumer_ID, Realtor_ID);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
