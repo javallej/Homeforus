@@ -51,15 +51,14 @@ public class QueryConnector {
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
+                System.out.println("DELETING!");
                 houseDeleteDB.delete(houseID);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     public void updateHouse(int houseID, HouseInput houseInput) {
@@ -72,17 +71,16 @@ public class QueryConnector {
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
+                System.out.println("UPDATING!");
                 houseEditDB.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(),
                         houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(),
                         houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet());
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     public void denyApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
@@ -229,7 +227,6 @@ public class QueryConnector {
 
     public ArrayList<HouseContentPanel> getRandomHouses(int numOfHouses) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
-
         List<HouseListObject> h = new ArrayList<>();
         List<HouseListObject> randomHouse = new ArrayList<>();
 
@@ -368,7 +365,6 @@ public class QueryConnector {
                 se.printStackTrace();
             }
         }
-
         return true;
     }
 

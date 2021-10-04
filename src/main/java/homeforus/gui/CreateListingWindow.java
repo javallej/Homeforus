@@ -129,10 +129,10 @@ public class CreateListingWindow extends JFrame {
         inputs.add(yrBuilt);
 
         JPanel btnHolder = new JPanel();
-        JButton createNewListing = new JButton("Create New Listing");
-        createNewListing.addActionListener(validateInputAndSubmit());
+        JButton updateListing = new JButton("Commit");
+        updateListing.addActionListener(validateInputAndSubmit());
         btnHolder.setPreferredSize(new Dimension(width - 100, 50));
-        btnHolder.add(createNewListing);
+        btnHolder.add(updateListing);
         holderPanel.add(Box.createVerticalGlue());
         holderPanel.add(btnHolder);
 
@@ -360,9 +360,6 @@ public class CreateListingWindow extends JFrame {
         List<HouseListObject> h;
         HouseList house = new HouseList();
         h = house.ListHouseID(house_ID);
-
-        int houseCost = h.get(0).getCost();
-
         price.setTextField(Integer.toString(h.get(0).getCost()));
         houseNum.setTextField(Integer.toString(h.get(0).getHouseNumber()));
         street.setTextField(h.get(0).getStreet());
