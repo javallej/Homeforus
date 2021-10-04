@@ -75,7 +75,7 @@ public class TestingPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    window.getQueryConnector().getRealtorHouses(2);
+                    window.getQueryConnector().getRealtorHouses(3);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } catch (IOException ex) {
