@@ -155,20 +155,15 @@ public class QueryConnector {
         return appInfo;
     }
 
-    public void createNewApplication(int houseID) throws SQLException, IOException {
-    /* uncomment this box for testing
-    houseID = 13;
-    currentlyLoggedInUser = new CurrentlyLoggedInUser("darthvader", 12, false);
-    HouseList hl = new HouseList();
-    /*/
 
-//        applicationAddDB.add(houseID, currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), hl.List(houseID).get(0).getRealtorID(),hl.List(houseID).get(0).getRealtorUsername(),"Submitted");
+    public void createNewApplication(int houseID, int realtorID, String realtorUser) throws SQLException, IOException {
+
+
+        applicationAddDB.add(houseID, currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), realtorID,realtorUser,"Submitted");
 
         // Print a confirmation to console that it posted successfully.
-        System.out.println("Posting Successful");
+        System.out.println("Application Submitted");
 
-        // Maybe query the database to confirm and print it out? You don't have to though, if you want to just check
-        // it in Workbench~
     }
 
     public ArrayList<ApplicationInfo> getAppList() throws SQLException, IOException {

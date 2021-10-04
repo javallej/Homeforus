@@ -37,6 +37,7 @@ public class HouseDetailWindow extends JFrame {
         contentHolder.setLayout(new BoxLayout(contentHolder, BoxLayout.PAGE_AXIS));
 
         JPanel imageHolder = new JPanel();
+        houseDetail.gethLO().getRealtorID();
         // set size of panel here
         Image houseImage = null;
         Image placeholderImg = null;
@@ -70,16 +71,13 @@ public class HouseDetailWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (window.getQueryConnector().getCurrentlyLoggedInUser() != null) {
                     try {
-                        window.getQueryConnector().createNewApplication(houseDetail.getHouseID());
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    } catch (IOException ex) {
+                        window.getQueryConnector().createNewApplication(houseDetail.getHouseID(), houseDetail.gethLO().getRealtorID(), houseDetail.gethLO().getRealtorUsername());
+                    } catch (SQLException | IOException ex) {
                         ex.printStackTrace();
                     }
                 }
             }
         });
-
         add(contentHolder);
         contentHolder.add(imageHolder);
         HouseDetailPanel houseDetailPanel = new HouseDetailPanel(houseDetail.gethLO());

@@ -97,6 +97,10 @@ public class TopHeader extends JPanel {
             listPanel.setLayout(new GridLayout());
             buttons.setLayout(new BoxLayout(buttons,BoxLayout.PAGE_AXIS));
             manageApplications = addButton("Manage Applications");
+
+
+
+
             manageListings = addButton("Manage Listings");
 
             manageListings.addActionListener(new ActionListener() {
