@@ -23,11 +23,6 @@ public class TestingPanel extends JPanel {
         add(addNewListing);
         RealtorListingsView r = new RealtorListingsView();
 
-        // Create the CreateListingWindow window here
-        // Remember it's going to have to be passed the HouseID and/or all the House
-        // information from whatever house you're using it to edit when you create it so it can
-        // auto-populate those fields when it launches.
-        // So maybe make a new CreateHouseListing constructor in the class that accepts that stuff from here.
         listingWindow = new CreateListingWindow(r,window);
         r.setCreateListingWindow(listingWindow);
 
@@ -36,6 +31,18 @@ public class TestingPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (!listingWindow.isVisible()) {
                     listingWindow.setVisible(true);
+                }
+                try {
+                    /*
+                    THIS IS WHERE YOU WOULD NEED TO FETCH THE ACTUAL
+                    HOUSE ID FOR THE HOUSE THE BUTTON IS NEXT TO!!!!
+                    CURRENTLY USING HARDCODED HOUSE ID OF 2 FOR TESTING!!!
+                    */
+                    listingWindow.populateHouseData(2);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         });

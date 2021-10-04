@@ -1,6 +1,9 @@
 package main.java.homeforus.gui;
 
 
+import main.java.homeforus.core.HouseList;
+import main.java.homeforus.core.HouseListObject;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -8,7 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateListingWindow extends JFrame {
 
@@ -348,4 +354,24 @@ public class CreateListingWindow extends JFrame {
         formComplete = false;
     }
 
+    public void populateHouseData(int house_ID) throws SQLException, IOException {
+        ArrayList<HouseContentPanel> houseList = null;
+        List<HouseListObject> h;
+        HouseList house = new HouseList();
+        h = house.ListHouseID(house_ID);
+
+        int houseCost = h.get(0).getCost();
+
+        price.setTextField(Integer.toString(h.get(0).getCost()));
+        houseNum.setTextField(Integer.toString(h.get(0).getHouseNumber()));
+        street.setTextField(h.get(0).getStreet());
+        city.setTextField(h.get(0).getCity());
+        sqrFeet.setTextField(Integer.toString(h.get(0).getSqrFeet()));
+        state.setTextField(h.get(0).getState());
+        zip.setTextField(h.get(0).getZip());
+        beds.setTextField(Integer.toString(h.get(0).getNumBed()));
+        baths.setTextField(Integer.toString(h.get(0).getNumBath()));
+        floors.setTextField(Integer.toString(h.get(0).getNumFloors()));
+        yrBuilt.setTextField(Integer.toString(h.get(0).getYear()));
+    }
 }

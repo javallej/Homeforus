@@ -31,8 +31,8 @@ public class InputField extends JPanel {
         return textField;
     }
 
-    public void setTextField(JTextField textField) {
-        this.textField = textField;
+    public void setTextField(String textField) {
+        this.textField.setText(textField);
     }
 
     public JLabel getLabel() {

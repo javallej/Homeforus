@@ -185,7 +185,8 @@ public class HouseListObject {
     Returns: String
 
     Description: Gets the Street
-  */
+     * @return
+     */
     public String getStreet() {
         return this.street;
     }
@@ -207,7 +208,8 @@ public class HouseListObject {
     Returns: int
 
     Description: Gets the House_Number.
-  */
+     * @return
+     */
     public int getHouseNumber() {
         return this.house_number;
     }
@@ -251,7 +253,8 @@ public class HouseListObject {
     Returns: int
 
     Description: Gets the Cost.
-  */
+     * @return
+     */
     public int getCost() {
         return this.cost;
     }
