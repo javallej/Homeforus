@@ -181,6 +181,10 @@ public class QueryConnector {
         return appList;
     }
 
+    public List<ApplicationListObject> getAppListObjs() throws SQLException, IOException {
+        return applicationListDB.ListByConsumerID(3);
+    }
+
 
     public ArrayList<HouseContentPanel> getRealtorHouses(int realtorUserID) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;

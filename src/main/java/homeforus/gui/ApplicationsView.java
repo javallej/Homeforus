@@ -22,11 +22,12 @@ public class ApplicationsView extends ContentView {
 //            e.printStackTrace();
 //        }
 
+        ArrayList<ApplicationListObject> appListObjs = new ArrayList<>();
+//        window.getQueryConnector().get
 
-        // TODO: change dummy appInfo object to use the convert method in QueryConnector
-        ApplicationInfo appInfo = new ApplicationInfo("Kirry", "Chan", "Submitted", "123 Fake St, Houston, TX 12345");
+//        ApplicationInfo appInfo = new ApplicationInfo("Kirry", "Chan", "Submitted", "123 Fake St, Houston, TX 12345");
         ArrayList<ApplicationInfo> appInfoList = new ArrayList<>();
-        appInfoList.add(appInfo);
+//        appInfoList.add(appInfo);
 
 //        ApplicationContentPanel panel1 = new ApplicationContentPanel();
 
