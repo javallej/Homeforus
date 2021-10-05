@@ -66,11 +66,6 @@ public class QueryConnector {
     }
 
     public void updateHouse(int houseID, HouseInput houseInput) {
-        // update a house in the Database, given this passed-in houseInput object
-        // see below to createNewListing to see what it should vaguely be structured like.
-        // Could probably just update every single field of the House in the table, because the rest
-        // of the properties of the houseInput object will be the same if they didn't change anything.
-
         System.out.println("MADE IT INTO QUERY CONNECTOR UPDATE HOUSE");
         List<HouseListObject> house_exists = new ArrayList<>();
         try {
@@ -161,20 +156,15 @@ public class QueryConnector {
 
 
     public void createNewApplication(int houseID, int realtorID, String realtorUser) throws SQLException, IOException {
-
-
         applicationAddDB.add(houseID, currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), realtorID,realtorUser,"Submitted");
-
         // Print a confirmation to console that it posted successfully.
         System.out.println("Application Submitted");
-
     }
 
     public ArrayList<ApplicationContentPanel> getAppContentPanels(boolean isRealtor, int userID) throws SQLException, IOException {
         ArrayList<ApplicationContentPanel> contentPanels = null;
         ApplicationList applications = null;
 
-        // Step 1: Get the list of currently logged in user's applications using applicationListDB.
         if (isRealtor){
             applications = (ApplicationList) applicationListDB.ListByRealtorID(userID);
         }
@@ -183,23 +173,11 @@ public class QueryConnector {
         }
 
         for (int i = 0; i < applications.ListAll().size(); i++){
-            // Step 2: Use a loop to convert all of the ApplicationListObjects from Step 1 into ApplicationInfo objects with the
-            // "getAppInfoFromAppListObj" method.
             ApplicationInfo app_info = getAppInfoFromAppListObj(applications.ListAll().get(i));
-
-            // Step 3: In that same loop, create an ApplicationDetailPanel by passing it the ApplicationInfo from Step2.
             ApplicationDetailPanel app_DetailPanel = new ApplicationDetailPanel(app_info);
-
-            // Step 4: In that same loop, create an ApplicationContentPanel by passing it the required information in its
-            // constructor that you gathered from all the previous steps.
             ApplicationContentPanel app_ContentPanel = new ApplicationContentPanel(window,app_DetailPanel,applications.ListAll().get(i),app_info);
-
-            // Step 5: Add that ApplicationContentPanel you just created to the array "contentPanels".
             contentPanels.add(app_ContentPanel);
         }
-
-        // Step 6: Return the Array.
-
         return contentPanels;
     }
 
