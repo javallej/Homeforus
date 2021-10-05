@@ -92,6 +92,7 @@ public class QueryConnector {
 
     public void denyApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
         List<ApplicationListObject> application_exists = new ArrayList<>();
+
         try {
             application_exists = applicationListDB.List(House_ID, Consumer_ID, Realtor_ID);
             if(application_exists.size() == 1) {

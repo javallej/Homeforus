@@ -43,7 +43,7 @@ public class ApplicationList {
         try {
 
 
-            String query = "SELECT * FROM APPLICATION WHERE APPLICATION.House_ID = ? AND APPLICATION.Consumer_ID = ? AND APPLICATION Realtor_ID = ?";
+            String query = "SELECT * FROM APPLICATION WHERE APPLICATION.House_ID = ? AND APPLICATION.Consumer_ID = ? AND APPLICATION.Realtor_ID = ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setInt(1, House_ID);
@@ -57,7 +57,11 @@ public class ApplicationList {
                 ApplicationListObject aobject = new ApplicationListObject();
                 aobject.setHouseID(rs.getInt(1));
                 aobject.setConsumerID(rs.getInt(2));
-                aobject.setRealtorID(rs.getInt(3));
+                aobject.setConsumerUsername(rs.getString(3));
+                aobject.setRealtorID(rs.getInt(4));
+                aobject.setRealtorUsername(rs.getString(5));
+                aobject.setStatus(rs.getString(6));
+                
                 applicationinformation.add(aobject);
             }
 
