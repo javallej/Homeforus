@@ -10,9 +10,12 @@ public class ApplicationContentPanel extends ContentPanel {
     private ButtonArea btnArea;
     private QueryConnector query;
     private CurrentlyLoggedInUser user;
+    private ApplicationInfo appInfo;
 
-    public ApplicationContentPanel(BaseWindow window, ApplicationDetailPanel appDP, ApplicationListObject appObject, String img) {
-        super(window, img);
+
+    public ApplicationContentPanel(BaseWindow window, ApplicationDetailPanel appDP, ApplicationListObject appObject, ApplicationInfo appInfo) {
+        super(window, appInfo.getImage());
+        this.appInfo = appInfo;
         this.applicationDetailPanel = appDP;
         this.applicationListObject = appObject;
         query = window.getQueryConnector();

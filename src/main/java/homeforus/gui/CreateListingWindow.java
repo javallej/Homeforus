@@ -63,7 +63,7 @@ public class CreateListingWindow extends JFrame {
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                t.setSize(new Dimension(width, height));
+                t.setMinimumSize(new Dimension(width, height));
                 t.setLocationRelativeTo(window);
             }
         });
