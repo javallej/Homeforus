@@ -40,6 +40,7 @@ public class RealtorListingsView extends ContentView{
             public void actionPerformed(ActionEvent e) {
                 if (!createListingWindow.isVisible()) {
                     createListingWindow.setVisible(true);
+                    createListingWindow.setNewHouse(true);
                 }
             }
         });

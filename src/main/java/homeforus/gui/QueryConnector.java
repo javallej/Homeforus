@@ -51,6 +51,7 @@ public class QueryConnector {
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
+                System.out.println("DELETING!");
                 houseDeleteDB.delete(houseID);
             }
 
@@ -72,6 +73,7 @@ public class QueryConnector {
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
+                System.out.println("UPDATING!");
                 houseEditDB.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(),
                         houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(),
                         houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet());

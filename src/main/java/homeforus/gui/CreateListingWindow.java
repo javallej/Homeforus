@@ -36,6 +36,8 @@ public class CreateListingWindow extends JFrame {
     private ArrayList<InputField> inputs;
     private JLabel errorFillOut;
     private boolean formComplete;
+    private boolean isNewHouse = true;
+    private int houseID;
 
     // length constraints for input fields
     static final int YEAR_LENGTH = 4;
@@ -151,8 +153,14 @@ public class CreateListingWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formComplete = true;
-                System.out.println("Create New Listing Button Clicked");
-                // TODO: For Seth
+
+                System.out.println("My current houseID is " + getHouseID() + " and my isNewHouse state is " + isNewHouse());
+
+                if (isNewHouse()) {
+                    System.out.println("Button Used as Create New Listing");
+                } else {
+                    System.out.println("Button Used as Update Existing");
+                }
                 // Parse user input and create a sanitized HouseInput object here!
 
                 // Step 1: Get text field from InputField object and trim
@@ -302,12 +310,35 @@ public class CreateListingWindow extends JFrame {
                     bathsInt = toNum(bathsS);
                     sqrFeetInt = toNum(sqrFeetS);
 
-                    // Step 4: Create sanitized HouseInput object
-                     HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS, houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, sqrFeetInt);
+                    // Step 4: Create sanitized HouseInput objects
+                     HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS,
+                             houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, sqrFeetInt);
 
                     // Step 5: Call to QueryConnector and close window
-                    window.getQueryConnector().createNewListing(houseInput);
-                    caller.hideCreateListingsWindow();
+                    if (isNewHouse()) {
+                        System.out.println("Calling CREATE NEW LISTING!");
+                        window.getQueryConnector().createNewListing(houseInput);
+                        caller.hideCreateListingsWindow();
+                    } else {
+                        System.out.println("Calling UPDATE HOUSE!");
+                        window.getQueryConnector().updateHouse(getHouseID(), houseInput);
+                        caller.hideCreateListingsWindow();
+                    }
+                    QueryConnector q = window.getQueryConnector();
+                    ArrayList<HouseContentPanel> realtorsHouses = null;
+                    try {
+                        realtorsHouses = q.getRealtorHouses(q.getCurrentlyLoggedInUser().getUserID());
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    if (realtorsHouses != null) {
+                        ArrayList<ContentPanel> cH = new ArrayList<>(realtorsHouses);
+                        ContentPanelListDisplay h = new ContentPanelListDisplay(cH);
+                        RealtorListingsView r = new RealtorListingsView(window, h);
+                        window.setContentView(r);
+                    }
                 }
             }
         };
@@ -374,5 +405,21 @@ public class CreateListingWindow extends JFrame {
         baths.setTextField(Integer.toString(h.get(0).getNumBath()));
         floors.setTextField(Integer.toString(h.get(0).getNumFloors()));
         yrBuilt.setTextField(Integer.toString(h.get(0).getYear()));
+    }
+
+    public boolean isNewHouse() {
+        return isNewHouse;
+    }
+
+    public void setNewHouse(boolean newHouse) {
+        isNewHouse = newHouse;
+    }
+
+    public int getHouseID() {
+        return houseID;
+    }
+
+    public void setHouseID(int houseID) {
+        this.houseID = houseID;
     }
 }
