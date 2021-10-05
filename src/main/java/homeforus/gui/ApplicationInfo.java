@@ -55,4 +55,15 @@ public class ApplicationInfo {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "ApplicationInfo{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", status='" + status + '\'' +
+                ", daysOld=" + daysOld +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }
