@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 // This class contains the elements that are in the top part of the Header class:
 //
 // Manage Buttons                          Logo                               Sign In/Out
@@ -104,7 +106,7 @@ public class TopHeader extends JPanel {
             manageApplications.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("applications clicked");
+                    //showMessageDialog(null,"applications clicked");
                     QueryConnector q = window.getQueryConnector();
                     ApplicationsView applicationsView = new ApplicationsView(window);
                     window.setContentView(applicationsView);

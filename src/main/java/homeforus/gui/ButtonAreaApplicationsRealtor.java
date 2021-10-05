@@ -5,6 +5,8 @@ import main.java.homeforus.core.ApplicationListObject;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class ButtonAreaApplicationsRealtor extends ButtonArea {
 
     private ApplicationListObject applicationListObject;
@@ -20,7 +22,7 @@ public class ButtonAreaApplicationsRealtor extends ButtonArea {
         getBtn1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Call to Approve Application in QueryConnector");
+                showMessageDialog(null,"Application is Approved");
                 window.getQueryConnector().approveApplication(houseID,consumerID,realtorID);
             }
         });
@@ -28,7 +30,7 @@ public class ButtonAreaApplicationsRealtor extends ButtonArea {
         getBtn2().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("call to Deny Application in QueryConnector");
+                showMessageDialog(null,"Application is Denied ");
                 window.getQueryConnector().denyApplication(houseID, consumerID, realtorID);
             }
         });

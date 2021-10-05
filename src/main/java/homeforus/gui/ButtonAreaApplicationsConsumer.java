@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class ButtonAreaApplicationsConsumer extends ButtonArea {
 
     private ApplicationListObject applicationListObject;
@@ -25,7 +27,7 @@ public class ButtonAreaApplicationsConsumer extends ButtonArea {
         getBtn1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("call to Deny Application in QueryConnector");
+                showMessageDialog(null,"Application is Denied");
                 window.getQueryConnector().denyApplication(houseID, consumerID, realtorID);
             }
         });

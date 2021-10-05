@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class CreateListingWindow extends JFrame {
 
     int width;
@@ -201,12 +203,12 @@ public class CreateListingWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 formComplete = true;
 
-                System.out.println("My current houseID is " + getHouseID() + " and my isNewHouse state is " + isNewHouse());
+                showMessageDialog(null,"My current houseID is " + getHouseID() + " and my isNewHouse state is " + isNewHouse());
 
                 if (isNewHouse()) {
-                    System.out.println("Button Used as Create New Listing");
+                    //showMessageDialog(null,"Button Used as Create New Listing");
                 } else {
-                    System.out.println("Button Used as Update Existing");
+                    //showMessageDialog(null,"Button Used as Update Existing");
                 }
                 // Parse user input and create a sanitized HouseInput object here!
 
@@ -363,11 +365,11 @@ public class CreateListingWindow extends JFrame {
 
                     // Step 5: Call to QueryConnector and close window
                     if (isNewHouse()) {
-                        System.out.println("Calling CREATE NEW LISTING!");
+                        showMessageDialog(null,"CREATING NEW LISTING!");
                         window.getQueryConnector().createNewListing(houseInput);
                         caller.hideCreateListingsWindow();
                     } else {
-                        System.out.println("Calling UPDATE HOUSE!");
+                        showMessageDialog(null,"UPDATED HOUSE!");
                         window.getQueryConnector().updateHouse(getHouseID(), houseInput);
                         caller.hideCreateListingsWindow();
                     }
