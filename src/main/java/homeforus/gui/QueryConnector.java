@@ -170,12 +170,17 @@ public class QueryConnector {
 
     }
 
-    public ArrayList<ApplicationContentPanel> getAppContentPanels() throws SQLException, IOException {
-        ArrayList<ApplicationContentPanel> contentPanels = new ArrayList<>();
+    public ArrayList<ApplicationContentPanel> getAppContentPanels(boolean isRealtor, int userID) throws SQLException, IOException {
+        ArrayList<ApplicationContentPanel> contentPanels = null;
         ApplicationList applications = null;
 
         // Step 1: Get the list of currently logged in user's applications using applicationListDB.
-        applications = (ApplicationList) applicationListDB.ListAll();
+        if (isRealtor){
+            applications = (ApplicationList) applicationListDB.ListByRealtorID(userID);
+        }
+        else{
+            applications = (ApplicationList) applicationListDB.ListByConsumerID(userID);
+        }
 
         for (int i = 0; i < applications.ListAll().size(); i++){
             // Step 2: Use a loop to convert all of the ApplicationListObjects from Step 1 into ApplicationInfo objects with the
