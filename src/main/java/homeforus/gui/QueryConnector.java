@@ -144,13 +144,22 @@ public class QueryConnector {
 
     }
 
+    public boolean isImageTablePopulated() throws SQLException, IOException {
+        return imageListDB.ListAll().size() > 1;
+    }
+
     public ApplicationInfo getAppInfoFromAppListObj(ApplicationListObject appListObj) throws SQLException, IOException {
         ApplicationInfo appInfo = null;
 
         UserListObject user = userListDB.Listusername(appListObj.getConsumerID()).get(0);
         HouseListObject house = houseListDB.List(appListObj.getHouseID()).get(0);
         String address = house.getHouseNumber() + " " + house.getStreet() + ", " + house.getCity() + ", " + house.getState() + ", " + house.getZip();
-        String image = imageListDB.List(appListObj.getHouseID()).get(0).getImageName();
+        String image = "";
+        try {
+            image = imageListDB.List(appListObj.getHouseID()).get(0).getImageName();
+        } catch (IndexOutOfBoundsException ex ){
+            image = "";
+        }
         appInfo = new ApplicationInfo(user.getFirstName(),user.getLastName(),appListObj.getStatus(), address, image, appListObj.getHouseID());
         return appInfo;
     }

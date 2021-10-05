@@ -83,4 +83,54 @@ public class ImageList {
         }
         return imageinformation;
     }
+
+
+    public List<ImageListObject> ListAll() throws SQLException, IOException {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
+                Setup.setup().get("jdbcDriver"));
+
+        List <ImageListObject> imageinformation = new ArrayList<ImageListObject>();
+
+        try {
+            String query = "SELECT * FROM IMAGE";
+
+            stmt = connect.prepareStatement(query);
+            rs = stmt.executeQuery();
+
+
+            while (rs.next()) {
+                ImageListObject iobject = new ImageListObject();
+                iobject.setHouseID(rs.getInt(1));
+                iobject.setFilePath(rs.getString(2));
+                iobject.setImageName(rs.getString(3));
+                imageinformation.add(iobject);
+            }
+
+
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+
+        finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+
+        }
+        return imageinformation;
+    }
 }
