@@ -283,7 +283,7 @@ public class CreateListingWindow extends JFrame {
                         }
                     }
                 }
-                // Step 3: if (formComplete) check passes, then convert the int types into ints
+                // Step 3: if (formComplete) checck passes, then convert the int types into ints
                 if (errors == 0){
                     int priceInt = -1;
                     int houseNumInt = -1;
