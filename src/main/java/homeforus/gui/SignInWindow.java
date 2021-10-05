@@ -21,6 +21,7 @@ public class SignInWindow extends JFrame {
         caller = topHeader;
         this.window = window;
         setPreferredSize(new Dimension(500,500));
+        setIconImage(window.getAppIcon());
         add(buildSignIn());
         setTitle("Sign In");
         setResizable(false);

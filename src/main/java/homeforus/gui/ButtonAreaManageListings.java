@@ -26,18 +26,13 @@ public class ButtonAreaManageListings extends ButtonArea {
 
                 if (!updateListingWindow.isVisible()) {
                     updateListingWindow.setVisible(true);
-                }
-                try {
-                    System.out.println("Update Button Heard for House " + houseID + "!");
-                    updateListingWindow.setNewHouse(false);
-                    updateListingWindow.setHouseID(houseID);
-                    updateListingWindow.populateHouseData(houseID);
-                    System.out.println("My Listing Window has the values " + updateListingWindow.getHouseID() + " and " +
-                            updateListingWindow.isNewHouse());
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                    try {
+                        updateListingWindow.launchWindow(false, houseID);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });
@@ -47,7 +42,6 @@ public class ButtonAreaManageListings extends ButtonArea {
         getBtn2().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Delete Button Heard for House " + houseID + "!");
                 window.getQueryConnector().deleteHouse(houseID);
                 QueryConnector q = window.getQueryConnector();
                 ArrayList<HouseContentPanel> realtorsHouses = null;

@@ -42,7 +42,7 @@ public class CreateAccountWindow extends JFrame {
         add(buildCreateAccount());
         setTitle("Create New User Account");
         setResizable(false);
-
+        setIconImage(window.getAppIcon());
         pack();
         setLocationRelativeTo(null);
     }

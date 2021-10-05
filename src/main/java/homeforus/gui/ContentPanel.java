@@ -8,6 +8,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class ContentPanel extends JPanel {
@@ -25,8 +26,6 @@ public class ContentPanel extends JPanel {
         setPreferredSize(new Dimension(890,150));
         setBorder(new MatteBorder(1,1,1,1, Color.gray));
 
-//        TestingPanel testingPanel = new TestingPanel(window);
-//        add(testingPanel);
     }
 
     public void buildImgArea(String imgName, int houseID) {
@@ -37,26 +36,41 @@ public class ContentPanel extends JPanel {
         Image testerImg = null;
         ImageEdit editimage = new ImageEdit();
         InputStream storeimage = null;
+        boolean imageTableIsPopulated = false;
 
-//        try {
-//            storeimage = editimage.getImage(imgName, houseID);
-//
-//            if(storeimage != null) {
-//                ImageIcon img = new ImageIcon(ImageIO.read(storeimage));
-//                imgL = img.getImage();
-//                img.setImage(img.getImage().getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT));
-//                imgArea.add(new JLabel(new ImageIcon(img.getImage())));
-//            }
-//            else {
-//                System.out.println("Image not found: " + "imgName: " + imgName + "houseID: " + houseID);
-//                testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
-//                imgL = testerImg;
-//                imgArea.add(new JLabel(new ImageIcon(imgL)));
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            imageTableIsPopulated = window.getQueryConnector().isImageTablePopulated();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (imageTableIsPopulated) {
+            try {
+                storeimage = editimage.getImage(imgName, houseID);
+
+                if (storeimage != null) {
+                    ImageIcon img = new ImageIcon(ImageIO.read(storeimage));
+                    imgL = img.getImage();
+                    img.setImage(img.getImage().getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT));
+                    imgArea.add(new JLabel(new ImageIcon(img.getImage())));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (testerImg != null) {
+                imgL = testerImg;
+                imgArea.add(new JLabel(new ImageIcon(imgL)));
+            }
+        }
+
     }
 
     public Image getImgL() {

@@ -2,6 +2,7 @@ package main.java.homeforus.gui;
 
 import main.java.homeforus.core.ApplicationListObject;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,21 +14,27 @@ public class ApplicationsView extends ContentView {
     ArrayList<ApplicationListObject> appList;
     private ContentPanelListDisplay contentPanelListDisplay;
 
-    public ApplicationsView(BaseWindow window, ContentPanelListDisplay c) {
+    public ApplicationsView(BaseWindow window) {
         super(window);
-        this.contentPanelListDisplay = c;
-//        try {
-//            appInfoList = window.getQueryConnector().getAppList();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        QueryConnector query = window.getQueryConnector();
+        int userID = query.getCurrentlyLoggedInUser().getUserID();
+        boolean isRealtor = query.getCurrentlyLoggedInUser().isRealtor();
 
+        ArrayList<ApplicationContentPanel> panels = null;
+        try {
+            panels = window.getQueryConnector().getAppContentPanels(isRealtor, userID);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-
-
-        add(contentPanelListDisplay);
-
+        if (panels != null) {
+            ArrayList<ContentPanel> contentPanels = new ArrayList<>(panels);
+            contentPanelListDisplay = new ContentPanelListDisplay(contentPanels);
+            add(contentPanelListDisplay);
+        } else {
+            add(new JLabel("No applications found."));
+        }
     }
 }

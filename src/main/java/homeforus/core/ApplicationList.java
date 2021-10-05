@@ -61,7 +61,7 @@ public class ApplicationList {
                 aobject.setRealtorID(rs.getInt(4));
                 aobject.setRealtorUsername(rs.getString(5));
                 aobject.setStatus(rs.getString(6));
-                
+
                 applicationinformation.add(aobject);
             }
 

@@ -66,11 +66,6 @@ public class QueryConnector {
     }
 
     public void updateHouse(int houseID, HouseInput houseInput) {
-        // update a house in the Database, given this passed-in houseInput object
-        // see below to createNewListing to see what it should vaguely be structured like.
-        // Could probably just update every single field of the House in the table, because the rest
-        // of the properties of the houseInput object will be the same if they didn't change anything.
-
         System.out.println("MADE IT INTO QUERY CONNECTOR UPDATE HOUSE");
         List<HouseListObject> house_exists = new ArrayList<>();
         try {
@@ -88,6 +83,22 @@ public class QueryConnector {
             e.printStackTrace();
         }
 
+    }
+
+    public String getImgByHouseID(int houseID) throws SQLException, IOException {
+        String imgName = "";
+
+        try {
+            if (imageListDB.List(houseID).size() == 0) {
+                System.out.println("true for " + houseID);
+            }
+
+            imgName = imageListDB.List(houseID).get(0).getImageName();
+        } catch (IndexOutOfBoundsException ex) {
+            imgName = "Choose....";
+        }
+
+        return imgName;
     }
 
     public void denyApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
@@ -133,46 +144,54 @@ public class QueryConnector {
 
     }
 
+    public boolean isImageTablePopulated() throws SQLException, IOException {
+        return imageListDB.ListAll().size() > 1;
+    }
+
     public ApplicationInfo getAppInfoFromAppListObj(ApplicationListObject appListObj) throws SQLException, IOException {
         ApplicationInfo appInfo = null;
 
         UserListObject user = userListDB.Listusername(appListObj.getConsumerID()).get(0);
         HouseListObject house = houseListDB.List(appListObj.getHouseID()).get(0);
-        String address = house.getHouseNumber() + house.getStreet() + ", " + house.getCity() + ", " + house.getState() + ", " + house.getZip();
-        String image = imageListDB.List(appListObj.getHouseID()).get(0).getImageName();
+        String address = house.getHouseNumber() + " " + house.getStreet() + ", " + house.getCity() + ", " + house.getState() + ", " + house.getZip();
+        String image = "";
+        try {
+            image = imageListDB.List(appListObj.getHouseID()).get(0).getImageName();
+        } catch (IndexOutOfBoundsException ex ){
+            image = "";
+        }
         appInfo = new ApplicationInfo(user.getFirstName(),user.getLastName(),appListObj.getStatus(), address, image, appListObj.getHouseID());
         return appInfo;
     }
 
 
     public void createNewApplication(int houseID, int realtorID, String realtorUser) throws SQLException, IOException {
-
-
         applicationAddDB.add(houseID, currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), realtorID,realtorUser,"Submitted");
-
         // Print a confirmation to console that it posted successfully.
         System.out.println("Application Submitted");
-
     }
 
-    public ArrayList<ApplicationContentPanel> getAppContentPanels() {
-        ArrayList<ApplicationContentPanel> contentPanels = null;
+    public ArrayList<ApplicationContentPanel> getAppContentPanels(boolean isRealtor, int userID) throws SQLException, IOException {
+        ArrayList<ApplicationContentPanel> contentPanels = new ArrayList<>();
+        List<ApplicationListObject> applications = null;
 
-        // Step 1: Get the list of currently logged in user's applications using applicationListDB.
-        // Step 2: Use a loop to convert all of the ApplicationListObjects from Step 1 into ApplicationInfo objects with the
-        // "getAppInfoFromAppListObj" method.
-        // Step 3: In that same loop, create an ApplicationDetailPanel by passing it the ApplicationInfo from Step2.
-        // Step 4: In that same loop, create an ApplicationContentPanel by passing it the required information in its
-        // constructor that you gathered from all the previous steps.
-        // Step 5: Add that ApplicationContentPanel you just created to the array "contentPanels".
-        // Step 6: Return the Array.
+        if (isRealtor){
+            applications = applicationListDB.ListByRealtorID(userID);
+        }
+        else{
+            applications = applicationListDB.ListByConsumerID(userID);
+        }
 
+        for (ApplicationListObject a:applications) {
+
+            ApplicationInfo app_info = getAppInfoFromAppListObj(a);
+            ApplicationDetailPanel app_DetailPanel = new ApplicationDetailPanel(app_info);
+            ApplicationContentPanel app_ContentPanel = new ApplicationContentPanel(window,app_DetailPanel,a,app_info);
+            contentPanels.add(app_ContentPanel);
+        }
         return contentPanels;
     }
 
-    public List<ApplicationListObject> getAppListObjs() throws SQLException, IOException {
-        return applicationListDB.ListByConsumerID(3);
-    }
 
 
     public ArrayList<HouseContentPanel> getRealtorHouses(int realtorUserID) throws SQLException, IOException {
