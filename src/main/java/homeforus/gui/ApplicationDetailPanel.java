@@ -33,10 +33,10 @@ public class ApplicationDetailPanel extends DetailPanel{
         getRow4().setText("");
         getRow5().setText("");
 
-        if(status.equals("DENIED")){
+        if(status.equals("Denied")){
             getRow2().setForeground(Color.red);
         }
-        if(status.equals("ACCEPTED")){
+        if(status.equals("Approved")){
             getRow2().setForeground(Color.green);
         }
     }

@@ -74,7 +74,7 @@ public class QueryConnector {
                 System.out.println("UPDATING!");
                 houseEditDB.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(),
                         houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(),
-                        houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet());
+                        houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(),houseInput.getCity());
             }
 
         } catch (IOException e) {
@@ -103,6 +103,7 @@ public class QueryConnector {
 
     public void denyApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
         List<ApplicationListObject> application_exists = new ArrayList<>();
+
         try {
             application_exists = applicationListDB.List(House_ID, Consumer_ID, Realtor_ID);
             if(application_exists.size() == 1) {
