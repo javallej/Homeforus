@@ -170,16 +170,29 @@ public class QueryConnector {
 
     }
 
-    public ArrayList<ApplicationContentPanel> getAppContentPanels() {
-        ArrayList<ApplicationContentPanel> contentPanels = null;
+    public ArrayList<ApplicationContentPanel> getAppContentPanels() throws SQLException, IOException {
+        ArrayList<ApplicationContentPanel> contentPanels = new ArrayList<>();
+        ApplicationList applications = null;
 
         // Step 1: Get the list of currently logged in user's applications using applicationListDB.
-        // Step 2: Use a loop to convert all of the ApplicationListObjects from Step 1 into ApplicationInfo objects with the
-        // "getAppInfoFromAppListObj" method.
-        // Step 3: In that same loop, create an ApplicationDetailPanel by passing it the ApplicationInfo from Step2.
-        // Step 4: In that same loop, create an ApplicationContentPanel by passing it the required information in its
-        // constructor that you gathered from all the previous steps.
-        // Step 5: Add that ApplicationContentPanel you just created to the array "contentPanels".
+        applications = (ApplicationList) applicationListDB.ListAll();
+
+        for (int i = 0; i < applications.ListAll().size(); i++){
+            // Step 2: Use a loop to convert all of the ApplicationListObjects from Step 1 into ApplicationInfo objects with the
+            // "getAppInfoFromAppListObj" method.
+            ApplicationInfo app_info = getAppInfoFromAppListObj(applications.ListAll().get(i));
+
+            // Step 3: In that same loop, create an ApplicationDetailPanel by passing it the ApplicationInfo from Step2.
+            ApplicationDetailPanel app_DetailPanel = new ApplicationDetailPanel(app_info);
+
+            // Step 4: In that same loop, create an ApplicationContentPanel by passing it the required information in its
+            // constructor that you gathered from all the previous steps.
+            ApplicationContentPanel app_ContentPanel = new ApplicationContentPanel(window,app_DetailPanel,applications.ListAll().get(i),app_info);
+
+            // Step 5: Add that ApplicationContentPanel you just created to the array "contentPanels".
+            contentPanels.add(app_ContentPanel);
+        }
+
         // Step 6: Return the Array.
 
         return contentPanels;
