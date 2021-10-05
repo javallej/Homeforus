@@ -91,6 +91,64 @@ public class UserList {
         return userinformation;
     }
 
+    public List<UserListObject> Listusername(int userID) throws SQLException, IOException {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+
+        Connection connect = DBConnect.connect(Setup.setup().get("jdbcUrl"),Setup.setup().get("jdbcUser"), Setup.setup().get("jdbcPasswd"),
+                Setup.setup().get("jdbcDriver"));
+
+        List <UserListObject> userinformation = new ArrayList<UserListObject>();
+
+        try {
+
+
+            String query = "SELECT * FROM USER WHERE USER.User_ID = ?";
+
+            stmt = connect.prepareStatement(query);
+            stmt.setInt(1, userID);
+            rs = stmt.executeQuery();
+
+
+            while (rs.next()) {
+                UserListObject uobject = new UserListObject();
+                uobject.setUserID(rs.getInt(1));
+                uobject.setUserUsername(rs.getString(2));
+                uobject.setFirstName(rs.getString(3));
+                uobject.setLastName(rs.getString(4));
+                uobject.setPhone(rs.getString(4));
+                uobject.setEmail(rs.getString(5));
+                uobject.setPassword(rs.getString(5));
+                userinformation.add(uobject);
+            }
+
+            return userinformation;
+
+
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+
+        finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+
+                if (connect != null) {
+                    connect.close();
+                }
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+
+        }
+        return userinformation;
+    }
+
     
 
 }

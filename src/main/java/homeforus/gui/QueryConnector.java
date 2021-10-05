@@ -16,6 +16,7 @@ public class QueryConnector {
     private BaseWindow window;
     private CurrentlyLoggedInUser currentlyLoggedInUser;
     private UserAdd userAddDB;
+    private UserList userListDB;
     private ConsumerAdd consumerAddDB;
     private RealtorAdd realtorAddDB;
     private HouseAdd houseAddDB;
@@ -31,6 +32,7 @@ public class QueryConnector {
     public QueryConnector(BaseWindow window) {
         this.window = window;
         userAddDB = new UserAdd();
+        userListDB = new UserList();
         consumerAddDB = new ConsumerAdd();
         realtorAddDB = new RealtorAdd();
         houseAddDB = new HouseAdd();
@@ -129,31 +131,25 @@ public class QueryConnector {
 
     }
 
-    public ApplicationInfo getAppInfoFromAppListObj(ApplicationListObject appListObj) {
+    public ApplicationInfo getAppInfoFromAppListObj(ApplicationListObject appListObj) throws SQLException, IOException {
         ApplicationInfo appInfo = null;
-
         // This method needs to read the appListObj object and pull the rest of the information from the
         // database to complete the construction of a new ApplicationInfo object.
-        // Currently, we need ApplicationInfo object to display the following information on the
-        // GUI pertaining to the application:
-        // firstName;
-        // lastName;
-        // status;
-        // address;
-        // However, the Application table in our schema only stores status, from these things.
-        // But we can use the ApplicationListObject, which represents 1 row taken from the Application
-        // table in the database, to fill in the remaining information to populate ApplicationInfo object.
         // Step 1: You'll need to pull the consumer ID from the ApplicationListObject and find
         // that Consumer's first and last names from the database, based on that user ID.
+        UserListObject user = userListDB.Listusername(appListObj.getConsumerID()).get(0);
+
         // Step 2: You'll need to pull the house ID from the ApplicationListObject and find
         // that House's address from the database, based on that house ID. Make sure to
         // concatenate the entire address in the House row, because it's stored as
         // Housenumber, street, city, state, zip. Put all that information into the String field when
         // creating the ApplicationInfo object.
-        // Then just create the object:
-        // appInfo = new ApplicationInfo( put in the params you just gathered here );
-        // then return the object.
+        HouseListObject house = houseListDB.List(appListObj.getHouseID()).get(0);
+        String address = house.getHouseNumber() + house.getStreet() + ", " + house.getCity() + ", " + house.getState() + ", " + house.getZip();
 
+        // Then just create the object:
+        appInfo = new ApplicationInfo(user.getFirstName(),user.getLastName(),appListObj.getStatus(), address);
+        // then return the object.
         return appInfo;
     }
 

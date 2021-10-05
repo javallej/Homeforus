@@ -28,11 +28,11 @@ public class ApplicationsView extends ContentView {
         ArrayList<ApplicationInfo> appInfoList = new ArrayList<>();
         appInfoList.add(appInfo);
 
-        ApplicationContentPanel panel1 = new ApplicationContentPanel();
+//        ApplicationContentPanel panel1 = new ApplicationContentPanel();
 
         ArrayList<ContentPanel> panels = new ArrayList<>();
 
-        ContentPanelListDisplay cpld = new ContentPanelListDisplay();
+//        ContentPanelListDisplay cpld = new ContentPanelListDisplay();
 
 
     }
