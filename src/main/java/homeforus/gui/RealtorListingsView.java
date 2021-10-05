@@ -5,6 +5,8 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class RealtorListingsView extends ContentView{
@@ -40,7 +42,13 @@ public class RealtorListingsView extends ContentView{
             public void actionPerformed(ActionEvent e) {
                 if (!createListingWindow.isVisible()) {
                     createListingWindow.setVisible(true);
-                    createListingWindow.setNewHouse(true);
+                    try {
+                        createListingWindow.launchWindow(true, -1);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });

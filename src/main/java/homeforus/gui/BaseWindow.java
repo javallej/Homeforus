@@ -20,6 +20,7 @@ public class BaseWindow extends JFrame {
     private SearchInput searchInput;
     private QueryConnector queryConnector;
     private SignInManager signInManager;
+    private Image appIcon;
 
     private int winHeight = 700;
     private int winWidth = 1000;
@@ -41,6 +42,10 @@ public class BaseWindow extends JFrame {
                 buildBaseWindow();
             }
         });
+    }
+
+    public Image getAppIcon() {
+        return appIcon;
     }
 
     public void buildBaseWindow() {

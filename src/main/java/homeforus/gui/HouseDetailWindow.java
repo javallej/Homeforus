@@ -27,6 +27,7 @@ public class HouseDetailWindow extends JFrame {
         this.caller = caller;
         this.width = 600;
         this.height = 600;
+        setIconImage(window.getAppIcon());
         setPreferredSize(new Dimension(width,height));
     }
 

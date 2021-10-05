@@ -90,6 +90,22 @@ public class QueryConnector {
 
     }
 
+    public String getImgByHouseID(int houseID) throws SQLException, IOException {
+        String imgName = "";
+
+        try {
+            if (imageListDB.List(houseID).size() == 0) {
+                System.out.println("true for " + houseID);
+            }
+
+            imgName = imageListDB.List(houseID).get(0).getImageName();
+        } catch (IndexOutOfBoundsException ex) {
+            imgName = "Choose....";
+        }
+
+        return imgName;
+    }
+
     public void denyApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
         List<ApplicationListObject> application_exists = new ArrayList<>();
         try {

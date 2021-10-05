@@ -4,6 +4,7 @@ package main.java.homeforus.gui;
 import main.java.homeforus.core.HouseList;
 import main.java.homeforus.core.HouseListObject;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CreateListingWindow extends JFrame {
 
@@ -35,6 +37,7 @@ public class CreateListingWindow extends JFrame {
     private InputField sqrFeet;
     private ArrayList<InputField> inputs;
     private JLabel errorFillOut;
+    private JButton imgUpload;
     private boolean formComplete;
     private boolean isNewHouse = true;
     private int houseID;
@@ -56,6 +59,7 @@ public class CreateListingWindow extends JFrame {
         add(buildNewListingsWindow());
         setTitle("Create New House Listing");
         setResizable(false);
+        setIconImage(window.getAppIcon());
         pack();
 
         CreateListingWindow t = this;
@@ -68,6 +72,39 @@ public class CreateListingWindow extends JFrame {
             }
         });
     }
+
+    public JButton createImgButton() {
+        imgUpload = new JButton("Choose....");
+        return imgUpload;
+    }
+
+    public void launchWindow(boolean isNewHouse, int houseID) throws SQLException, IOException {
+        this.isNewHouse = isNewHouse;
+        this.houseID = houseID;
+        setNewHouse(isNewHouse());
+        if (!isNewHouse()) {
+            changeImgUploadBtn();
+            populateHouseData(getHouseID());
+        }
+    }
+
+    public void changeImgUploadBtn() {
+        String houseImg = null;
+        if (!isNewHouse()) {
+            try {
+                houseImg = window.getQueryConnector().getImgByHouseID(getHouseID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imgUpload.setText(houseImg);
+        } else {
+            imgUpload.setText("Choose.... ");
+        }
+    }
+
+
 
     private JPanel buildNewListingsWindow() {
         JPanel holderPanel = new JPanel();
@@ -84,7 +121,7 @@ public class CreateListingWindow extends JFrame {
         choosePhotoHolder.setLayout(new BoxLayout(choosePhotoHolder,BoxLayout.LINE_AXIS));
         choosePhotoHolder.add(new JLabel("Photo"));
         choosePhotoHolder.add(Box.createHorizontalGlue());
-        choosePhotoHolder.add(new JButton("Choose...."));
+        choosePhotoHolder.add(createImgButton());
         grid.add(choosePhotoHolder);
 
         price = createInputField("Price");
@@ -146,6 +183,16 @@ public class CreateListingWindow extends JFrame {
         holderPanel.add(errorMsgHolder);
 
         return holderPanel;
+    }
+
+    private ActionListener chooseImageUpload() {
+        ActionListener a = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        };
+        return a;
     }
 
     private ActionListener validateInputAndSubmit(Boolean isNewHouse) {
