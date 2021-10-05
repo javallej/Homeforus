@@ -8,8 +8,6 @@
 
 package main.java.homeforus.core;
 
-import java.sql.SQLException;
-import java.io.IOException;
 import main.java.homeforus.gui.GUIStart;
 
 /**
