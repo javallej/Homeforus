@@ -149,7 +149,7 @@ public class QueryConnector {
 
         UserListObject user = userListDB.Listusername(appListObj.getConsumerID()).get(0);
         HouseListObject house = houseListDB.List(appListObj.getHouseID()).get(0);
-        String address = house.getHouseNumber() + house.getStreet() + ", " + house.getCity() + ", " + house.getState() + ", " + house.getZip();
+        String address = house.getHouseNumber() + " " + house.getStreet() + ", " + house.getCity() + ", " + house.getState() + ", " + house.getZip();
         String image = imageListDB.List(appListObj.getHouseID()).get(0).getImageName();
         appInfo = new ApplicationInfo(user.getFirstName(),user.getLastName(),appListObj.getStatus(), address, image, appListObj.getHouseID());
         return appInfo;
@@ -163,28 +163,26 @@ public class QueryConnector {
     }
 
     public ArrayList<ApplicationContentPanel> getAppContentPanels(boolean isRealtor, int userID) throws SQLException, IOException {
-        ArrayList<ApplicationContentPanel> contentPanels = null;
-        ApplicationList applications = null;
+        ArrayList<ApplicationContentPanel> contentPanels = new ArrayList<>();
+        List<ApplicationListObject> applications = null;
 
         if (isRealtor){
-            applications = (ApplicationList) applicationListDB.ListByRealtorID(userID);
+            applications = applicationListDB.ListByRealtorID(userID);
         }
         else{
-            applications = (ApplicationList) applicationListDB.ListByConsumerID(userID);
+            applications = applicationListDB.ListByConsumerID(userID);
         }
 
-        for (int i = 0; i < applications.ListAll().size(); i++){
-            ApplicationInfo app_info = getAppInfoFromAppListObj(applications.ListAll().get(i));
+        for (ApplicationListObject a:applications) {
+
+            ApplicationInfo app_info = getAppInfoFromAppListObj(a);
             ApplicationDetailPanel app_DetailPanel = new ApplicationDetailPanel(app_info);
-            ApplicationContentPanel app_ContentPanel = new ApplicationContentPanel(window,app_DetailPanel,applications.ListAll().get(i),app_info);
+            ApplicationContentPanel app_ContentPanel = new ApplicationContentPanel(window,app_DetailPanel,a,app_info);
             contentPanels.add(app_ContentPanel);
         }
         return contentPanels;
     }
 
-    public List<ApplicationListObject> getAppListObjs() throws SQLException, IOException {
-        return applicationListDB.ListByConsumerID(3);
-    }
 
 
     public ArrayList<HouseContentPanel> getRealtorHouses(int realtorUserID) throws SQLException, IOException {

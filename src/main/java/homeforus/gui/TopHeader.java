@@ -106,51 +106,8 @@ public class TopHeader extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("applications clicked");
                     QueryConnector q = window.getQueryConnector();
-                    ArrayList<ApplicationContentPanel> userApplications = null;
-//                    try {
-//                        realtorsHouses = q.getRealtorHouses(q.getCurrentlyLoggedInUser().getUserID());
-//                    } catch (SQLException ex) {
-//                        ex.printStackTrace();
-//                    } catch (IOException ex) {
-//                        ex.printStackTrace();
-//                    }
-//                    if (userApplications != null) {
-//                        ArrayList<ContentPanel> cH = new ArrayList<>(realtorsHouses);
-//                        ContentPanelListDisplay h = new ContentPanelListDisplay(cH);
-//                        RealtorListingsView r = new RealtorListingsView(window, h);
-//                        window.setContentView(r);
-//                    }
-
-
-                    List<ApplicationListObject> appListObjs = null;
-                    try {
-                        appListObjs = window.getQueryConnector().getAppListObjs();
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-
-                    ApplicationInfo appInfo = null;
-
-                    try {
-                        appInfo = window.getQueryConnector().getAppInfoFromAppListObj(appListObjs.get(0));
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                    ApplicationDetailPanel appDetail = new ApplicationDetailPanel(appInfo);
-
-                    ApplicationContentPanel panel1 = new ApplicationContentPanel(window, appDetail, appListObjs.get(0), appInfo);
-
-                    ArrayList<ContentPanel> panels = new ArrayList<>();
-                    panels.add(panel1);
-
-                    ContentPanelListDisplay contentPanelListDisplay = new ContentPanelListDisplay(panels);
-
-                    ApplicationsView a = new ApplicationsView(window, contentPanelListDisplay);
-                    window.setContentView(a);
+                    ApplicationsView applicationsView = new ApplicationsView(window);
+                    window.setContentView(applicationsView);
                 }
             });
 

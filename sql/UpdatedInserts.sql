@@ -7,7 +7,7 @@ INSERT INTO `USER` VALUES
 (4,'homelessnomore','Jim','Bob','4785462154','jbobhomeless@cold.com','ineedahouse'),
 (5,'KeeneStreetRealty','Johnny','Utah','2813308004','jutah@keenestreet.com','fakepwd1'),
 (6,'FindAHome','Bodie','Miller','5046352017','bmiller@findahome.com','fakepwd2'),
-(7,'jnorman','Jack','Norman','7133776376','jlnorma4@asu.edu','fakepwd3'),
+(7,'jnorman','Jack','Norman','7133776377','jlnorma4@asu.edu','fakepwd3'),
 (8,'jmontana','Joe','Montana','8326674589','jmontana@quarterback.com','fakepwd4'),
 (9,'theone','Neo','one','4801111111','neo@asu.edu','password$$57'),
 (10,'mj','Mary','Jane','6021111234','mj@asu.edu','password$$51'),
