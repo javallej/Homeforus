@@ -17,38 +17,23 @@ public class ButtonAreaApplicationsConsumer extends ButtonArea {
     public ButtonAreaApplicationsConsumer(BaseWindow window, ApplicationListObject applicationListObject) {
         super(window);
         this.applicationListObject = applicationListObject;
+        int houseID = applicationListObject.getHouseID();
+        int consumerID = applicationListObject.getConsumerID();
+        int realtorID = applicationListObject.getRealtorID();
 
-        JButton cancel = new JButton("Cancel");
 
-        cancel.addActionListener(new ActionListener() {
+        getBtn1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("call to Deny Application in QueryConnector");
+                window.getQueryConnector().denyApplication(houseID, consumerID, realtorID);
             }
         });
 
-        setBtn1(cancel);
+        getBtn1().setText("Cancel");
         setButtonsVisible(true);
-        getBtn1().setVisible(true);
-        System.out.println(getBtn1().isVisible());
+        getBtn2().setVisible(false);
 
-        getBtn1().addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                super.componentShown(e);
-                System.out.println("button 1 shown");
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {
-                super.componentHidden(e);
-                System.out.println("button 1 hidden by: " + e.getSource());
-            }
-        });
-
-
-
-        setBorder(new MatteBorder(1,1,1,1, Color.CYAN));
 
     }
 
