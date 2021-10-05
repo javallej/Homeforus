@@ -12,7 +12,7 @@ public class ApplicationDetailPanel extends DetailPanel{
     private String daysOld;
     private String address;
 
-    public ApplicationDetailPanel(ApplicationInfo appInfo, BaseWindow window){
+    public ApplicationDetailPanel(ApplicationInfo appInfo){
         this.window = window;
 //        buyerName = "Joe Shmoe";
 //        status = "Status: PROCESSING";

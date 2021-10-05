@@ -140,7 +140,7 @@ public class TopHeader extends JPanel {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    ApplicationDetailPanel appDetail = new ApplicationDetailPanel(appInfo, window);
+                    ApplicationDetailPanel appDetail = new ApplicationDetailPanel(appInfo);
 
                     ApplicationContentPanel panel1 = new ApplicationContentPanel(window, appDetail, appListObjs.get(0), appInfo);
 

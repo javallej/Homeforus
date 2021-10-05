@@ -135,33 +135,11 @@ public class QueryConnector {
     public ApplicationInfo getAppInfoFromAppListObj(ApplicationListObject appListObj) throws SQLException, IOException {
         ApplicationInfo appInfo = null;
 
-        // This method needs to read the appListObj object and pull the rest of the information from the
-        // database to complete the construction of a new ApplicationInfo object.
-        // Currently, we need ApplicationInfo object to display the following information on the
-        // GUI pertaining to the application:
-        // firstName;
-        // lastName;
-        // status;
-        // address;
-        // However, the Application table in our schema only stores status, from these things.
-        // But we can use the ApplicationListObject, which represents 1 row taken from the Application
-        // table in the database, to fill in the remaining information to populate ApplicationInfo object.
-        // Step 1: You'll need to pull the consumer ID from the ApplicationListObject and find
-        // that Consumer's first and last names from the database, based on that user ID.
         UserListObject user = userListDB.Listusername(appListObj.getConsumerID()).get(0);
-
-        // Step 2: You'll need to pull the house ID from the ApplicationListObject and find
-        // that House's address from the database, based on that house ID. Make sure to
-        // concatenate the entire address in the House row, because it's stored as
-        // Housenumber, street, city, state, zip. Put all that information into the String field when
-        // creating the ApplicationInfo object.
         HouseListObject house = houseListDB.List(appListObj.getHouseID()).get(0);
         String address = house.getHouseNumber() + house.getStreet() + ", " + house.getCity() + ", " + house.getState() + ", " + house.getZip();
         String image = imageListDB.List(appListObj.getHouseID()).get(0).getImageName();
-
-        // Then just create the object:
         appInfo = new ApplicationInfo(user.getFirstName(),user.getLastName(),appListObj.getStatus(), address, image, appListObj.getHouseID());
-        // then return the object.
         return appInfo;
     }
 
@@ -176,21 +154,19 @@ public class QueryConnector {
 
     }
 
-    public ArrayList<ApplicationInfo> getAppList() throws SQLException, IOException {
-        ArrayList<ApplicationInfo> appList = null;
+    public ArrayList<ApplicationContentPanel> getAppContentPanels() {
+        ArrayList<ApplicationContentPanel> contentPanels = null;
 
-        // Get currently logged in user's applications using applicationListDB
-        // method is yet to be written but it will be something like:
-//        ArrayList<ApplicationListObject> appsForUser = (ArrayList<ApplicationListObject>) applicationListDB.List( currentlyLoggedInUser.getUserID() );
+        // Step 1: Get the list of currently logged in user's applications using applicationListDB.
+        // Step 2: Use a loop to convert all of the ApplicationListObjects from Step 1 into ApplicationInfo objects with the
+        // "getAppInfoFromAppListObj" method.
+        // Step 3: In that same loop, create an ApplicationDetailPanel by passing it the ApplicationInfo from Step2.
+        // Step 4: In that same loop, create an ApplicationContentPanel by passing it the required information in its
+        // constructor that you gathered from all the previous steps.
+        // Step 5: Add that ApplicationContentPanel you just created to the array "contentPanels".
+        // Step 6: Return the Array.
 
-        // in a loop, go through and convert all the ApplicationListObjects to ApplicationInfo objects
-//        for (ApplicationListObject app:appsForUser) {
-//            ApplicationInfo appInfo = new ApplicationInfo( fill in the required parameters for ApplicationInfo class (see constructor) );
-            // add to appList
-//            appList.add(appInfo);
-//        }
-
-        return appList;
+        return contentPanels;
     }
 
     public List<ApplicationListObject> getAppListObjs() throws SQLException, IOException {
