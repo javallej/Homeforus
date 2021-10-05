@@ -43,9 +43,8 @@ public class ButtonAreaManageListings extends ButtonArea {
         });
 
         getBtn2().setText("Delete Listing");
-
         // call Delete listing here
-        getBtn1().addActionListener(new ActionListener() {
+        getBtn2().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Delete Button Heard for House " + houseID + "!");
@@ -67,7 +66,6 @@ public class ButtonAreaManageListings extends ButtonArea {
                 }
             }
         });
-
         setButtonsVisible(true);
     }
 

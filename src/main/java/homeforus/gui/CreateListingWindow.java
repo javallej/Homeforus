@@ -131,10 +131,10 @@ public class CreateListingWindow extends JFrame {
         inputs.add(yrBuilt);
 
         JPanel btnHolder = new JPanel();
-        JButton createNewListing = new JButton("Create New Listing");
-        createNewListing.addActionListener(validateInputAndSubmit());
+        JButton updateListing = new JButton("Commit");
+        updateListing.addActionListener(validateInputAndSubmit(this.isNewHouse()));
         btnHolder.setPreferredSize(new Dimension(width - 100, 50));
-        btnHolder.add(createNewListing);
+        btnHolder.add(updateListing);
         holderPanel.add(Box.createVerticalGlue());
         holderPanel.add(btnHolder);
 
@@ -148,7 +148,7 @@ public class CreateListingWindow extends JFrame {
         return holderPanel;
     }
 
-    private ActionListener validateInputAndSubmit() {
+    private ActionListener validateInputAndSubmit(Boolean isNewHouse) {
         ActionListener a = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -387,13 +387,9 @@ public class CreateListingWindow extends JFrame {
     }
 
     public void populateHouseData(int house_ID) throws SQLException, IOException {
-        ArrayList<HouseContentPanel> houseList = null;
         List<HouseListObject> h;
         HouseList house = new HouseList();
         h = house.ListHouseID(house_ID);
-
-        int houseCost = h.get(0).getCost();
-
         price.setTextField(Integer.toString(h.get(0).getCost()));
         houseNum.setTextField(Integer.toString(h.get(0).getHouseNumber()));
         street.setTextField(h.get(0).getStreet());

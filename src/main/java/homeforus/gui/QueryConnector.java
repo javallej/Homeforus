@@ -71,6 +71,7 @@ public class QueryConnector {
         // Could probably just update every single field of the House in the table, because the rest
         // of the properties of the houseInput object will be the same if they didn't change anything.
 
+        System.out.println("MADE IT INTO QUERY CONNECTOR UPDATE HOUSE");
         List<HouseListObject> house_exists = new ArrayList<>();
         try {
             house_exists = houseListDB.List(houseID);
@@ -133,8 +134,18 @@ public class QueryConnector {
 
     public ApplicationInfo getAppInfoFromAppListObj(ApplicationListObject appListObj) throws SQLException, IOException {
         ApplicationInfo appInfo = null;
+
         // This method needs to read the appListObj object and pull the rest of the information from the
         // database to complete the construction of a new ApplicationInfo object.
+        // Currently, we need ApplicationInfo object to display the following information on the
+        // GUI pertaining to the application:
+        // firstName;
+        // lastName;
+        // status;
+        // address;
+        // However, the Application table in our schema only stores status, from these things.
+        // But we can use the ApplicationListObject, which represents 1 row taken from the Application
+        // table in the database, to fill in the remaining information to populate ApplicationInfo object.
         // Step 1: You'll need to pull the consumer ID from the ApplicationListObject and find
         // that Consumer's first and last names from the database, based on that user ID.
         UserListObject user = userListDB.Listusername(appListObj.getConsumerID()).get(0);

@@ -78,6 +78,7 @@ public class HouseDetailWindow extends JFrame {
                 }
             }
         });
+
         add(contentHolder);
         contentHolder.add(imageHolder);
         HouseDetailPanel houseDetailPanel = new HouseDetailPanel(houseDetail.gethLO());
