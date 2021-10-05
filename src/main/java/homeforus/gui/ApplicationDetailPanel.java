@@ -25,14 +25,13 @@ public class ApplicationDetailPanel extends DetailPanel{
         buyerName = appInfo.getFirstName() + " " + appInfo.getLastName();
         status = "<html><font color=black>Status: </font>" + appInfo.getStatus();
         // and so on...
-        daysOld = "Days on HomeForUs: " +appInfo.getDaysOld(); //changed to daysOld because I don't see an address
         address = appInfo.getAddress();
 
         getRow1().setText(buyerName);
         getRow2().setText(status);
         getRow3().setText(address);
         getRow4().setText("");
-        getRow5().setText(daysOld);
+        getRow5().setText("");
 
         if(status.equals("DENIED")){
             getRow2().setForeground(Color.red);

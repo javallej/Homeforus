@@ -157,9 +157,10 @@ public class QueryConnector {
         // creating the ApplicationInfo object.
         HouseListObject house = houseListDB.List(appListObj.getHouseID()).get(0);
         String address = house.getHouseNumber() + house.getStreet() + ", " + house.getCity() + ", " + house.getState() + ", " + house.getZip();
+        String image = imageListDB.List(appListObj.getHouseID()).get(0).getImageName();
 
         // Then just create the object:
-        appInfo = new ApplicationInfo(user.getFirstName(),user.getLastName(),appListObj.getStatus(), address);
+        appInfo = new ApplicationInfo(user.getFirstName(),user.getLastName(),appListObj.getStatus(), address, image, appListObj.getHouseID());
         // then return the object.
         return appInfo;
     }

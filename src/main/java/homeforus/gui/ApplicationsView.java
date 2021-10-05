@@ -5,6 +5,7 @@ import main.java.homeforus.core.ApplicationListObject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ApplicationsView extends ContentView {
 
@@ -12,8 +13,9 @@ public class ApplicationsView extends ContentView {
     ArrayList<ApplicationListObject> appList;
     private ContentPanelListDisplay contentPanelListDisplay;
 
-    public ApplicationsView(BaseWindow window) {
+    public ApplicationsView(BaseWindow window, ContentPanelListDisplay c) {
         super(window);
+        this.contentPanelListDisplay = c;
 //        try {
 //            appInfoList = window.getQueryConnector().getAppList();
 //        } catch (SQLException e) {
@@ -22,19 +24,10 @@ public class ApplicationsView extends ContentView {
 //            e.printStackTrace();
 //        }
 
-        ArrayList<ApplicationListObject> appListObjs = new ArrayList<>();
-//        window.getQueryConnector().get
 
-//        ApplicationInfo appInfo = new ApplicationInfo("Kirry", "Chan", "Submitted", "123 Fake St, Houston, TX 12345");
-        ArrayList<ApplicationInfo> appInfoList = new ArrayList<>();
-//        appInfoList.add(appInfo);
 
-//        ApplicationContentPanel panel1 = new ApplicationContentPanel();
 
-        ArrayList<ContentPanel> panels = new ArrayList<>();
-
-//        ContentPanelListDisplay cpld = new ContentPanelListDisplay();
-
+        add(contentPanelListDisplay);
 
     }
 }
