@@ -43,7 +43,7 @@ public class ImageList {
         List <ImageListObject> imageinformation = new ArrayList<ImageListObject>();
 
         try {
-            String query = "SELECT * FROM IMAGE WHERE Image.House_ID = ?";
+            String query = "SELECT * FROM IMAGE WHERE IMAGE.House_ID = ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setInt(1, House_ID);

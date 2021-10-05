@@ -79,7 +79,7 @@ public class QueryConnector {
                 System.out.println("UPDATING!");
                 houseEditDB.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(),
                         houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(),
-                        houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet());
+                        houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(),houseInput.getCity());
             }
 
         } catch (IOException e) {

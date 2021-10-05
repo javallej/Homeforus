@@ -32,7 +32,7 @@ public class HouseEdit {
      Description: Edits a house from the database.
      */
     public void editAll(int House_ID, String State, String Zip, String Street, int House_Number, int Cost, int Year, int Num_Floors, int Num_Bed,
-                        int Num_Bath, int Sqr_Feet) throws IOException {
+                        int Num_Bath, int Sqr_Feet, String City) throws IOException {
 
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -44,8 +44,7 @@ public class HouseEdit {
 
             connect.setAutoCommit(false);
 
-            String query = "UPDATE HOUSE SET State,Zip,Street,House_Number,Cost,Year,Num_Floors,Num_Bed,Num_Bath,Sqr_Feet,"
-                    + "Days_Listed = ?,?,?,?,?,?,?,?,?,?, WHERE HOUSE.House_ID = ?";
+            String query = "UPDATE HOUSE SET State=?,Zip=?,Street=?,House_Number=?,Cost=?,Year=?,Num_Floors=?,Num_Bed=?,Num_Bath=?,Sqr_Feet=?,City=? WHERE HOUSE.House_ID = ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setString(1, State);
@@ -58,7 +57,8 @@ public class HouseEdit {
             stmt.setInt(8, Num_Bed);
             stmt.setInt(9, Num_Bath);
             stmt.setInt(10, Sqr_Feet);
-            stmt.setInt(11, House_ID);
+            stmt.setString(11, City);
+            stmt.setInt(12, House_ID);
 
             stmt.executeUpdate();
 
