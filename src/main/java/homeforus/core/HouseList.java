@@ -284,15 +284,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -350,15 +351,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -483,15 +485,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -549,15 +552,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -615,15 +619,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -681,15 +686,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -747,15 +753,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -813,15 +820,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
 
@@ -943,15 +951,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -1009,15 +1018,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -1075,15 +1085,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -1141,15 +1152,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -1207,15 +1219,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -1273,15 +1286,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
@@ -1339,15 +1353,16 @@ public class HouseList {
                 hobject.setRealtorUsername(rs.getString(3));
                 hobject.setState(rs.getString(4));
                 hobject.setCity(rs.getString(5));
-                hobject.setZip(rs.getString(5));
+                hobject.setZip(rs.getString(6));
                 hobject.setStreet(rs.getString(7));
-                hobject.setCost(rs.getInt(8));
-                hobject.setYear(rs.getInt(9));
-                hobject.setNumFloors(rs.getInt(10));
-                hobject.setNumBed(rs.getInt(11));
-                hobject.setNumBath(rs.getInt(12));
-                hobject.setSqrFeet(rs.getInt(13));
-                hobject.setDaysListed(rs.getInt(14));
+                hobject.setHouseNumber(rs.getInt(8));
+                hobject.setCost(rs.getInt(9));
+                hobject.setYear(rs.getInt(10));
+                hobject.setNumFloors(rs.getInt(11));
+                hobject.setNumBed(rs.getInt(12));
+                hobject.setNumBath(rs.getInt(13));
+                hobject.setSqrFeet(rs.getInt(14));
+                hobject.setDaysListed(rs.getInt(15));
                 houseinformation.add(hobject);
             }
             
