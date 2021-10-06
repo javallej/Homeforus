@@ -29,7 +29,6 @@ public class Content extends JPanel {
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
         add(scrollPane);
 
-//        innerPanel.add(new TestingPanel(baseWindow));
     }
 
     public ContentView getContentView() {

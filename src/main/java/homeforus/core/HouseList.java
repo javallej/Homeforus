@@ -179,7 +179,6 @@ public class HouseList {
                 se.printStackTrace();
             }}    
             
-        System.out.println(masterquery);
         return houseinformation;
     }
     

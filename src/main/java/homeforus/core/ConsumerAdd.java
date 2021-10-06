@@ -50,7 +50,6 @@ public class ConsumerAdd {
             stmt.setString(2, Consumer_Username);
             stmt.setString(3, DOB);
             stmt.setInt(4, SSN);
-            System.out.println(query);
             stmt.executeUpdate();
 
             connect.commit();

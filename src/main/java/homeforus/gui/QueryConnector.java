@@ -2,6 +2,7 @@ package main.java.homeforus.gui;
 
 import main.java.homeforus.core.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,8 +26,10 @@ public class QueryConnector {
     private ApplicationAdd applicationAddDB;
     private ApplicationList applicationListDB;
     private HouseList houseListDB;
+    private ImageAdd imageAddDB;
     private ImageList imageListDB;
     private ImageEdit imageEditDB;
+    private ImageDelete imageDeleteDB;
     private HouseEdit houseEditDB;
     private HouseDelete houseDeleteDB;
     private ApplicationEdit applicationEditDB;
@@ -41,8 +44,10 @@ public class QueryConnector {
         applicationAddDB = new ApplicationAdd();
         applicationListDB = new ApplicationList();
         houseListDB = new HouseList();
+        imageAddDB = new ImageAdd();
         imageListDB = new ImageList();
         imageEditDB = new ImageEdit();
+        imageDeleteDB = new ImageDelete();
         houseEditDB = new HouseEdit();
         houseDeleteDB = new HouseDelete();
         applicationEditDB = new ApplicationEdit();
@@ -55,8 +60,8 @@ public class QueryConnector {
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
-                showMessageDialog(null,"DELETING!");
                 houseDeleteDB.delete(houseID);
+                showMessageDialog(null,"Listing has been deleted.");
             }
 
         } catch (IOException e) {
@@ -67,34 +72,50 @@ public class QueryConnector {
 
     }
 
-    public void updateHouse(int houseID, HouseInput houseInput) {
-        //showMessageDialog(null,"MADE IT INTO QUERY CONNECTOR UPDATE HOUSE");
+    public boolean createNewListing(HouseInput houseInput, File chosenFile) {
+        boolean successful = false;
+        try {
+            houseAddDB.add( currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), houseInput.getState(), houseInput.getCity(), houseInput.getZip(), houseInput.getStreet(), houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(), houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(), 0);
+            List<HouseListObject> realtorsHouses = houseListDB.ListRealtorID(currentlyLoggedInUser.getUserID());
+            HouseListObject lastAddedHouse = realtorsHouses.get(realtorsHouses.size() - 1);
+            if (chosenFile != null) {
+                imageAddDB.addImgGUI(lastAddedHouse.getHouseID(), chosenFile);
+            }
+            successful = true;
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+        return successful;
+    }
+
+    public boolean updateHouse(int houseID, HouseInput houseInput, File chosenFile) {
+        boolean updated = false;
         List<HouseListObject> house_exists = new ArrayList<>();
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
-                showMessageDialog(null,"UPDATING!");
                 houseEditDB.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(),
                         houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(),
                         houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(),houseInput.getCity());
+                if (chosenFile != null) {
+                    imageDeleteDB.delete(houseID);
+                    imageAddDB.addImgGUI(houseID, chosenFile);
+                }
             }
+            updated = true;
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return updated;
     }
 
     public String getImgByHouseID(int houseID) throws SQLException, IOException {
         String imgName = "";
 
         try {
-            if (imageListDB.List(houseID).size() == 0) {
-                //showMessageDialog(null,"true for " + houseID);
-            }
-
             imgName = imageListDB.List(houseID).get(0).getImageName();
         } catch (IndexOutOfBoundsException ex) {
             imgName = "Choose....";
@@ -120,15 +141,6 @@ public class QueryConnector {
 
     }
 
-    public void createNewListing(HouseInput houseInput) {
-        // Add a new house
-        try {
-            houseAddDB.add( currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), houseInput.getState(), houseInput.getCity(), houseInput.getZip(), houseInput.getStreet(), houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(), houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(), 0);
-            showMessageDialog(null,"Listing Added Successfully");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void approveApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
         List<ApplicationListObject> application_exists = new ArrayList<>();
@@ -219,6 +231,11 @@ public class QueryConnector {
             houseContentPanels.add(houseInfo);
         }
         return houseContentPanels;
+    }
+
+    public void addImage(int houseID, String path, String name) throws IOException {
+
+        imageAddDB.addimage(houseID, path, name);
     }
 
     public ArrayList<HouseContentPanel> getSearchList(SearchInput searchInput) throws SQLException, IOException {

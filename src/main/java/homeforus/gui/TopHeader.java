@@ -72,13 +72,13 @@ public class TopHeader extends JPanel {
     }
 
     public void hideCreateAccount() {
-        createAccountWindow.dispose();
-//        createAccountWindow.setVisible(false);
+//        createAccountWindow.dispose();
+        createAccountWindow.setVisible(false);
     }
 
     public void hideSignIn() {
-        signInWindow.dispose();
-//        signInWindow.setVisible(false);
+//        signInWindow.dispose();
+        signInWindow.setVisible(false);
     }
 
     // This class determines the size for the top 3 sections of the top portion of the header.
@@ -114,12 +114,12 @@ public class TopHeader extends JPanel {
             });
 
 
-
             manageListings = addButton("Manage Listings");
 
             manageListings.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
                     QueryConnector q = window.getQueryConnector();
                     ArrayList<HouseContentPanel> realtorsHouses = null;
                     try {

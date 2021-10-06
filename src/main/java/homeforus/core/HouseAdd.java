@@ -64,7 +64,6 @@ public class HouseAdd {
             stmt.setInt(11, Num_Bed);
             stmt.setInt(12, Num_Bath);
             stmt.setInt(13, Sqr_feet);
-            System.out.println(query);
             stmt.executeUpdate();
 
             connect.commit();

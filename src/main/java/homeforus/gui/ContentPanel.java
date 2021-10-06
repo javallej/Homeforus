@@ -13,6 +13,7 @@ import java.util.Objects;
 
 public class ContentPanel extends JPanel {
 
+    private final int PANEL_ID;
     private Image imgL;
     private String imageName;
     private DetailPanel detailPanel;
@@ -23,6 +24,7 @@ public class ContentPanel extends JPanel {
     public ContentPanel(BaseWindow window, String imageName) {
         this.window = window;
         this.imageName = imageName;
+        PANEL_ID = window.incrementPanelID();
         setPreferredSize(new Dimension(890,150));
         setBorder(new MatteBorder(1,1,1,1, Color.gray));
 
@@ -55,6 +57,7 @@ public class ContentPanel extends JPanel {
                     imgL = img.getImage();
                     img.setImage(img.getImage().getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT));
                     imgArea.add(new JLabel(new ImageIcon(img.getImage())));
+                    storeimage.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -71,6 +74,10 @@ public class ContentPanel extends JPanel {
             }
         }
 
+    }
+
+    public int getPANEL_ID() {
+        return PANEL_ID;
     }
 
     public Image getImgL() {

@@ -31,7 +31,7 @@ public class ImageDelete {
     Description: Deletes an image from the database.
   */
 
-    public void delete(int House_ID, String File_Path) throws IOException {
+    public void delete(int House_ID) throws IOException {
 
         ResultSet rs = null;
         PreparedStatement stmt = null;
@@ -43,12 +43,10 @@ public class ImageDelete {
 
             connect.setAutoCommit(false);
 
-            String query = "DELETE FROM IMAGE WHERE IMAGE.HOUSE_ID = ? AND "
-                    + "IMAGE.File_Path = ?";
+            String query = "DELETE FROM IMAGE WHERE IMAGE.HOUSE_ID = ?";
 
             stmt = connect.prepareStatement(query);
             stmt.setInt(1, House_ID);
-            stmt.setString(2, File_Path);
             stmt.executeUpdate();
 
             connect.commit();

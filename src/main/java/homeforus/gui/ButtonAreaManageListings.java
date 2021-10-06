@@ -1,5 +1,6 @@
 package main.java.homeforus.gui;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -11,23 +12,26 @@ public class ButtonAreaManageListings extends ButtonArea {
 
     private int houseID;
     private CreateListingWindow updateListingWindow;
+    private int contentPanelID;
 
     public ButtonAreaManageListings(BaseWindow window, RealtorListingsView realtorListingsView, int houseID) {
         super(window);
         this.houseID = houseID;
         getBtn1().setText("Update Listing");
 
-        updateListingWindow = new CreateListingWindow(realtorListingsView,window);
 
+        updateListingWindow = new CreateListingWindow(realtorListingsView,window);
         // Update Listing window called here
         getBtn1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 if (!updateListingWindow.isVisible()) {
+                    updateListingWindow.setMinimumSize(new Dimension(500, 350));
+                    updateListingWindow.setLocationRelativeTo(window);
                     updateListingWindow.setVisible(true);
                     try {
-                        updateListingWindow.launchWindow(false, houseID);
+                        updateListingWindow.launchWindow(false, houseID, contentPanelID);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     } catch (IOException ex) {
@@ -61,6 +65,14 @@ public class ButtonAreaManageListings extends ButtonArea {
             }
         });
         setButtonsVisible(true);
+    }
+
+    public int getContentPanelID() {
+        return contentPanelID;
+    }
+
+    public void setContentPanelID(int contentPanelID) {
+        this.contentPanelID = contentPanelID;
     }
 
     public int getHouseID() {

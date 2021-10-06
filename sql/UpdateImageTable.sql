@@ -25,7 +25,8 @@ CREATE TABLE IF NOT EXISTS `homeforus`.`IMAGE`
 `House_ID`INTEGER(200) UNSIGNED NOT NULL,
 `File_Path` NVARCHAR(200) NOT NULL,
 `Image_Name` NVARCHAR(200) NOT NULL,
-`Image_Data` mediumblob NOT NULL
+`Image_Data` mediumblob NOT NULL,
+PRIMARY KEY (`House_ID`)
 );
 
 CREATE TABLE IF NOT EXISTS `homeforus`.`USER`

@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,6 +44,9 @@ public class CreateListingWindow extends JFrame {
     private boolean formComplete;
     private boolean isNewHouse = true;
     private int houseID;
+    private File chosenFile;
+    private CreateListingWindow t;
+    private int contentPanelID;
 
     // length constraints for input fields
     static final int YEAR_LENGTH = 4;
@@ -64,7 +68,7 @@ public class CreateListingWindow extends JFrame {
         setIconImage(window.getAppIcon());
         pack();
 
-        CreateListingWindow t = this;
+        t = this;
 
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -77,12 +81,33 @@ public class CreateListingWindow extends JFrame {
 
     public JButton createImgButton() {
         imgUpload = new JButton("Choose....");
+        imgUpload.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser= new JFileChooser();
+                int choice = chooser.showOpenDialog(t);
+                if (choice != JFileChooser.APPROVE_OPTION)
+                    return;
+
+                chosenFile = chooser.getSelectedFile();
+
+                if (chosenFile != null) {
+                    if (chosenFile.length() > 4000000) {
+                        showMessageDialog(null, "Image too large. Please choose a different image.");
+                        chosenFile = null;
+                    } else {
+                        imgUpload.setText(chosenFile.getName());
+                    }
+                }
+            }
+        });
         return imgUpload;
     }
 
-    public void launchWindow(boolean isNewHouse, int houseID) throws SQLException, IOException {
+    public void launchWindow(boolean isNewHouse, int houseID, int contentPanelID) throws SQLException, IOException {
         this.isNewHouse = isNewHouse;
         this.houseID = houseID;
+        this.contentPanelID = contentPanelID;
         setNewHouse(isNewHouse());
         if (!isNewHouse()) {
             changeImgUploadBtn();
@@ -202,14 +227,6 @@ public class CreateListingWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formComplete = true;
-
-                showMessageDialog(null,"My current houseID is " + getHouseID() + " and my isNewHouse state is " + isNewHouse());
-
-                if (isNewHouse()) {
-                    //showMessageDialog(null,"Button Used as Create New Listing");
-                } else {
-                    //showMessageDialog(null,"Button Used as Update Existing");
-                }
                 // Parse user input and create a sanitized HouseInput object here!
 
                 // Step 1: Get text field from InputField object and trim
@@ -359,20 +376,38 @@ public class CreateListingWindow extends JFrame {
                     bathsInt = toNum(bathsS);
                     sqrFeetInt = toNum(sqrFeetS);
 
-                    // Step 4: Create sanitized HouseInput objects
+                    // Step 4: Create sanitized HouseInput object
+
+//                    window.getQueryConnector().addImage();
                      HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS,
                              houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, sqrFeetInt);
 
                     // Step 5: Call to QueryConnector and close window
                     if (isNewHouse()) {
-                        showMessageDialog(null,"CREATING NEW LISTING!");
-                        window.getQueryConnector().createNewListing(houseInput);
-                        caller.hideCreateListingsWindow();
+                        if (window.getQueryConnector().createNewListing(houseInput, chosenFile)) {
+                            showMessageDialog(null,"New Listing Created!");
+                        } else {
+                            showMessageDialog(null, "Listing could not be created.");
+                        }
                     } else {
-                        showMessageDialog(null,"UPDATED HOUSE!");
-                        window.getQueryConnector().updateHouse(getHouseID(), houseInput);
-                        caller.hideCreateListingsWindow();
+                        if (window.getQueryConnector().updateHouse(getHouseID(), houseInput, chosenFile)) {
+
+                            if (chosenFile != null) {
+                                ArrayList<ContentPanel> panels = caller.getRealtorListingsPanels();
+                                for (ContentPanel p:panels) {
+                                    if (p.getPANEL_ID() == contentPanelID) {
+                                        p.remove(p.getImgArea());
+                                        p.buildImgArea(chosenFile.getName(), houseID);
+                                    }
+                                }
+                            }
+
+                            showMessageDialog(null,"Listing Updated!");
+                        } else {
+                            showMessageDialog(null, "Listing could not be updated.");
+                        }
                     }
+                    caller.hideCreateListingsWindow(t);
                     QueryConnector q = window.getQueryConnector();
                     ArrayList<HouseContentPanel> realtorsHouses = null;
                     try {

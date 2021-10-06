@@ -21,6 +21,7 @@ public class BaseWindow extends JFrame {
     private QueryConnector queryConnector;
     private SignInManager signInManager;
     private Image appIcon;
+    private int panelID;
 
     private int winHeight = 700;
     private int winWidth = 1000;
@@ -29,6 +30,7 @@ public class BaseWindow extends JFrame {
         baseWindow = this;
         queryConnector = new QueryConnector(this);
         signInManager = new SignInManager(this);
+        panelID = 0;
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -42,6 +44,11 @@ public class BaseWindow extends JFrame {
                 buildBaseWindow();
             }
         });
+    }
+
+    public int incrementPanelID() {
+        panelID += 1;
+        return panelID;
     }
 
     public Image getAppIcon() {

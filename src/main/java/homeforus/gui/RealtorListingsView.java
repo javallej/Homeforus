@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class RealtorListingsView extends ContentView{
 
     private CreateListingWindow createListingWindow;
+    private ArrayList<ContentPanel> realtorListingsPanels;
 
     public RealtorListingsView(BaseWindow window, ContentPanelListDisplay c) {
         super(window, c);
@@ -22,11 +23,12 @@ public class RealtorListingsView extends ContentView{
         add(addNewL);
         addNewL.add(newListing);
 
-        ArrayList<ContentPanel> realtorListingsPanels = new ArrayList<>(c.getPanelList());
+        realtorListingsPanels = new ArrayList<>(c.getPanelList());
 
         for (ContentPanel p:realtorListingsPanels) {
             ButtonAreaManageListings btns = new ButtonAreaManageListings(window, this, ((HouseContentPanel) p).getHouseID());
             btns.setButtonsVisible(true);
+            btns.setContentPanelID(p.getPANEL_ID());
             ((HouseContentPanel) p).removeBtnArea();
             p.setBtnArea(btns);
             p.add(p.getBtnArea());
@@ -35,15 +37,18 @@ public class RealtorListingsView extends ContentView{
         ContentPanelListDisplay cpld = new ContentPanelListDisplay(realtorListingsPanels);
         add(cpld);
 
-        createListingWindow = new CreateListingWindow(this, window);
+        RealtorListingsView r = this;
 
+        createListingWindow = new CreateListingWindow(r, window);
         newListing.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!createListingWindow.isVisible()) {
+                    createListingWindow.setMinimumSize(new Dimension(500,380));
+                    createListingWindow.setLocationRelativeTo(window);
                     createListingWindow.setVisible(true);
                     try {
-                        createListingWindow.launchWindow(true, -1);
+                        createListingWindow.launchWindow(true, -1, -1);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     } catch (IOException ex) {
@@ -54,12 +59,21 @@ public class RealtorListingsView extends ContentView{
         });
     }
 
+    public ArrayList<ContentPanel> getRealtorListingsPanels() {
+        return realtorListingsPanels;
+    }
+
+    public CreateListingWindow getCreateListingWindow() {
+        return createListingWindow;
+    }
+
     public void setCreateListingWindow(CreateListingWindow createListingWindow) {
         this.createListingWindow = createListingWindow;
     }
 
-    public void hideCreateListingsWindow() {
-        createListingWindow.setVisible(false);
+    public void hideCreateListingsWindow(CreateListingWindow c) {
+        c.setVisible(false);
+//        createListingWindow.dispose();
     }
 
 }
