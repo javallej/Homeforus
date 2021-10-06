@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class SignInWindow extends JFrame {
 
     BaseWindow window;
@@ -37,7 +39,7 @@ public class SignInWindow extends JFrame {
         JButton signInSubmit = new JButton("Sign In");
         signInSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(username.getTextField().getText() + " and " + password.getTextField().getText());
+                //showMessageDialog(null,username.getTextField().getText() + " and " + password.getTextField().getText());
                 boolean logInSuccessful = false;
 
                 try {
@@ -51,14 +53,14 @@ public class SignInWindow extends JFrame {
                 username.getTextField().setText("");
                 password.getTextField().setText("");
                 if (logInSuccessful) {
-                    System.out.println("Sign in successful!");
+                    showMessageDialog(null,"Sign in successful!");
                     boolean isRealtor = window.getQueryConnector().getCurrentlyLoggedInUser().isRealtor();
                     changeHeaderState(isRealtor);
                     window.getSignInManager().loggedInChangeGUI(isRealtor);
                     window.setContentWindowWithRandomHouses();
                     caller.hideSignIn();
                 } else {
-                    System.out.println("sign in failed");
+                    showMessageDialog(null,"Sign in failed");
                 }
             }
         });

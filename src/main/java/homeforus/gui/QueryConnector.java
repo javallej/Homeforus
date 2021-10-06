@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class QueryConnector {
 
     private BaseWindow window;
@@ -53,7 +55,7 @@ public class QueryConnector {
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
-                System.out.println("DELETING!");
+                showMessageDialog(null,"DELETING!");
                 houseDeleteDB.delete(houseID);
             }
 
@@ -66,12 +68,12 @@ public class QueryConnector {
     }
 
     public void updateHouse(int houseID, HouseInput houseInput) {
-        System.out.println("MADE IT INTO QUERY CONNECTOR UPDATE HOUSE");
+        //showMessageDialog(null,"MADE IT INTO QUERY CONNECTOR UPDATE HOUSE");
         List<HouseListObject> house_exists = new ArrayList<>();
         try {
             house_exists = houseListDB.List(houseID);
             if(house_exists.size() == 1) {
-                System.out.println("UPDATING!");
+                showMessageDialog(null,"UPDATING!");
                 houseEditDB.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(),
                         houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(),
                         houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(),houseInput.getCity());
@@ -90,7 +92,7 @@ public class QueryConnector {
 
         try {
             if (imageListDB.List(houseID).size() == 0) {
-                System.out.println("true for " + houseID);
+                //showMessageDialog(null,"true for " + houseID);
             }
 
             imgName = imageListDB.List(houseID).get(0).getImageName();
@@ -122,7 +124,7 @@ public class QueryConnector {
         // Add a new house
         try {
             houseAddDB.add( currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), houseInput.getState(), houseInput.getCity(), houseInput.getZip(), houseInput.getStreet(), houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(), houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(), 0);
-            System.out.println("Listing Added Successfully");
+            showMessageDialog(null,"Listing Added Successfully");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,7 +170,7 @@ public class QueryConnector {
     public void createNewApplication(int houseID, int realtorID, String realtorUser) throws SQLException, IOException {
         applicationAddDB.add(houseID, currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), realtorID,realtorUser,"Submitted");
         // Print a confirmation to console that it posted successfully.
-        System.out.println("Application Submitted");
+        showMessageDialog(null,"Application Submitted");
     }
 
     public ArrayList<ApplicationContentPanel> getAppContentPanels(boolean isRealtor, int userID) throws SQLException, IOException {
@@ -345,13 +347,13 @@ public class QueryConnector {
                 }
                 else {
                     // This block can be used by GUI for failed password condition
-                    System.out.println("Invalid password");
+                    showMessageDialog(null,"Invalid password");
                     return false;
                 }
             }
             else {
                 // This block can be used by GUI for failed username condition
-                System.out.println("Invalid username");
+                showMessageDialog(null,"Invalid username");
                 return false;
             }
         }
@@ -390,26 +392,26 @@ public class QueryConnector {
 
         // Add a consumer or realtor
         if (!newUserInput.isRealtor()) {
-            System.out.println(newUserInput.getSSN());
+            showMessageDialog(null,newUserInput.getSSN());
             consumerAddDB.add(userID, newUserInput.getUsername(), newUserInput.getDOB(), newUserInput.getSSN());
         } else {
             realtorAddDB.add(userID, newUserInput.getUsername(), newUserInput.getBusinessName());
         }
-        System.out.println("From QueryConnector: Successfully added new User.");
-        System.out.println("Querying database: ");
-        System.out.println("user ID: " + userList.Listusername(newUserInput.getUsername()).get(0).getUserID());
-        System.out.println("user username: " + userList.Listusername(newUserInput.getUsername()).get(0).getUsername());
+        showMessageDialog(null,"Successfully added new User.");
+        showMessageDialog(null,"Querying database: ");
+        //showMessageDialog(null,"user ID: " + userList.Listusername(newUserInput.getUsername()).get(0).getUserID());
+        //showMessageDialog(null,"user username: " + userList.Listusername(newUserInput.getUsername()).get(0).getUsername());
         if (!newUserInput.isRealtor()) {
             ConsumerList consumerList = new ConsumerList();
             ConsumerListObject c = consumerList.List(userID).get(0);
-            System.out.println("User is Consumer.");
-            System.out.println("consumer DOB: " + c.getDOB());
-            System.out.println("consumer SSN: " + c.getSSN());
+            //showMessageDialog(null,"User is Consumer.");
+            //showMessageDialog(null,"consumer DOB: " + c.getDOB());
+            //showMessageDialog(null,"consumer SSN: " + c.getSSN());
         } else {
             RealtorList realtorList = new RealtorList();
             RealtorListObject r = realtorList.List(userID).get(0);
-            System.out.println("User is Realtor.");
-            System.out.println("realtor business name: " + r.getRealtorBusinessName());
+            //showMessageDialog(null,"User is Realtor.");
+            //showMessageDialog(null,"realtor business name: " + r.getRealtorBusinessName());
         }
     }
 
