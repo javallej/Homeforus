@@ -12,32 +12,22 @@ public class ApplicationDetailPanel extends DetailPanel{
     private String daysOld;
     private String address;
 
-    public ApplicationDetailPanel(ApplicationInfo appInfo, BaseWindow window){
+    public ApplicationDetailPanel(ApplicationInfo appInfo){
         this.window = window;
-//        buyerName = "Joe Shmoe";
-//        status = "Status: PROCESSING";
-//        appDate = "Applied: 05/21/2021";
-//        address = "742 Evergreen Terrace, Springfield, OR, 12345";
-
-
-        // Set the fields and concatenate the text in the labels appropriately from appInfo's fields
-        // eg.
         buyerName = appInfo.getFirstName() + " " + appInfo.getLastName();
         status = "<html><font color=black>Status: </font>" + appInfo.getStatus();
-        // and so on...
-        daysOld = "Days on HomeForUs: " +appInfo.getDaysOld(); //changed to daysOld because I don't see an address
         address = appInfo.getAddress();
 
         getRow1().setText(buyerName);
         getRow2().setText(status);
         getRow3().setText(address);
         getRow4().setText("");
-        getRow5().setText(daysOld);
+        getRow5().setText("");
 
-        if(status.equals("DENIED")){
+        if(status.equals("Denied")){
             getRow2().setForeground(Color.red);
         }
-        if(status.equals("ACCEPTED")){
+        if(status.equals("Approved")){
             getRow2().setForeground(Color.green);
         }
     }

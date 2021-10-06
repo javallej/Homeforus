@@ -7,13 +7,25 @@ public class ApplicationInfo {
     private String status;
     private int daysOld;
     private String address;
+    private String image;
+    private int houseID;
 
-    public ApplicationInfo(String firstName, String lastName, String status,  String address) {
+    public ApplicationInfo(String firstName, String lastName, String status,  String address, String image, int houseID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.status = status;
         this.daysOld = daysOld;
         this.address = address;
+        this.image = image;
+        this.houseID = houseID;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public int getHouseID() {
+        return houseID;
     }
 
     public String getFirstName() {
@@ -54,5 +66,16 @@ public class ApplicationInfo {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "ApplicationInfo{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", status='" + status + '\'' +
+                ", daysOld=" + daysOld +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

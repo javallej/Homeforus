@@ -1,6 +1,10 @@
 package main.java.homeforus.gui;
 
 
+import main.java.homeforus.core.HouseList;
+import main.java.homeforus.core.HouseListObject;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -8,7 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class CreateListingWindow extends JFrame {
 
@@ -26,9 +37,16 @@ public class CreateListingWindow extends JFrame {
     private InputField baths;
     private InputField floors;
     private InputField yrBuilt;
+    private InputField sqrFeet;
     private ArrayList<InputField> inputs;
     private JLabel errorFillOut;
+    private JButton imgUpload;
     private boolean formComplete;
+    private boolean isNewHouse = true;
+    private int houseID;
+    private File chosenFile;
+    private CreateListingWindow t;
+    private int contentPanelID;
 
     // length constraints for input fields
     static final int YEAR_LENGTH = 4;
@@ -47,18 +65,73 @@ public class CreateListingWindow extends JFrame {
         add(buildNewListingsWindow());
         setTitle("Create New House Listing");
         setResizable(false);
+        setIconImage(window.getAppIcon());
         pack();
 
-        CreateListingWindow t = this;
+        t = this;
 
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                t.setSize(new Dimension(width, height));
+                t.setMinimumSize(new Dimension(width, height));
                 t.setLocationRelativeTo(window);
             }
         });
     }
+
+    public JButton createImgButton() {
+        imgUpload = new JButton("Choose....");
+        imgUpload.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser= new JFileChooser();
+                int choice = chooser.showOpenDialog(t);
+                if (choice != JFileChooser.APPROVE_OPTION)
+                    return;
+
+                chosenFile = chooser.getSelectedFile();
+
+                if (chosenFile != null) {
+                    if (chosenFile.length() > 4000000) {
+                        showMessageDialog(null, "Image too large. Please choose a different image.");
+                        chosenFile = null;
+                    } else {
+                        imgUpload.setText(chosenFile.getName());
+                    }
+                }
+            }
+        });
+        return imgUpload;
+    }
+
+    public void launchWindow(boolean isNewHouse, int houseID, int contentPanelID) throws SQLException, IOException {
+        this.isNewHouse = isNewHouse;
+        this.houseID = houseID;
+        this.contentPanelID = contentPanelID;
+        setNewHouse(isNewHouse());
+        if (!isNewHouse()) {
+            changeImgUploadBtn();
+            populateHouseData(getHouseID());
+        }
+    }
+
+    public void changeImgUploadBtn() {
+        String houseImg = null;
+        if (!isNewHouse()) {
+            try {
+                houseImg = window.getQueryConnector().getImgByHouseID(getHouseID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            imgUpload.setText(houseImg);
+        } else {
+            imgUpload.setText("Choose.... ");
+        }
+    }
+
+
 
     private JPanel buildNewListingsWindow() {
         JPanel holderPanel = new JPanel();
@@ -75,27 +148,31 @@ public class CreateListingWindow extends JFrame {
         choosePhotoHolder.setLayout(new BoxLayout(choosePhotoHolder,BoxLayout.LINE_AXIS));
         choosePhotoHolder.add(new JLabel("Photo"));
         choosePhotoHolder.add(Box.createHorizontalGlue());
-        choosePhotoHolder.add(new JButton("Choose...."));
+        choosePhotoHolder.add(createImgButton());
         grid.add(choosePhotoHolder);
 
         price = createInputField("Price");
         houseNum = createInputField("House Number");
         street = createInputField("Street Address");
         city = createInputField("City");
+        sqrFeet = createInputField("Square Feet");
         grid.add(price);
         grid.add(houseNum);
         grid.add(street);
         grid.add(city);
+
         inputs.add(price);
         inputs.add(houseNum);
         inputs.add(street);
         inputs.add(city);
+        inputs.add(sqrFeet);
 
         state = createInputField("State");
+        grid.add(state);
         zip = createInputField("Zip Code");
         JPanel stateZipHolder = doubleInputFields();
-        stateZipHolder.add(state);
         stateZipHolder.add(zip);
+        stateZipHolder.add(sqrFeet);
         grid.add(stateZipHolder);
         inputs.add(state);
         inputs.add(zip);
@@ -119,10 +196,10 @@ public class CreateListingWindow extends JFrame {
         inputs.add(yrBuilt);
 
         JPanel btnHolder = new JPanel();
-        JButton createNewListing = new JButton("Create New Listing");
-        createNewListing.addActionListener(validateInputAndSubmit());
+        JButton updateListing = new JButton("Commit");
+        updateListing.addActionListener(validateInputAndSubmit(this.isNewHouse()));
         btnHolder.setPreferredSize(new Dimension(width - 100, 50));
-        btnHolder.add(createNewListing);
+        btnHolder.add(updateListing);
         holderPanel.add(Box.createVerticalGlue());
         holderPanel.add(btnHolder);
 
@@ -136,13 +213,21 @@ public class CreateListingWindow extends JFrame {
         return holderPanel;
     }
 
-    private ActionListener validateInputAndSubmit() {
+    private ActionListener chooseImageUpload() {
+        ActionListener a = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        };
+        return a;
+    }
+
+    private ActionListener validateInputAndSubmit(Boolean isNewHouse) {
         ActionListener a = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 formComplete = true;
-                System.out.println("Create New Listing Button Clicked");
-                // TODO: For Seth
                 // Parse user input and create a sanitized HouseInput object here!
 
                 // Step 1: Get text field from InputField object and trim
@@ -150,6 +235,7 @@ public class CreateListingWindow extends JFrame {
                 String houseNumS = oNotNull(houseNum.getTextField().getText()).toString();
                 String streetS = oNotNull(street.getTextField().getText()).toString();
                 String cityS = oNotNull(city.getTextField().getText()).toString();
+                String sqrFeetS = oNotNull(sqrFeet.getTextField().getText()).toString();
                 String stateS = oNotNull(state.getTextField().getText()).toString();
                 String zipS = oNotNull(zip.getTextField().getText()).toString();
                 String bedsS = oNotNull(beds.getTextField().getText()).toString();
@@ -220,6 +306,15 @@ public class CreateListingWindow extends JFrame {
                             }
                         }
 
+                        if (i.getLabel().getText().equals("Square Feet")) {
+                            if (i.getTextField().getText().length() >= INT_LIMIT) {
+                                setError(i);
+                                errors ++;
+                            } else {
+                                i.getLabel().setForeground(Color.BLACK);
+                            }
+                        }
+
                         if (i.getLabel().getText().equals("Beds")) {
                             if (i.getTextField().getText().length() >= INT_LIMIT) {
                                 setError(i);
@@ -273,24 +368,68 @@ public class CreateListingWindow extends JFrame {
                     int floorsInt = -1;
                     int bedsInt = -1;
                     int bathsInt = -1;
+                    int sqrFeetInt = -1;
                     priceInt = toNum(priceS);
                     houseNumInt = toNum(houseNumS);
                     yearInt = toNum(yearS);
                     floorsInt = toNum(floorsS);
                     bedsInt = toNum(bedsS);
                     bathsInt = toNum(bathsS);
+                    sqrFeetInt = toNum(sqrFeetS);
 
                     // Step 4: Create sanitized HouseInput object
-                     HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS, houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, 0);
+
+//                    window.getQueryConnector().addImage();
+                     HouseInput houseInput = new HouseInput("img.jpg", stateS, cityS, zipS, streetS,
+                             houseNumInt, priceInt, yearInt, floorsInt, bedsInt, bathsInt, sqrFeetInt);
 
                     // Step 5: Call to QueryConnector and close window
-                    window.getQueryConnector().createNewListing(houseInput);
-                    caller.hideCreateListingsWindow();
+                    if (isNewHouse()) {
+                        if (window.getQueryConnector().createNewListing(houseInput, chosenFile)) {
+                            showMessageDialog(null,"New Listing Created!");
+                        } else {
+                            showMessageDialog(null, "Listing could not be created.");
+                        }
+                    } else {
+                        if (window.getQueryConnector().updateHouse(getHouseID(), houseInput, chosenFile)) {
+
+                            if (chosenFile != null) {
+                                ArrayList<ContentPanel> panels = caller.getRealtorListingsPanels();
+                                for (ContentPanel p:panels) {
+                                    if (p.getPANEL_ID() == contentPanelID) {
+                                        p.remove(p.getImgArea());
+                                        p.buildImgArea(chosenFile.getName(), houseID);
+                                    }
+                                }
+                            }
+
+                            showMessageDialog(null,"Listing Updated!");
+                        } else {
+                            showMessageDialog(null, "Listing could not be updated.");
+                        }
+                    }
+                    caller.hideCreateListingsWindow(t);
+                    QueryConnector q = window.getQueryConnector();
+                    ArrayList<HouseContentPanel> realtorsHouses = null;
+                    try {
+                        realtorsHouses = q.getRealtorHouses(q.getCurrentlyLoggedInUser().getUserID());
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    if (realtorsHouses != null) {
+                        ArrayList<ContentPanel> cH = new ArrayList<>(realtorsHouses);
+                        ContentPanelListDisplay h = new ContentPanelListDisplay(cH);
+                        RealtorListingsView r = new RealtorListingsView(window, h);
+                        window.setContentView(r);
+                    }
                 }
             }
         };
         return a;
     }
+
 
     private JPanel doubleInputFields() {
         JPanel dbl = new JPanel();
@@ -309,7 +448,6 @@ public class CreateListingWindow extends JFrame {
         return new MatteBorder(3, 3, 3, 3, Color.CYAN);
     }
 
-
     public Object oNotNull(Object o) {
         if (o != null) {
             return o;
@@ -327,11 +465,42 @@ public class CreateListingWindow extends JFrame {
         return num;
     }
 
-
     public void setError(InputField i) {
         i.getLabel().setForeground(Color.RED);
         errorFillOut.setText("Error: Please fully fill out the fields in red.");
         formComplete = false;
     }
 
+    public void populateHouseData(int house_ID) throws SQLException, IOException {
+        List<HouseListObject> h;
+        HouseList house = new HouseList();
+        h = house.ListHouseID(house_ID);
+        price.setTextField(Integer.toString(h.get(0).getCost()));
+        houseNum.setTextField(Integer.toString(h.get(0).getHouseNumber()));
+        street.setTextField(h.get(0).getStreet());
+        city.setTextField(h.get(0).getCity());
+        sqrFeet.setTextField(Integer.toString(h.get(0).getSqrFeet()));
+        state.setTextField(h.get(0).getState());
+        zip.setTextField(h.get(0).getZip());
+        beds.setTextField(Integer.toString(h.get(0).getNumBed()));
+        baths.setTextField(Integer.toString(h.get(0).getNumBath()));
+        floors.setTextField(Integer.toString(h.get(0).getNumFloors()));
+        yrBuilt.setTextField(Integer.toString(h.get(0).getYear()));
+    }
+
+    public boolean isNewHouse() {
+        return isNewHouse;
+    }
+
+    public void setNewHouse(boolean newHouse) {
+        isNewHouse = newHouse;
+    }
+
+    public int getHouseID() {
+        return houseID;
+    }
+
+    public void setHouseID(int houseID) {
+        this.houseID = houseID;
+    }
 }

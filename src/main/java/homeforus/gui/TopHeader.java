@@ -1,12 +1,20 @@
 package main.java.homeforus.gui;
 
+import main.java.homeforus.core.ApplicationListObject;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 // This class contains the elements that are in the top part of the Header class:
 //
@@ -55,6 +63,7 @@ public class TopHeader extends JPanel {
             signInButton.setVisible(true);
             manage.setVisible(false);
             window.getQueryConnector().setCurrentlyLoggedInUser(null);
+            window.setContentWindowWithRandomHouses();
         }
     }
 
@@ -63,13 +72,13 @@ public class TopHeader extends JPanel {
     }
 
     public void hideCreateAccount() {
-        createAccountWindow.dispose();
-//        createAccountWindow.setVisible(false);
+//        createAccountWindow.dispose();
+        createAccountWindow.setVisible(false);
     }
 
     public void hideSignIn() {
-        signInWindow.dispose();
-//        signInWindow.setVisible(false);
+//        signInWindow.dispose();
+        signInWindow.setVisible(false);
     }
 
     // This class determines the size for the top 3 sections of the top portion of the header.
@@ -93,7 +102,42 @@ public class TopHeader extends JPanel {
             listPanel.setLayout(new GridLayout());
             buttons.setLayout(new BoxLayout(buttons,BoxLayout.PAGE_AXIS));
             manageApplications = addButton("Manage Applications");
+
+            manageApplications.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //showMessageDialog(null,"applications clicked");
+                    QueryConnector q = window.getQueryConnector();
+                    ApplicationsView applicationsView = new ApplicationsView(window);
+                    window.setContentView(applicationsView);
+                }
+            });
+
+
             manageListings = addButton("Manage Listings");
+
+            manageListings.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    QueryConnector q = window.getQueryConnector();
+                    ArrayList<HouseContentPanel> realtorsHouses = null;
+                    try {
+                        realtorsHouses = q.getRealtorHouses(q.getCurrentlyLoggedInUser().getUserID());
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    if (realtorsHouses != null) {
+                        ArrayList<ContentPanel> cH = new ArrayList<>(realtorsHouses);
+                        ContentPanelListDisplay h = new ContentPanelListDisplay(cH);
+                        RealtorListingsView r = new RealtorListingsView(window, h);
+                        window.setContentView(r);
+                    }
+                }
+            });
+
             appPanel.add(manageApplications);
             listPanel.add(manageListings);
             buttons.add(appPanel);

@@ -2,6 +2,7 @@ package main.java.homeforus.gui;
 
 import main.java.homeforus.core.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,186 +10,265 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class QueryConnector {
 
     private BaseWindow window;
     private CurrentlyLoggedInUser currentlyLoggedInUser;
     private UserAdd userAddDB;
+    private UserList userListDB;
     private ConsumerAdd consumerAddDB;
     private RealtorAdd realtorAddDB;
     private HouseAdd houseAddDB;
     private ApplicationAdd applicationAddDB;
     private ApplicationList applicationListDB;
     private HouseList houseListDB;
+    private ImageAdd imageAddDB;
+    private ImageList imageListDB;
+    private ImageEdit imageEditDB;
+    private ImageDelete imageDeleteDB;
+    private HouseEdit houseEditDB;
+    private HouseDelete houseDeleteDB;
+    private ApplicationEdit applicationEditDB;
 
     public QueryConnector(BaseWindow window) {
         this.window = window;
         userAddDB = new UserAdd();
+        userListDB = new UserList();
         consumerAddDB = new ConsumerAdd();
         realtorAddDB = new RealtorAdd();
         houseAddDB = new HouseAdd();
         applicationAddDB = new ApplicationAdd();
         applicationListDB = new ApplicationList();
         houseListDB = new HouseList();
+        imageAddDB = new ImageAdd();
+        imageListDB = new ImageList();
+        imageEditDB = new ImageEdit();
+        imageDeleteDB = new ImageDelete();
+        houseEditDB = new HouseEdit();
+        houseDeleteDB = new HouseDelete();
+        applicationEditDB = new ApplicationEdit();
+
     }
 
-    public void approveApplication() {
+    public void deleteHouse(int houseID) {
+        // delete the house in the DB based on its houseID. ez pz.
+        List<HouseListObject> house_exists = new ArrayList<>();
+        try {
+            house_exists = houseListDB.List(houseID);
+            if(house_exists.size() == 1) {
+                houseDeleteDB.delete(houseID);
+                showMessageDialog(null,"Listing has been deleted.");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public ApplicationInfo getAppInfoFromAppListObj(ApplicationListObject appListObj) {
+    public boolean createNewListing(HouseInput houseInput, File chosenFile) {
+        boolean successful = false;
+        try {
+            houseAddDB.add( currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), houseInput.getState(), houseInput.getCity(), houseInput.getZip(), houseInput.getStreet(), houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(), houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(), 0);
+            List<HouseListObject> realtorsHouses = houseListDB.ListRealtorID(currentlyLoggedInUser.getUserID());
+            HouseListObject lastAddedHouse = realtorsHouses.get(realtorsHouses.size() - 1);
+            if (chosenFile != null) {
+                imageAddDB.addImgGUI(lastAddedHouse.getHouseID(), chosenFile);
+            }
+            successful = true;
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+        return successful;
+    }
+
+    public boolean updateHouse(int houseID, HouseInput houseInput, File chosenFile) {
+        boolean updated = false;
+        List<HouseListObject> house_exists = new ArrayList<>();
+        try {
+            house_exists = houseListDB.List(houseID);
+            if(house_exists.size() == 1) {
+                houseEditDB.editAll(houseID, houseInput.getState(), houseInput.getZip(), houseInput.getStreet(),
+                        houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(),
+                        houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(),houseInput.getCity());
+                if (chosenFile != null) {
+                    imageDeleteDB.delete(houseID);
+                    imageAddDB.addImgGUI(houseID, chosenFile);
+                }
+            }
+            updated = true;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return updated;
+    }
+
+    public String getImgByHouseID(int houseID) throws SQLException, IOException {
+        String imgName = "";
+
+        try {
+            imgName = imageListDB.List(houseID).get(0).getImageName();
+        } catch (IndexOutOfBoundsException ex) {
+            imgName = "Choose....";
+        }
+
+        return imgName;
+    }
+
+    public void denyApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
+        List<ApplicationListObject> application_exists = new ArrayList<>();
+
+        try {
+            application_exists = applicationListDB.List(House_ID, Consumer_ID, Realtor_ID);
+            if(application_exists.size() == 1) {
+                applicationEditDB.editStatus("Denied", House_ID, Consumer_ID, Realtor_ID);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void approveApplication(int House_ID, int Consumer_ID, int Realtor_ID) {
+        List<ApplicationListObject> application_exists = new ArrayList<>();
+        try {
+            application_exists = applicationListDB.List(House_ID, Consumer_ID, Realtor_ID);
+            if(application_exists.size() == 1) {
+                applicationEditDB.editStatus("Approved", House_ID, Consumer_ID, Realtor_ID);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public boolean isImageTablePopulated() throws SQLException, IOException {
+        return imageListDB.ListAll().size() > 1;
+    }
+
+    public ApplicationInfo getAppInfoFromAppListObj(ApplicationListObject appListObj) throws SQLException, IOException {
         ApplicationInfo appInfo = null;
 
-        // This method needs to read the appListObj object and pull the rest of the information from the
-        // database to complete the construction of a new ApplicationInfo object.
-        // Currently, we need ApplicationInfo object to display the following information on the
-        // GUI pertaining to the application:
-        // firstName;
-        // lastName;
-        // status;
-        // address;
-        // However, the Application table in our schema only stores status, from these things.
-        // But we can use the ApplicationListObject, which represents 1 row taken from the Application
-        // table in the database, to fill in the remaining information to populate ApplicationInfo object.
-        // Step 1: You'll need to pull the consumer ID from the ApplicationListObject and find
-        // that Consumer's first and last names from the database, based on that user ID.
-        // Step 2: You'll need to pull the house ID from the ApplicationListObject and find
-        // that House's address from the database, based on that house ID. Make sure to
-        // concatenate the entire address in the House row, because it's stored as
-        // Housenumber, street, city, state, zip. Put all that information into the String field when
-        // creating the ApplicationInfo object.
-        // Then just create the object:
-        // appInfo = new ApplicationInfo( put in the params you just gathered here );
-        // then return the object.
-
+        UserListObject user = userListDB.Listusername(appListObj.getConsumerID()).get(0);
+        HouseListObject house = houseListDB.List(appListObj.getHouseID()).get(0);
+        String address = house.getHouseNumber() + " " + house.getStreet() + ", " + house.getCity() + ", " + house.getState() + ", " + house.getZip();
+        String image = "";
+        try {
+            image = imageListDB.List(appListObj.getHouseID()).get(0).getImageName();
+        } catch (IndexOutOfBoundsException ex ){
+            image = "";
+        }
+        appInfo = new ApplicationInfo(user.getFirstName(),user.getLastName(),appListObj.getStatus(), address, image, appListObj.getHouseID());
         return appInfo;
     }
 
-    public void createNewApplication(int houseID) throws SQLException, IOException {
-    /* uncomment this box for testing
-    houseID = 13;
-    currentlyLoggedInUser = new CurrentlyLoggedInUser("darthvader", 12, false);
-    HouseList hl = new HouseList();
-    /*/
 
-//        applicationAddDB.add(houseID, currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), hl.List(houseID).get(0).getRealtorID(),hl.List(houseID).get(0).getRealtorUsername(),"Submitted");
-
+    public void createNewApplication(int houseID, int realtorID, String realtorUser) throws SQLException, IOException {
+        applicationAddDB.add(houseID, currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), realtorID,realtorUser,"Submitted");
         // Print a confirmation to console that it posted successfully.
-        System.out.println("Posting Successful");
-
-        // Maybe query the database to confirm and print it out? You don't have to though, if you want to just check
-        // it in Workbench~
+        showMessageDialog(null,"Application Submitted");
     }
 
-    public ArrayList<ApplicationInfo> getAppList() throws SQLException, IOException {
-        ArrayList<ApplicationInfo> appList = null;
+    public ArrayList<ApplicationContentPanel> getAppContentPanels(boolean isRealtor, int userID) throws SQLException, IOException {
+        ArrayList<ApplicationContentPanel> contentPanels = new ArrayList<>();
+        List<ApplicationListObject> applications = null;
 
-        // Get currently logged in user's applications using applicationListDB
-        // method is yet to be written but it will be something like:
-//        ArrayList<ApplicationListObject> appsForUser = (ArrayList<ApplicationListObject>) applicationListDB.List( currentlyLoggedInUser.getUserID() );
+        if (isRealtor){
+            applications = applicationListDB.ListByRealtorID(userID);
+        }
+        else{
+            applications = applicationListDB.ListByConsumerID(userID);
+        }
 
-        // in a loop, go through and convert all the ApplicationListObjects to ApplicationInfo objects
-//        for (ApplicationListObject app:appsForUser) {
-//            ApplicationInfo appInfo = new ApplicationInfo( fill in the required parameters for ApplicationInfo class (see constructor) );
-            // add to appList
-//            appList.add(appInfo);
-//        }
+        for (ApplicationListObject a:applications) {
 
-        return appList;
+            ApplicationInfo app_info = getAppInfoFromAppListObj(a);
+            ApplicationDetailPanel app_DetailPanel = new ApplicationDetailPanel(app_info);
+            ApplicationContentPanel app_ContentPanel = new ApplicationContentPanel(window,app_DetailPanel,a,app_info);
+            contentPanels.add(app_ContentPanel);
+        }
+        return contentPanels;
     }
 
 
-    public ArrayList<HouseContentPanel> getRealtorHouses(int userID) {
+
+    public ArrayList<HouseContentPanel> getRealtorHouses(int realtorUserID) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
-
-        // This is going to be almost the same as getSearchList() method, but instead, a userID will be passed in,
-        // and a query (that hasn't been written yet in HouseList.java) will be called to return all
-        // houses that a Realtor with the given user ID has listed
-        // eg.
-//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.SearchByRealtor( userID );
-
-        // Call the re-usable method that was written for getSearchList
-        // Then return the list
+        List<HouseListObject> h;
+        HouseList house = new HouseList();
+        h = house.ListRealtorID(realtorUserID);
+        houseList = convertHouseListToContentPanels(h);
 
         return houseList;
     }
 
+    public ArrayList<HouseContentPanel> convertHouseListToContentPanels(List<HouseListObject> houses) throws SQLException, IOException {
+        ArrayList<HouseContentPanel> houseContentPanels = new ArrayList<>();
+
+        for (HouseListObject h : houses) {
+            HouseDetailPanel details = new HouseDetailPanel(h);
+            String imgS = "";
+            if (imageListDB.List(h.getHouseID()).size() == 1) {
+                imgS = imageListDB.List(h.getHouseID()).get(0).getImageName();
+            }
+            HouseContentPanel houseInfo = new HouseContentPanel(window, imgS, details);
+            houseContentPanels.add(houseInfo);
+        }
+        return houseContentPanels;
+    }
+
+    public void addImage(int houseID, String path, String name) throws IOException {
+
+        imageAddDB.addimage(houseID, path, name);
+    }
+
     public ArrayList<HouseContentPanel> getSearchList(SearchInput searchInput) throws SQLException, IOException {
         ArrayList<HouseContentPanel> houseList = null;
-
-        // Get a list of houses from the database matching the searchInput queries that the user gave
-        // I know the method in HouseList isn't written that does this yet but hopefully it can be written similarly to
-        // HouseSearch.java?
-        // eg.
-//        ArrayList<HouseListObject> searchResultObjects = (ArrayList<HouseListObject>) houseListDB.SearchList( params from houseList object );
-
-        // ******
-        // Write this part in a separate method so we can use it to display Realtor's houses (getRealtorHouses) as well
-
-        // in a loop, go through and convert all the HouseListObjects to HouseContentPanel objects
-        // you have to create the HouseDetailPanel first, set the properties in there from each HouseListObject, then
-        // pass it into the HouseContentPanel's constructor
-//        for (HouseListObject h : searchResultObjects) {
-//            HouseDetailPanel details = new HouseDetailPanel(h);
-//            HouseContentPanel houseInfo = new HouseContentPanel(window, h.getImage()? [it's not written yet...] , details);
-        // add to houseList
-//            houseList.add(houseInfo);
-//        }
-
-        //*****
 
         List<HouseListObject> h = new ArrayList<>();
 
         HouseList house = new HouseList();
         h = house.ListAllSearchInput(searchInput);
 
-        for(int i=0; i< h.size(); i++) {
-            System.out.print("HouseID: ");
-            System.out.println(h.get(i).getHouseID());
+        houseList = convertHouseListToContentPanels(h);
 
-            System.out.print("RealtorID: ");
-            System.out.println(h.get(i).getRealtorID());
+        return houseList;
+    }
 
-            System.out.print("Realtor Username: ");
-            System.out.println(h.get(i).getRealtorUsername());
+    public ArrayList<HouseContentPanel> getRandomHouses(int numOfHouses) throws SQLException, IOException {
+        ArrayList<HouseContentPanel> houseList = null;
 
-            System.out.print("State: ");
-            System.out.println(h.get(i).getState());
+        List<HouseListObject> h = new ArrayList<>();
+        List<HouseListObject> randomHouse = new ArrayList<>();
 
-            System.out.print("City: ");
-            System.out.println(h.get(i).getCity());
+        HouseList house = new HouseList();
+        Random rand = new Random();
 
-            System.out.print("Zip: ");
-            System.out.println(h.get(i).getZip());
-
-            System.out.print("Street: ");
-            System.out.println(h.get(i).getStreet());
-
-            System.out.print("House Number: ");
-            System.out.println(h.get(i).getHouseNumber());
-
-            System.out.print("Cost: ");
-            System.out.println(h.get(i).getCost());
-
-            System.out.print("Year: ");
-            System.out.println(h.get(i).getYear());
-
-            System.out.print("Number of Floors: ");
-            System.out.println(h.get(i).getNumFloors());
-
-            System.out.print("Number of Beds: ");
-            System.out.println(h.get(i).getNumBed());
-
-            System.out.print("Number of Baths: ");
-            System.out.println(h.get(i).getNumBath());
-
-            System.out.print("Square Feet: ");
-            System.out.println(h.get(i).getSqrFeet());
-
-            System.out.print("Days Listed: ");
-            System.out.println(h.get(i).getDaysListed());
+        for (int i = 0; i < numOfHouses; i++) {
+            randomHouse = house.List(rand.nextInt(80));
+            while (randomHouse.size() == 0) {
+                randomHouse = house.List(rand.nextInt(80));
+            }
+            h.add(randomHouse.get(0));
         }
+
+        houseList = convertHouseListToContentPanels(h);
 
         return houseList;
     }
@@ -284,13 +364,13 @@ public class QueryConnector {
                 }
                 else {
                     // This block can be used by GUI for failed password condition
-                    System.out.println("Invalid password");
+                    showMessageDialog(null,"Invalid password");
                     return false;
                 }
             }
             else {
                 // This block can be used by GUI for failed username condition
-                System.out.println("Invalid username");
+                showMessageDialog(null,"Invalid username");
                 return false;
             }
         }
@@ -316,17 +396,7 @@ public class QueryConnector {
         return true;
     }
 
-    public void createNewListing(HouseInput houseInput) {
-        // uncomment for testing
-//        currentlyLoggedInUser = new CurrentlyLoggedInUser("HomesByKaren", 13, true);
-        // Add a new house
-        try {
-            houseAddDB.add( currentlyLoggedInUser.getUserID(), currentlyLoggedInUser.getUsername(), houseInput.getState(), houseInput.getCity(), houseInput.getZip(), houseInput.getStreet(), houseInput.getHouse_number(), houseInput.getCost(), houseInput.getYear(), houseInput.getNum_floors(), houseInput.getNum_bed(), houseInput.getNum_bath(), houseInput.getSqr_feet(), 0);
-            System.out.println("Listing Added Successfully");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public void addUserToDB(NewUserInput newUserInput) throws IOException, SQLException {
         // Add a user
@@ -339,26 +409,26 @@ public class QueryConnector {
 
         // Add a consumer or realtor
         if (!newUserInput.isRealtor()) {
-            System.out.println(newUserInput.getSSN());
+            showMessageDialog(null,newUserInput.getSSN());
             consumerAddDB.add(userID, newUserInput.getUsername(), newUserInput.getDOB(), newUserInput.getSSN());
         } else {
             realtorAddDB.add(userID, newUserInput.getUsername(), newUserInput.getBusinessName());
         }
-        System.out.println("From QueryConnector: Successfully added new User.");
-        System.out.println("Querying database: ");
-        System.out.println("user ID: " + userList.Listusername(newUserInput.getUsername()).get(0).getUserID());
-        System.out.println("user username: " + userList.Listusername(newUserInput.getUsername()).get(0).getUsername());
+        showMessageDialog(null,"Successfully added new User.");
+        showMessageDialog(null,"Querying database: ");
+        //showMessageDialog(null,"user ID: " + userList.Listusername(newUserInput.getUsername()).get(0).getUserID());
+        //showMessageDialog(null,"user username: " + userList.Listusername(newUserInput.getUsername()).get(0).getUsername());
         if (!newUserInput.isRealtor()) {
             ConsumerList consumerList = new ConsumerList();
             ConsumerListObject c = consumerList.List(userID).get(0);
-            System.out.println("User is Consumer.");
-            System.out.println("consumer DOB: " + c.getDOB());
-            System.out.println("consumer SSN: " + c.getSSN());
+            //showMessageDialog(null,"User is Consumer.");
+            //showMessageDialog(null,"consumer DOB: " + c.getDOB());
+            //showMessageDialog(null,"consumer SSN: " + c.getSSN());
         } else {
             RealtorList realtorList = new RealtorList();
             RealtorListObject r = realtorList.List(userID).get(0);
-            System.out.println("User is Realtor.");
-            System.out.println("realtor business name: " + r.getRealtorBusinessName());
+            //showMessageDialog(null,"User is Realtor.");
+            //showMessageDialog(null,"realtor business name: " + r.getRealtorBusinessName());
         }
     }
 

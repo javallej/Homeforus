@@ -1,67 +1,99 @@
 package main.java.homeforus.gui;
 
+import main.java.homeforus.core.ImageEdit;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class ContentPanel extends JPanel {
 
-    private String image;
+    private final int PANEL_ID;
+    private Image imgL;
+    private String imageName;
     private DetailPanel detailPanel;
     private ButtonArea btnArea;
     private BaseWindow window;
     private JPanel imgArea;
-    private HouseDetailWindow houseDetailWindow;
 
-    public ContentPanel(BaseWindow window, String image) {
+    public ContentPanel(BaseWindow window, String imageName) {
         this.window = window;
-        this.image = image;
-        houseDetailWindow = new HouseDetailWindow(window, null);
+        this.imageName = imageName;
+        PANEL_ID = window.incrementPanelID();
         setPreferredSize(new Dimension(890,150));
         setBorder(new MatteBorder(1,1,1,1, Color.gray));
 
-        TestingPanel testingPanel = new TestingPanel(window);
-        add(testingPanel);
-//        buildContentPanel();
     }
 
-    public void buildContentPanel() {
+    public void buildImgArea(String imgName, int houseID) {
         imgArea = new JPanel();
         Dimension imgDim = new Dimension(200,130);
         imgArea.setPreferredSize(imgDim);
-        // put code to put image from string here
 
         Image testerImg = null;
+        ImageEdit editimage = new ImageEdit();
+        InputStream storeimage = null;
+        boolean imageTableIsPopulated = false;
 
         try {
-            testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
-            testerImg = testerImg.getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT);
-            imgArea.add(new JLabel(new ImageIcon(testerImg)));
+            imageTableIsPopulated = window.getQueryConnector().isImageTablePopulated();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        add(imgArea);
 
+        if (imageTableIsPopulated) {
+            try {
+                storeimage = editimage.getImage(imgName, houseID);
 
-        detailPanel = new DetailPanel();
-        add(detailPanel);
-        btnArea = new ButtonArea(window);
-        add(btnArea);
+                if (storeimage != null) {
+                    ImageIcon img = new ImageIcon(ImageIO.read(storeimage));
+                    imgL = img.getImage();
+                    img.setImage(img.getImage().getScaledInstance(imgDim.width, imgDim.height, Image.SCALE_DEFAULT));
+                    imgArea.add(new JLabel(new ImageIcon(img.getImage())));
+                    storeimage.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                testerImg = ImageIO.read(Objects.requireNonNull(this.getClass().getResource("/homeforus/houses/placeholder.jpg")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (testerImg != null) {
+                imgL = testerImg;
+                imgArea.add(new JLabel(new ImageIcon(imgL)));
+            }
+        }
+
     }
 
-    public HouseDetailWindow getHouseDetailWindow() {
-        return houseDetailWindow;
+    public int getPANEL_ID() {
+        return PANEL_ID;
     }
 
-    public String getImage() {
-        return image;
+    public Image getImgL() {
+        return imgL;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImgL(Image imgL) {
+        this.imgL = imgL;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     public DetailPanel getDetailPanel() {

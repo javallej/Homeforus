@@ -6,8 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class SignInWindow extends JFrame {
 
@@ -20,6 +26,7 @@ public class SignInWindow extends JFrame {
         caller = topHeader;
         this.window = window;
         setPreferredSize(new Dimension(500,500));
+        setIconImage(window.getAppIcon());
         add(buildSignIn());
         setTitle("Sign In");
         setResizable(false);
@@ -35,7 +42,8 @@ public class SignInWindow extends JFrame {
         JButton signInSubmit = new JButton("Sign In");
         signInSubmit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(username.getTextField().getText() + " and " + password.getTextField().getText());
+
+
                 boolean logInSuccessful = false;
 
                 try {
@@ -49,13 +57,14 @@ public class SignInWindow extends JFrame {
                 username.getTextField().setText("");
                 password.getTextField().setText("");
                 if (logInSuccessful) {
-                    System.out.println("Sign in successful!");
                     boolean isRealtor = window.getQueryConnector().getCurrentlyLoggedInUser().isRealtor();
                     changeHeaderState(isRealtor);
                     window.getSignInManager().loggedInChangeGUI(isRealtor);
+                    window.setContentWindowWithRandomHouses();
                     caller.hideSignIn();
+                    showMessageDialog(null,"Sign in successful!");
                 } else {
-                    System.out.println("sign in failed");
+                    showMessageDialog(null,"Sign in failed");
                 }
             }
         });

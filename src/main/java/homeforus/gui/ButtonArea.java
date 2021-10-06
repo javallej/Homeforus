@@ -39,9 +39,12 @@ public class ButtonArea extends JPanel {
         btnHolder.add(Box.createVerticalGlue());
         btnHolder.add(btn2);
         btnHolder.add(Box.createVerticalGlue());
+        setButtonsVisible(false);
+    }
 
-        btn1.setVisible(false);
-        btn2.setVisible(false);
+    public void setButtonsVisible(boolean areVisible) {
+        btn1.setVisible(areVisible);
+        btn2.setVisible(areVisible);
     }
 
     public JButton getBtn1() {
