@@ -1,11 +1,17 @@
 package main.java.homeforus.gui;
 
+import main.java.homeforus.core.HouseList;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SearchBar extends JPanel {
 
@@ -88,20 +94,24 @@ public class SearchBar extends JPanel {
                 String state = "";
                 String zip = "";
 
-                houseNum = oNotNull(searchTextBoxes.address.content).toString();
+                houseNum = oNotNull(searchTextBoxes.address.getContent()).toString();
                 houseNum = houseNum.split(" ")[0];
                 houseNo = toNum(houseNum);
-                street = oNotNull(searchTextBoxes.address.content).toString();
+                street = oNotNull(searchTextBoxes.address.getContent()).toString();
                 if (street.length() > 1) {
                     if (houseNo != -1) {
-                        street = street.substring(houseNum.length() + 1, street.length()).trim();
+                        if (houseNum.split(" " ).length > 1) {
+                            street = street.substring(houseNum.length() + 1, street.length()).trim();
+                        } else {
+                            street = "";
+                        }
                     }
                 }
-                city = oNotNull(searchTextBoxes.city.content).toString();
+                city = oNotNull(searchTextBoxes.city.getContent()).toString();
                 city = city.trim();
-                state = oNotNull(searchTextBoxes.state.content).toString();
+                state = oNotNull(searchTextBoxes.state.getContent()).toString();
                 state = state.trim();
-                zip = oNotNull(searchTextBoxes.zip.content).toString();
+                zip = oNotNull(searchTextBoxes.zip.getContent()).toString();
                 zip = zip.trim();
 
                 int zipNo = -1;
@@ -141,7 +151,20 @@ public class SearchBar extends JPanel {
 
                 searchInput = new SearchInput(houseNo, street, city, state, zipNo, priceMin, priceMax,
                                                  beds, baths, sqMin, sqMax, floors, yrMin, yrMax, dMin, dMax);
-                window.setSearchInput(searchInput);
+
+                QueryConnector query = window.getQueryConnector();
+
+                try {
+                    ArrayList<HouseContentPanel> houses = query.getSearchList(searchInput);
+                    window.setContentWindowWithHouses(houses);
+
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
         });
     }
@@ -206,7 +229,8 @@ public class SearchBar extends JPanel {
             setMaximumSize(new Dimension(width, height));
             setBorder(new MatteBorder(2,2,2,2, new BrandGreen().color));
             setVisible(false);
-            window.getLayers().add(this, JLayeredPane.POPUP_LAYER);
+//            window.getLayers().setLayer(this, JLayeredPane.POPUP_LAYER);
+            window.getLayers().add(this, JLayeredPane.MODAL_LAYER);
 
             inner = new JPanel();
             inner.setVisible(true);
@@ -588,7 +612,7 @@ public class SearchBar extends JPanel {
             city.setPreferredSize(new Dimension(100,height));
             bar.add(city);
 
-            state = new SearchTextBox(" State", 2);
+            state = new SearchTextBox(" State", 20);
             state.setPreferredSize(new Dimension(50,height));
             bar.add(state);
 
@@ -602,7 +626,7 @@ public class SearchBar extends JPanel {
 
     public static class SearchTextBox extends JTextField {
 
-        public String content;
+        private String content;
         public String dummyText;
         private int limit;
 
@@ -637,6 +661,14 @@ public class SearchBar extends JPanel {
 
             addKeyListener(SearchBar.limitListener(this, limit));
         }
+
+        public String getContent() {
+            if (!Objects.equals(getText(), dummyText)) {
+                return getText();
+            } else {
+                return "";
+            }
+        }
     }
 
     public static KeyListener limitListener(JTextField textfield, int limit) {
@@ -652,7 +684,9 @@ public class SearchBar extends JPanel {
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    SearchBar.setOpenNull();
+                    if (SearchBar.currentlyOpen != null) {
+                        SearchBar.setOpenNull();
+                    }
                 }
             }
         };

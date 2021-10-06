@@ -45,9 +45,9 @@ public class HouseAdd {
 
             connect.setAutoCommit(false);
 
-            String query = "INSERT INTO HOUSE (‘Realtor_ID’, ‘Realtor_Username’, ‘State’, ‘City’, ‘Zip’, ‘Street’, "
-                    + "‘House_Number’, ‘Cost’, "
-                    + "‘Year’, ‘Num_Floors’, ‘Num_Bed’, ‘Num_Bath’, ‘Sqr_Feet’, ‘Day_Listed’)"
+            String query = "INSERT INTO HOUSE (Realtor_ID, Realtor_Username, State, City, Zip, Street, "
+                    + "House_Number, Cost, "
+                    + "Year, Num_Floors, Num_Bed, Num_Bath, Sqr_Feet, Days_Listed)"
                     + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,0)";
 
             stmt = connect.prepareStatement(query);
@@ -64,8 +64,6 @@ public class HouseAdd {
             stmt.setInt(11, Num_Bed);
             stmt.setInt(12, Num_Bath);
             stmt.setInt(13, Sqr_feet);
-            stmt.setInt(14, Days_Listed);
-            System.out.println(query);
             stmt.executeUpdate();
 
             connect.commit();

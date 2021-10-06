@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 // This class houses the main window that the GUI elements will be added to
@@ -16,11 +18,20 @@ public class BaseWindow extends JFrame {
     private Content content;
     private Header header;
     private SearchInput searchInput;
+    private QueryConnector queryConnector;
+    private SignInManager signInManager;
+    private Image appIcon;
+    private int panelID;
+    private int clickedOnOutside;
+
     private int winHeight = 700;
     private int winWidth = 1000;
 
     public BaseWindow() {
         baseWindow = this;
+        queryConnector = new QueryConnector(this);
+        signInManager = new SignInManager(this);
+        panelID = 0;
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -34,6 +45,15 @@ public class BaseWindow extends JFrame {
                 buildBaseWindow();
             }
         });
+    }
+
+    public int incrementPanelID() {
+        panelID += 1;
+        return panelID;
+    }
+
+    public Image getAppIcon() {
+        return appIcon;
     }
 
     public void buildBaseWindow() {
@@ -55,10 +75,42 @@ public class BaseWindow extends JFrame {
         searchInput = new SearchInput();
         content.sI = searchInput;
         basePanel.add(content);
-
+        setContentWindowWithRandomHouses();
         baseWindow.pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public void setContentWindowWithRandomHouses() {
+        ArrayList<HouseContentPanel> randomHouses = null;
+        try {
+            randomHouses = getQueryConnector().getRandomHouses(10);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setContentWindowWithHouses(randomHouses);
+    }
+
+    public void setContentWindowWithHouses(ArrayList<HouseContentPanel> houses) {
+        ArrayList<ContentPanel> contents = new ArrayList<>(houses);
+        ContentPanelListDisplay contentPanelListDisplay = new ContentPanelListDisplay(contents);
+        ContentView contentSearchView = new ContentView(this, contentPanelListDisplay);
+        setContentView(contentSearchView);
+    }
+
+    public void setContentView(ContentView contentView) {
+        content.setContentView(contentView);
+    }
+
+
+    public SignInManager getSignInManager() {
+        return signInManager;
+    }
+
+    public void setSignInManager(SignInManager signInManager) {
+        this.signInManager = signInManager;
     }
 
     public int getWinHeight() {
@@ -84,6 +136,7 @@ public class BaseWindow extends JFrame {
             setSize(size);
             setOpaque(false);
             setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+            clickedOnOutside = 0;
 
             Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
                 @Override
@@ -95,24 +148,47 @@ public class BaseWindow extends JFrame {
                         int dragged = MouseEvent.MOUSE_DRAGGED;
 
                         if ((((MouseEvent) event).getModifiersEx() & buttonsDownMask) != 0) {
+
+                            if((MouseEvent.BUTTON1 & ((MouseEvent) event).getModifiersEx()) != 0) {
+                                System.out.println("clicked");
+                            }
+
                             SearchBar.SearchPopup open = header.searchBar.currentlyOpen;
                             if (open != null && open.isVisible()) {
-                                int maxX = (int) open.getBounds().getMaxX() + 6;
-                                int maxY = (int) open.getBounds().getMaxY() + 30;
-                                int minX = (int) open.getBounds().getMinX();
-                                int minY = (int) open.getBounds().getMinY();
+                                int maxX = (int) open.getBounds().getMaxX();
+                                int maxY = (int) open.getBounds().getMaxY();
+                                int minX = (int) open.getBounds().getMinX() - 38;
+                                int minY = (int) open.getBounds().getMinY() - 100;
 
-                                if ((me.getX() > maxX || me.getY() > maxY
+
+//                                System.out.println("max x: " + maxX);
+//                                System.out.println("min x: " + minX);
+//                                System.out.println("max y: " + maxY);
+//                                System.out.println("min y: " + minY);
+//                                System.out.println("event x: " + me.getX());
+//                                System.out.println("event y: " + me.getY());
+//                                System.out.println(me.getSource().toString());
+
+
+                                if (me.getComponent().toString().contains("JScrollPane")
+                                        || me.getComponent().toString().contains("HouseContentPanel")) {
+                                    if (clickedOnOutside >= 2) {
+                                        header.searchBar.setOpenNull();
+                                        clickedOnOutside = 0;
+                                    } else {
+                                        clickedOnOutside++;
+                                    }
+                                } else if ((me.getX() > maxX || me.getY() > maxY
                                         || me.getY() < minY || me.getX() < minX)
                                 && !me.getComponent().toString().contains("JTextField")
                                 && !me.getComponent().toString().contains("WindowsComboBoxUI")
-                                && !me.getComponent().toString().contains("BasicComboPopup")
-                                && !me.getComponent().toString().contains("BasicComboPopup")
-                                && (((MouseEvent) event).getModifiersEx() & dragged) == 0) {
+                                && !me.getComponent().toString().contains("BasicComboPopup")) {
                                     if (me.getComponent() != open.caller) {
                                         header.searchBar.setOpenNull();
+                                        clickedOnOutside = 0;
                                     }
                                 }
+
                             }
                         }
                     }
@@ -123,10 +199,10 @@ public class BaseWindow extends JFrame {
         }
     }
 
-    public void setSearchInput(SearchInput searchInput) {
-        this.searchInput = searchInput;
-        content.sI = this.searchInput;
-        content.changeContent();
+    public QueryConnector getQueryConnector() {
+        return queryConnector;
     }
+
+
 }
 

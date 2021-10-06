@@ -20,3 +20,6 @@ Gradle Installed:<br />
 gradle clean<br />
 gradle build<br />
 gradle run<br />
+
+Prepare Database
+java Main -DPrepareDatabase=/PathtoImages

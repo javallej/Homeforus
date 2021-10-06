@@ -47,12 +47,7 @@ public class UserAdd {
                     + "','" + Email + "','" + Password + "');";
             
             stmt = connect.prepareStatement(query);
-            System.out.println(query);
 
-            if (stmt.executeUpdate(query) > 0) {
-                System.out.println("SUCCESS!" + "\n");
-            }
-            
             connect.commit();
                    
         }

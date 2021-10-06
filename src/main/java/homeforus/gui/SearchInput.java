@@ -49,7 +49,7 @@ public class SearchInput {
                 "houseNum=" + houseNum +
                 ", \n street='" + street + '\'' +
                 ", \n city='" + city + '\'' +
-                ", \n state='" + state + '\'' +
+                ", \n state='" + state +
                 ", \n zip=" + zip +
                 ", \n priceMin=" + priceMin +
                 ", \n priceMax=" + priceMax +
