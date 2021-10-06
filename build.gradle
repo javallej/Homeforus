@@ -1,7 +1,6 @@
  plugins {
-     id "com.github.spotbugs" version "4.5.1"
-     id "checkstyle"
- }
+ 
+}
 
 apply plugin: 'application'
 
@@ -9,11 +8,17 @@ mainClassName = 'main/java/homeforus/core/Main'
 
 compileJava.options.encoding = 'UTF-8'
 
-version = '5.0'
+version = '1.0'
 
 // Repositories and dependencies for code go here
 repositories {
   mavenCentral()
+}
+
+
+dependencies {
+    implementation 'mysql:mysql-connector-java:8.0.26'
+    
 }
 
 run {
@@ -21,65 +26,17 @@ run {
     systemProperties System.getProperties()
 }
 
-dependencies {
-  compile 'com.io7m.xom:xom:1.2.+'
-  compile 'net.sourceforge.nekohtml:nekohtml:1.9.+'
-  compile "junit:junit:4.12"
-}
+
 
 task FatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'main/java/homeforus/core/Main'
     }
     baseName = 'homeforus'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
     
     dependencies {
-	  compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'
+	  implementation 'mysql:mysql-connector-java:8.0.26'
 	}
 }
-
-///////////////////////////////////////////////////////////////////////
-// Configure Checkstyle
-/////////////////////////////////////////////////////////////////////
- apply plugin: 'checkstyle'
- checkstyle {
-   // Keep checkstyle a little quieter
-   ignoreFailures = true
-   showViolations = false
- }
-
- tasks.withType(Checkstyle) {
-   reports {
-     html.enabled = true
-     xml.enabled = false
-   }
- }
- checkstyle {
-     toolVersion = "8.8"
- }
-
-
-///////////////////////////////////////////////////////////////////////
-// Configure SpotBugs
-///////////////////////////////////////////////////////////////////////
-//To generate an HTML report instead of XML
- spotbugsMain {
-     reports {
-         xml.enabled = false
-         html.enabled = true
-     }
- }
- spotbugsTest {
-     reports {
-         xml.enabled = false
-         html.enabled = true
-     }
- } 
- spotbugs {
-     toolVersion = '4.0.0-beta4'
-     ignoreFailures = true
-     showProgress = true
-     effort = 'max'
- }
