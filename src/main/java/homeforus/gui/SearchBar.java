@@ -4,6 +4,7 @@ import main.java.homeforus.core.HouseList;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.LayerUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -228,7 +229,8 @@ public class SearchBar extends JPanel {
             setMaximumSize(new Dimension(width, height));
             setBorder(new MatteBorder(2,2,2,2, new BrandGreen().color));
             setVisible(false);
-            window.getLayers().add(this, JLayeredPane.POPUP_LAYER);
+//            window.getLayers().setLayer(this, JLayeredPane.POPUP_LAYER);
+            window.getLayers().add(this, JLayeredPane.MODAL_LAYER);
 
             inner = new JPanel();
             inner.setVisible(true);

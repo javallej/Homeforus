@@ -22,6 +22,7 @@ public class BaseWindow extends JFrame {
     private SignInManager signInManager;
     private Image appIcon;
     private int panelID;
+    private int clickedOnOutside;
 
     private int winHeight = 700;
     private int winWidth = 1000;
@@ -135,6 +136,7 @@ public class BaseWindow extends JFrame {
             setSize(size);
             setOpaque(false);
             setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+            clickedOnOutside = 0;
 
             Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
                 @Override
@@ -146,24 +148,47 @@ public class BaseWindow extends JFrame {
                         int dragged = MouseEvent.MOUSE_DRAGGED;
 
                         if ((((MouseEvent) event).getModifiersEx() & buttonsDownMask) != 0) {
+
+                            if((MouseEvent.BUTTON1 & ((MouseEvent) event).getModifiersEx()) != 0) {
+                                System.out.println("clicked");
+                            }
+
                             SearchBar.SearchPopup open = header.searchBar.currentlyOpen;
                             if (open != null && open.isVisible()) {
-                                int maxX = (int) open.getBounds().getMaxX() + 6;
-                                int maxY = (int) open.getBounds().getMaxY() + 30;
-                                int minX = (int) open.getBounds().getMinX();
-                                int minY = (int) open.getBounds().getMinY();
+                                int maxX = (int) open.getBounds().getMaxX();
+                                int maxY = (int) open.getBounds().getMaxY();
+                                int minX = (int) open.getBounds().getMinX() - 38;
+                                int minY = (int) open.getBounds().getMinY() - 100;
 
-                                if ((me.getX() > maxX || me.getY() > maxY
+
+//                                System.out.println("max x: " + maxX);
+//                                System.out.println("min x: " + minX);
+//                                System.out.println("max y: " + maxY);
+//                                System.out.println("min y: " + minY);
+//                                System.out.println("event x: " + me.getX());
+//                                System.out.println("event y: " + me.getY());
+//                                System.out.println(me.getSource().toString());
+
+
+                                if (me.getComponent().toString().contains("JScrollPane")
+                                        || me.getComponent().toString().contains("HouseContentPanel")) {
+                                    if (clickedOnOutside >= 2) {
+                                        header.searchBar.setOpenNull();
+                                        clickedOnOutside = 0;
+                                    } else {
+                                        clickedOnOutside++;
+                                    }
+                                } else if ((me.getX() > maxX || me.getY() > maxY
                                         || me.getY() < minY || me.getX() < minX)
                                 && !me.getComponent().toString().contains("JTextField")
                                 && !me.getComponent().toString().contains("WindowsComboBoxUI")
-                                && !me.getComponent().toString().contains("BasicComboPopup")
-                                && !me.getComponent().toString().contains("BasicComboPopup")
-                                && (((MouseEvent) event).getModifiersEx() & dragged) == 0) {
+                                && !me.getComponent().toString().contains("BasicComboPopup")) {
                                     if (me.getComponent() != open.caller) {
                                         header.searchBar.setOpenNull();
+                                        clickedOnOutside = 0;
                                     }
                                 }
+
                             }
                         }
                     }
