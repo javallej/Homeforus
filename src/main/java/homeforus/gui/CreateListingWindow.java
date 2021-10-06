@@ -160,7 +160,7 @@ public class CreateListingWindow extends JFrame {
         grid.add(houseNum);
         grid.add(street);
         grid.add(city);
-        grid.add(sqrFeet);
+
         inputs.add(price);
         inputs.add(houseNum);
         inputs.add(street);
@@ -168,10 +168,11 @@ public class CreateListingWindow extends JFrame {
         inputs.add(sqrFeet);
 
         state = createInputField("State");
+        grid.add(state);
         zip = createInputField("Zip Code");
         JPanel stateZipHolder = doubleInputFields();
-        stateZipHolder.add(state);
         stateZipHolder.add(zip);
+        stateZipHolder.add(sqrFeet);
         grid.add(stateZipHolder);
         inputs.add(state);
         inputs.add(zip);
