@@ -8,6 +8,9 @@
 
 package main.java.homeforus.core;
 
+import main.java.homeforus.gui.BaseWindow;
+import main.java.homeforus.gui.QueryConnector;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -41,15 +44,17 @@ public class UserAdd {
         try {
 
             connect.setAutoCommit(false);
-            
-            
+
+
+
             String query = "INSERT INTO USER (User_Username,First_Name,Last_Name,Phone,Email,Password) VALUES" + "('" + Username + "','" + FirstName + "','" + LastName + "','" + Phone 
                     + "','" + Email + "','" + Password + "');";
-            
+
             stmt = connect.prepareStatement(query);
+            stmt.executeUpdate(query);
 
             connect.commit();
-                   
+
         }
         catch (Exception exc) {
             exc.printStackTrace();

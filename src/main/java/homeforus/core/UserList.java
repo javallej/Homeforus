@@ -58,9 +58,9 @@ public class UserList {
                 uobject.setUserUsername(rs.getString(2));
                 uobject.setFirstName(rs.getString(3));
                 uobject.setLastName(rs.getString(4));
-                uobject.setPhone(rs.getString(4));
-                uobject.setEmail(rs.getString(5));
-                uobject.setPassword(rs.getString(5));
+                uobject.setPhone(rs.getString(5));
+                uobject.setEmail(rs.getString(6));
+                uobject.setPassword(rs.getString(7));
                 userinformation.add(uobject);
             }
             

@@ -29,18 +29,17 @@ public class NewUserInput {
                 '}';
     }
 
-    public NewUserInput(String username, String firstName, String lastName, String password,
-                        String email, String phone, boolean isRealtor, String businessName, String DOB, int SSN) {
-        this.setUsername(username);
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setPassword(password);
-        this.setEmail(email);
-        this.setPhone(phone);
-        this.setRealtor(isRealtor);
-        this.setBusinessName(businessName);
-        this.setDOB(DOB);
-        this.setSSN(SSN);
+    public NewUserInput(String username, String firstName, String lastName, String password, String email, String phone, boolean isRealtor, String businessName, String DOB, int SSN) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.isRealtor = isRealtor;
+        this.businessName = businessName;
+        this.DOB = DOB;
+        this.SSN = SSN;
     }
 
     public String getUsername() {
