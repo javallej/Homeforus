@@ -1,5 +1,8 @@
 # Homeforus
-SER322 HomeforUS<br />
+
+<p align="center">SER322 HomeForUs<br /><br />
+
+<img src="https://i.ibb.co/tpzhqtX/Home-For-Us-Search-Realtor-User.png"></p>
 
 rdbm.properties located at /src/main/resources<br /> 
 Update with username and password for database.<br />
