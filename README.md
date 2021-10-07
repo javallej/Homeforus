@@ -28,7 +28,7 @@ java Main -DPrepareDatabase=/PathtoImages/
 
 HomeForUs is an application for Realtors and Consumers to streamline the home buying process.
 
-There are two different types of users: Consumers and Realtors, one is focused on buying a house (Consumer) while the other (Realtor) is focused on selling a house. 
+There are two different types of users: Consumers and Realtors. Consumers are focused on buying a house, while Realtors are focused on selling a house. 
 
 A user can log in to HomeForUs and the interface will change, offering them different ways to interact with the system depending on their user account type.
 
