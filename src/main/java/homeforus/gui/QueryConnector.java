@@ -400,7 +400,6 @@ public class QueryConnector {
 
     public void addUserToDB(NewUserInput newUserInput) throws IOException, SQLException {
         // Add a user
-        System.out.println(newUserInput.getUsername());
         userAddDB.add(newUserInput.getUsername(), newUserInput.getFirstName(), newUserInput.getLastName(), newUserInput.getPhone(),
                       newUserInput.getEmail(), newUserInput.getPassword());
 
@@ -410,7 +409,6 @@ public class QueryConnector {
 
         // Add a consumer or realtor
         if (!newUserInput.isRealtor()) {
-            showMessageDialog(null,newUserInput.getSSN());
             consumerAddDB.add(userID, newUserInput.getUsername(), newUserInput.getDOB(), newUserInput.getSSN());
         } else {
             realtorAddDB.add(userID, newUserInput.getUsername(), newUserInput.getBusinessName());

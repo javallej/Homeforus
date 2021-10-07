@@ -36,6 +36,8 @@ public class SearchBar extends JPanel {
         buildSearchBar(headerSize);
     }
 
+
+
     public void buildSearchBar(Dimension headerSize) {
         int searchVertSize = (int) (headerSize.getSize().getHeight() * searchPercentSize) + 2;
         searchBarSize = new Dimension((int)headerSize.getSize().getWidth(), searchVertSize);
@@ -152,6 +154,8 @@ public class SearchBar extends JPanel {
                 searchInput = new SearchInput(houseNo, street, city, state, zipNo, priceMin, priceMax,
                                                  beds, baths, sqMin, sqMax, floors, yrMin, yrMax, dMin, dMax);
 
+
+                clearAllFields();
                 QueryConnector query = window.getQueryConnector();
 
                 try {
@@ -470,7 +474,6 @@ public class SearchBar extends JPanel {
 
         public SearchInputField min;
         public SearchInputField max;
-        public String helloooooo;
 
         public PricePopUp() {
             width = 240;
@@ -550,6 +553,14 @@ public class SearchBar extends JPanel {
             return ps;
         }
 
+        public SearchInputField getMin() {
+            return min;
+        }
+
+        public SearchInputField getMax() {
+            return max;
+        }
+
         @Override
         public void setFocusTo() {
             min.textField.requestFocusInWindow();
@@ -564,6 +575,23 @@ public class SearchBar extends JPanel {
         }
     }
 
+    private void clearAllFields() {
+        searchTextBoxes.address.setText("");
+        searchTextBoxes.city.setText("");
+        searchTextBoxes.state.setText("");
+        searchTextBoxes.zip.setText("");
+        ((PricePopUp) pricePopUp).min.textField.setText("");
+        ((PricePopUp) pricePopUp).max.textField.setText("");
+        ((BedsAndBathsPopUp) bedsAndBathsPopUp).baths.setSelectedIndex(0);
+        ((BedsAndBathsPopUp) bedsAndBathsPopUp).beds.setSelectedIndex(0);
+        ((MoreOptionsPopUp) moreOptionsPopUp).minSqFt.textField.setText("");
+        ((MoreOptionsPopUp) moreOptionsPopUp).maxSqFt.textField.setText("");
+        ((MoreOptionsPopUp) moreOptionsPopUp).yrMin.textField.setText("");
+        ((MoreOptionsPopUp) moreOptionsPopUp).yrMax.textField.setText("");
+        ((MoreOptionsPopUp) moreOptionsPopUp).daysMin.textField.setText("");
+        ((MoreOptionsPopUp) moreOptionsPopUp).daysMax.textField.setText("");
+        ((MoreOptionsPopUp) moreOptionsPopUp).floors.setSelectedIndex(0);
+    }
 
     public static class SearchInputField extends JPanel {
         public JLabel label;
