@@ -2,7 +2,7 @@
 
 <p align="center">SER322 HomeForUs<br /><br />
 
-<img src="https://i.ibb.co/tpzhqtX/Home-For-Us-Search-Realtor-User.png"></p>
+<img src="preview.png"/></p>
 
 rdbm.properties located at /src/main/resources<br /> 
 Update with username and password for database.<br />
@@ -25,7 +25,7 @@ gradle build<br />
 gradle run<br />
 
 Prepare Database
-java Main -DPrepareDatabase=/PathtoImages/
+java Main -DPrepareDatabase=PathtoImages/
 
 =====================================================================
 
